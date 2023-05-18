@@ -1,12 +1,44 @@
 import { METADATA_TITLE_BASE } from '@/app/layout';
-import { ResolvingMetadata, Metadata } from 'next';
+import { Metadata } from 'next';
+import Image from 'next/image';
 
 type Props = {
 	params: { id: string };
 };
 
-export default function Page({ params }: Props) {
-	return <h1>Hello Product - {params.id}</h1>;
+type Product = {
+	title: string;
+	description: string;
+	image: string;
+};
+
+async function getProductData(id: string): Promise<Product> {
+	const product: Product = await new Promise((resolve) => {
+		setTimeout(() => {
+			resolve({
+				title: 'Example product that is very good',
+				description: 'An example description for the product',
+				image: 'https://via.placeholder.com/150',
+			});
+		}, 5000);
+	});
+	return product;
+}
+
+export default async function Page({ params }: Props) {
+	const product = await getProductData(params.id);
+	return (
+		<>
+			<h1>Hello Product - {params.id}</h1>
+			<p>
+				<span>{product.title}</span>
+				<br />
+				<span>{product.description}</span>
+				<br />
+				<Image src={product.image} alt={product.title} width={150} height={150} />
+			</p>
+		</>
+	);
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

@@ -1,12 +1,12 @@
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 
-import { Inter } from 'next/font/google';
-import Link from 'next/link';
-import Header from './header';
 import { Metadata } from 'next';
+import Link from 'next/link';
 
-const inter = Inter({ subsets: ['latin'] });
+import Header from './header';
+import { raleway } from './fonts';
+
 export const METADATA_TITLE_BASE = 'ECOM - DEMO';
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
-			<body className={inter.className}>
+			<body className={raleway.className}>
 				<Header />
 				<main className="flex min-h-screen flex-col items-center  p-24">{children}</main>
 				<footer className=" bg-gray-100 border-y border-gray-200">

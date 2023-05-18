@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import IconCart from './IconCart';
+import IconAccount from './IconAccount';
 
 export default function Header() {
 	// check if current pathname is active to highlight in navbar
@@ -17,11 +18,13 @@ export default function Header() {
 			<nav className=" h-full w-full flex flex-row justify-between items-center px-5">
 				<button>Burger Menu</button>
 				<Link href="#">Logo in middle</Link>
-				<div className=" flex flex-row gap-3">
+				<div className=" flex flex-row gap-5">
 					<Link href="#">
 						<IconCart />
 					</Link>
-					<button>Login</button>
+					<button>
+						<IconAccount />
+					</button>
 				</div>
 			</nav>
 			<div className=" border-b border-gray-200" />
