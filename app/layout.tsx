@@ -3,11 +3,14 @@ import { Analytics } from '@vercel/analytics/react';
 
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
+import Header from './header';
+import { Metadata } from 'next';
 
 const inter = Inter({ subsets: ['latin'] });
+export const METADATA_TITLE_BASE = 'ECOM - DEMO';
 
-export const metadata = {
-	title: 'ECOM - DEMO',
+export const metadata: Metadata = {
+	title: `HOME | ${METADATA_TITLE_BASE}`,
 	description: 'Demo E-Commerce Store',
 };
 
@@ -15,18 +18,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<header className=" h-20 sticky top-0 w-full backdrop-blur-sm bg-white/50 flex flex-col ">
-					<nav className=" h-full w-full flex flex-row justify-between items-center px-5">
-						<button>Burger Menu</button>
-						<Link href="#">Logo in middle</Link>
-						<div className=" flex flex-row gap-3">
-							<Link href="#">Cart</Link>
-							<button>Login</button>
-						</div>
-					</nav>
-					<div className=" border-b border-gray-200" />
-				</header>
-				{children}
+				<Header />
+				<main className="flex min-h-screen flex-col items-center  p-24">{children}</main>
 				<footer className=" bg-gray-100 border-y border-gray-200">
 					<div className=" mx-auto w-full max-w-screen-xl my-14 px-5">
 						<div className=" flex flex-col sm:flex-row gap-4 justify-center mb-12">
