@@ -2,20 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-rgb: 249, 244, 238;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* --foreground-rgb: 255, 255, 255; */
-    /* --background-start-rgb: 0, 0, 0; */
-    /* --background-end-rgb: 0, 0, 0; */
+@layer components {
+  .hoverable {
+    @apply opacity-60 hover:opacity-100 transition-opacity duration-200 ease-in-out;
   }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
 }
