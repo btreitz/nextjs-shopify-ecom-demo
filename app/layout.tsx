@@ -7,11 +7,20 @@ import Header from './header';
 import { raleway } from './fonts';
 import Footer from './footer';
 
-export const METADATA_TITLE_BASE = 'ECOM - DEMO';
+export const METADATA_TITLE_BASE = 'Vörðr Sæde';
 
 export const metadata: Metadata = {
 	title: `HOME | ${METADATA_TITLE_BASE}`,
-	description: 'Demo E-Commerce Store',
+	description: 'Highend home furniture by Vörðr Sæde',
+	openGraph: {
+		title: `HOME | ${METADATA_TITLE_BASE}`,
+		description: 'Highend home furniture by Vörðr Sæde',
+		images: [
+			{
+				url: '/images/logo/logo.png',
+			},
+		],
+	},
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
