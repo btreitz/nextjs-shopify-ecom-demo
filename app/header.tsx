@@ -17,7 +17,7 @@ export default function Header() {
 		<header className=" h-20 sticky top-0 w-full backdrop-blur-sm bg-white/50 flex flex-col ">
 			<nav className=" h-full w-full flex flex-row justify-between items-center px-5">
 				<button>Burger Menu</button>
-				<Link href="#">Logo in middle</Link>
+				<Link href="#">Vörðr Sæde</Link>
 				<div className=" flex flex-row gap-5">
 					<Link href="#">
 						<IconCart />
