@@ -1,35 +1,38 @@
 type Collection = {
 	category: string;
+	query: string;
 	children?: {
 		label: string;
-		href: string;
+		query: string;
 	}[];
 };
 
 const collections: Collection[] = [
 	{
 		category: 'Chairs',
+		query: 'chairs',
 		children: [
 			{
 				label: 'Chair Collection 1',
-				href: '#',
+				query: 'chair-collection-1',
 			},
 			{
 				label: 'Chair Collection 2',
-				href: '#',
+				query: 'chair-collection-2',
 			},
 		],
 	},
 	{
 		category: 'Lamps',
+		query: 'lamps',
 		children: [
 			{
 				label: 'Lamp Collection 1',
-				href: '#',
+				query: 'lamp-collection-1',
 			},
 			{
-				label: 'Lamp Collection 2',
-				href: '#',
+				label: 'Lamp collection 2',
+				query: 'lamp-collection-2',
 			},
 		],
 	},

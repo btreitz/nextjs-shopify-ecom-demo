@@ -41,10 +41,21 @@ export default function Menu() {
 				<div className=" flex flex-col">
 					{collections.map((collection, index) => (
 						<div key={index} className=" flex flex-col">
-							<h2>{collection.category}</h2>
+							<Link
+								href={{ pathname: '/inventory', query: { category: collection.query } }}
+								className=" hoverable"
+								onClick={() => setIsOpen(false)}
+							>
+								<h2>{collection.category}</h2>
+							</Link>
 							{collection.children &&
 								collection.children.map((item, index) => (
-									<Link href={item.href} key={index} className=" hoverable">
+									<Link
+										href={{ pathname: '/inventory', query: { collection: item.query } }}
+										key={index}
+										className=" hoverable"
+										onClick={() => setIsOpen(false)}
+									>
 										{item.label}
 									</Link>
 								))}
