@@ -3,9 +3,9 @@ import { Analytics } from '@vercel/analytics/react';
 
 import { Metadata } from 'next';
 
-import Header from './header';
-import { raleway } from './fonts';
-import Footer from './footer';
+import { raleway } from '@/components/fonts';
+import Header from '@/components/layout/header';
+import Footer from '@/components/layout/footer';
 
 export const METADATA_TITLE_BASE = 'Vörðr Sæde';
 

@@ -1,8 +1,8 @@
 import Image from 'next/image';
 
 import Link from 'next/link';
-import IconCart from './IconCart';
-import IconAccount from './IconAccount';
+import IconCart from '@/components/icons/Cart';
+import IconAccount from '@/components/icons/Account';
 import Menu from './menu';
 
 export default function Header() {
