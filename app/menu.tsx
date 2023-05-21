@@ -24,13 +24,19 @@ export default function Menu() {
 				/>
 			</button>
 			<div
-				className={` absolute left-0 top-20 z-50 w-96 max-w-full h-[calc(100vh-80px)] px-8 bg-backgroundSecondary border-r border-gray-200 transition-transform ease duration-300 ${
+				className={` absolute left-0 top-20 z-50 w-full h-[calc(100vh-80px)] bg-black/60 cursor-pointer transition-transform ease duration-200 ${
 					isOpen === false && ' transform -translate-x-full'
 				}`}
+				onClick={() => setIsOpen(false)}
 			>
-				<div className=" flex flex-col">
-					<h2>Collections</h2>
-					<Link href="#">Link 1</Link>
+				<div
+					className={` w-96 max-w-full h-full px-8 bg-backgroundSecondary border-r border-gray-200 cursor-default`}
+					onClick={(e) => e.stopPropagation()}
+				>
+					<div className=" flex flex-col">
+						<h2>Collections</h2>
+						<Link href="#">Link 1</Link>
+					</div>
 				</div>
 			</div>
 		</>
