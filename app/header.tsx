@@ -17,7 +17,7 @@ export default function Header() {
     */
 
 	return (
-		<header className=" h-20 sticky top-0 w-full backdrop-blur-sm bg-white/50 flex flex-col">
+		<header className=" h-20 sticky top-0 w-full backdrop-blur-sm bg-white/50 flex flex-col z-50">
 			<nav className=" h-full w-full flex flex-row justify-between items-center px-5">
 				<div className=" flex-1 flex justify-start">
 					<Menu />
