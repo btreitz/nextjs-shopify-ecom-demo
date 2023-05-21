@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
-import { METADATA_TITLE_BASE } from './layout';
+import { BASE_METADATA, METADATA_TITLE_BASE } from '@/components/shared-metadata';
 
 export const metadata: Metadata = {
+	...BASE_METADATA,
 	title: `404 | ${METADATA_TITLE_BASE}`,
 };
 

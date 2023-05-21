@@ -6,16 +6,6 @@ import IconAccount from '@/components/icons/Account';
 import Menu from './menu';
 
 export default function Header() {
-	// check if current pathname is active to highlight in navbar
-	/*
-    const pathname = usePathname();
-    {navLinks.map((link) => {
-        const isActive = pathname.startsWith(link.href);
-        ...
-        render links and highlight active link
-        ...
-    */
-
 	return (
 		<header className=" h-20 sticky top-0 w-full backdrop-blur-sm bg-white/50 flex flex-col z-50">
 			<nav className=" h-full w-full flex flex-row justify-between items-center px-5">

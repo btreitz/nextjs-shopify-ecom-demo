@@ -6,6 +6,11 @@ import collections from './collections';
 
 export default function Menu() {
 	const [isOpen, setIsOpen] = useState(false);
+
+	// check if current pathname is active to highlight in navbar
+	/*
+    const pathname = usePathname();
+    */
 	return (
 		<>
 			<button className="flex flex-col h-8 w-12 justify-evenly items-center group" onClick={() => setIsOpen(!isOpen)}>

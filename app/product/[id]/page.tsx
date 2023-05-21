@@ -1,4 +1,4 @@
-import { METADATA_TITLE_BASE } from '@/app/layout';
+import { METADATA_TITLE_BASE } from '@/components/shared-metadata';
 import { Metadata } from 'next';
 import Image from 'next/image';
 
@@ -20,7 +20,7 @@ async function getProductData(id: string): Promise<Product> {
 				description: 'An example description for the product',
 				image: 'https://via.placeholder.com/150',
 			});
-		}, 5000);
+		}, 2000);
 	});
 	return product;
 }
@@ -44,7 +44,6 @@ export default async function Page({ params }: Props) {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	// read route product id
 	const { id } = params;
-	console.log(id); // just for testing
 
 	// get the current product from the shopify storefront api
 	// const product = await fetch(`https://.../${id}`).then((res) => res.json());

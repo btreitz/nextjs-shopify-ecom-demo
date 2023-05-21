@@ -6,22 +6,9 @@ import { Metadata } from 'next';
 import { raleway } from '@/components/fonts';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
+import { BASE_METADATA } from '@/components/shared-metadata';
 
-export const METADATA_TITLE_BASE = 'Vörðr Sæde';
-
-export const metadata: Metadata = {
-	title: `HOME | ${METADATA_TITLE_BASE}`,
-	description: 'Highend home furniture by Vörðr Sæde',
-	openGraph: {
-		title: `HOME | ${METADATA_TITLE_BASE}`,
-		description: 'Highend home furniture by Vörðr Sæde',
-		images: [
-			{
-				url: '/images/logo/logo.png',
-			},
-		],
-	},
-};
+export const metadata: Metadata = BASE_METADATA;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
