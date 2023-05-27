@@ -13,12 +13,16 @@ const collections: Collection[] = [
 		query: 'chairs',
 		children: [
 			{
-				label: 'Chair Collection 1',
-				query: 'chair-collection-1',
+				label: 'Skogstjern Mobelsett',
+				query: 'skogstjern-mobelsett',
 			},
 			{
-				label: 'Chair Collection 2',
-				query: 'chair-collection-2',
+				label: 'Havsglede Enhet',
+				query: 'havsglede-enhet',
+			},
+			{
+				label: 'Sommardrom Kombinasjon',
+				query: 'sommardrom-kombinasjon',
 			},
 		],
 	},
@@ -27,12 +31,34 @@ const collections: Collection[] = [
 		query: 'lamps',
 		children: [
 			{
-				label: 'Lamp Collection 1',
-				query: 'lamp-collection-1',
+				label: 'Vinterlyst Stue',
+				query: 'vinterlyst-stue',
 			},
 			{
-				label: 'Lamp collection 2',
-				query: 'lamp-collection-2',
+				label: 'Solnedgang Salong',
+				query: 'solnedgang-salong',
+			},
+			{
+				label: 'Snofall Sovesal',
+				query: 'snofall-sovesal',
+			},
+		],
+	},
+	{
+		category: 'Tables',
+		query: 'tables',
+		children: [
+			{
+				label: 'Nattlys Ensemble',
+				query: 'nattlys-ensemble',
+			},
+			{
+				label: 'Ljungskog Sovesett',
+				query: 'ljungskog-sovesett',
+			},
+			{
+				label: 'Fjellvind Hygge',
+				query: 'fjellvind-hygge',
 			},
 		],
 	},

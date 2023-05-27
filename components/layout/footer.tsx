@@ -7,14 +7,14 @@ export default function Footer() {
 				<div className=" flex flex-col sm:flex-row gap-4 justify-center mb-12">
 					<div className=" w-1/3 flex flex-col items-center">
 						<div className=" flex flex-col">
-							<h3>Resource 1</h3>
-							<Link href="#" className=" text-sm">
+							<h4>Resource 1</h4>
+							<Link href="#" className=" text-sm hoverable">
 								Link 1
 							</Link>
-							<Link href="#" className=" text-sm">
+							<Link href="#" className=" text-sm hoverable">
 								Link 2
 							</Link>
-							<Link href="#" className=" text-sm">
+							<Link href="#" className=" text-sm hoverable">
 								Link 3
 							</Link>
 						</div>
@@ -22,13 +22,13 @@ export default function Footer() {
 					<div className=" w-1/3 flex flex-col items-center">
 						<div className=" flex flex-col">
 							<h4>Resource 2</h4>
-							<Link href="#" className=" text-sm">
+							<Link href="#" className=" text-sm hoverable">
 								Link 1
 							</Link>
-							<Link href="#" className=" text-sm">
+							<Link href="#" className=" text-sm hoverable">
 								Link 2
 							</Link>
-							<Link href="#" className=" text-sm">
+							<Link href="#" className=" text-sm hoverable">
 								Link 3
 							</Link>
 						</div>
@@ -36,13 +36,13 @@ export default function Footer() {
 					<div className=" w-1/3 flex flex-col items-center">
 						<div className=" flex flex-col">
 							<h4>Resource 3</h4>
-							<Link href="#" className=" text-sm">
+							<Link href="#" className=" text-sm hoverable">
 								Link 1
 							</Link>
-							<Link href="#" className=" text-sm">
+							<Link href="#" className=" text-sm hoverable">
 								Link 2
 							</Link>
-							<Link href="#" className=" text-sm">
+							<Link href="#" className=" text-sm hoverable">
 								Link 3
 							</Link>
 						</div>
