@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="en">
 			<body className={`${raleway.className} bg-background text-foreground`}>
 				<Header />
-				<main className="flex min-h-screen flex-col items-center  p-24">{children}</main>
+				<main className="flex min-h-screen flex-col items-center">{children}</main>
 				<Footer />
 				<Analytics />
 			</body>
