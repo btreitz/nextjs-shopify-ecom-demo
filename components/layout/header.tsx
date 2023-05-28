@@ -26,7 +26,6 @@ export default function Header() {
 					</button>
 				</div>
 			</nav>
-			<div className=" border-b border-gray-200" />
 		</header>
 	);
 }

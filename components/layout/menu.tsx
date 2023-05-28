@@ -1,11 +1,23 @@
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import collections from './collections';
 
 export default function Menu() {
 	const [isOpen, setIsOpen] = useState(false);
+
+	useEffect(() => {
+		// if isOpen is true, then add a class to the body to prevent scrolling
+		if (typeof window !== 'undefined') {
+			console.log('now change style');
+			if (isOpen) {
+				document.body.classList.add('overflow-hidden');
+			} else {
+				document.body.classList.remove('overflow-hidden');
+			}
+		}
+	}, [isOpen]);
 
 	// check if current pathname is active to highlight in navbar
 	/*
@@ -48,22 +60,25 @@ export default function Menu() {
 						<div key={index} className=" flex flex-col">
 							<Link
 								href={{ pathname: '/inventory', query: { category: collection.query } }}
-								className=" hoverable"
+								className=" hoverable mt-4 mb-3"
 								onClick={() => setIsOpen(false)}
 							>
-								<h2>{collection.category}</h2>
+								<span className=" text-xl">{collection.category}</span>
 							</Link>
-							{collection.children &&
-								collection.children.map((item, index) => (
-									<Link
-										href={{ pathname: '/inventory', query: { collection: item.query } }}
-										key={index}
-										className=" hoverable"
-										onClick={() => setIsOpen(false)}
-									>
-										{item.label}
-									</Link>
-								))}
+							{collection.children && (
+								<div className=" flex flex-col pl-3">
+									{collection.children.map((item, index) => (
+										<Link
+											href={{ pathname: '/inventory', query: { collection: item.query } }}
+											key={index}
+											className=" hoverable"
+											onClick={() => setIsOpen(false)}
+										>
+											{item.label}
+										</Link>
+									))}
+								</div>
+							)}
 						</div>
 					))}
 				</div>

@@ -7,7 +7,7 @@ export default function Footer() {
 				<div className=" flex flex-col sm:flex-row gap-4 justify-center mb-12">
 					<div className=" w-1/3 flex flex-col items-center">
 						<div className=" flex flex-col">
-							<h4>Resource 1</h4>
+							<span>Resource 1</span>
 							<Link href="#" className=" text-sm hoverable">
 								Link 1
 							</Link>
@@ -21,7 +21,7 @@ export default function Footer() {
 					</div>
 					<div className=" w-1/3 flex flex-col items-center">
 						<div className=" flex flex-col">
-							<h4>Resource 2</h4>
+							<span>Resource 2</span>
 							<Link href="#" className=" text-sm hoverable">
 								Link 1
 							</Link>
@@ -35,7 +35,7 @@ export default function Footer() {
 					</div>
 					<div className=" w-1/3 flex flex-col items-center">
 						<div className=" flex flex-col">
-							<h4>Resource 3</h4>
+							<span>Resource 3</span>
 							<Link href="#" className=" text-sm hoverable">
 								Link 1
 							</Link>
