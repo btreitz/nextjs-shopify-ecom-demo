@@ -2,26 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer components {
+  .hoverable {
+    @apply opacity-60 hover:opacity-100 transition-opacity duration-200 ease-in-out;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer base {
+  h1 {
+    @apply text-2xl py-8;
+  }
+  h2 {
+    @apply text-xl py-6;
+  }
+  h3 {
+    @apply text-lg py-4;
+  }
+  h4 {
+    @apply text-base py-2;
+  }
 }
