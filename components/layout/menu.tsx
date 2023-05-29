@@ -10,7 +10,6 @@ export default function Menu() {
 	useEffect(() => {
 		// if isOpen is true, then add a class to the body to prevent scrolling
 		if (typeof window !== 'undefined') {
-			console.log('now change style');
 			if (isOpen) {
 				document.body.classList.add('overflow-hidden');
 			} else {

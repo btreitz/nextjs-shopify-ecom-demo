@@ -2,7 +2,8 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { BASE_METADATA, METADATA_TITLE_BASE } from '@/components/shared-metadata';
+import { BASE_METADATA, METADATA_TITLE_BASE } from '@/components/utils/shared-metadata';
+import { env } from '@/components/utils/env.mjs';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,
@@ -69,6 +70,10 @@ type Props = {
 export default async function Page({ searchParams }: Props) {
 	const paramsList: [string, string][] = Object.entries(searchParams);
 	const products = await getProductsBy(paramsList);
+
+	console.log('env');
+	console.log(env);
+
 	return (
 		<>
 			<h1>Inventory</h1>

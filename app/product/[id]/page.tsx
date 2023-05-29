@@ -1,4 +1,4 @@
-import { METADATA_TITLE_BASE } from '@/components/shared-metadata';
+import { METADATA_TITLE_BASE } from '@/components/utils/shared-metadata';
 import { Metadata } from 'next';
 import Image from 'next/image';
 

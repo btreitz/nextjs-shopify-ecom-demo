@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { BASE_METADATA, METADATA_TITLE_BASE } from '@/components/shared-metadata';
+import { BASE_METADATA, METADATA_TITLE_BASE } from '@/components/utils/shared-metadata';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,

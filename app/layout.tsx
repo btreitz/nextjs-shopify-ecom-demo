@@ -3,10 +3,10 @@ import { Analytics } from '@vercel/analytics/react';
 
 import { Metadata } from 'next';
 
-import { raleway } from '@/components/fonts';
+import { raleway } from '@/components/utils/fonts';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { BASE_METADATA } from '@/components/shared-metadata';
+import { BASE_METADATA } from '@/components/utils/shared-metadata';
 
 export const metadata: Metadata = BASE_METADATA;
 
