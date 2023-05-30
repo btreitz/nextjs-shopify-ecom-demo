@@ -7,15 +7,20 @@ type Props = {
 };
 
 type Product = {
+	id: string;
 	title: string;
 	description: string;
 	image: string;
 };
 
 async function getProductData(id: string): Promise<Product> {
+	// decode id from base64
+	const decodedId = Buffer.from(id, 'base64').toString('utf-8');
+
 	const product: Product = await new Promise((resolve) => {
 		setTimeout(() => {
 			resolve({
+				id: decodedId,
 				title: 'Example product that is very good',
 				description: 'An example description for the product',
 				image: 'https://via.placeholder.com/150',
@@ -29,7 +34,7 @@ export default async function Page({ params }: Props) {
 	const product = await getProductData(params.id);
 	return (
 		<>
-			<h1>Hello Product - {params.id}</h1>
+			<h1>Hello Product - {product.id}</h1>
 			<p>
 				<span>{product.title}</span>
 				<br />
