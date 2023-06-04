@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 
-import { BASE_METADATA, METADATA_TITLE_BASE } from '@/components/utils/shared-metadata';
-import { GetFirstProductsType, fetchStorefront, getFirstProducts } from '@/components/gql/index';
+import { BASE_METADATA, METADATA_TITLE_BASE } from '@/lib/shared-metadata';
+import { GetFirstProductsType, fetchStorefront, getFirstProducts } from '@/lib/gql/index';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,

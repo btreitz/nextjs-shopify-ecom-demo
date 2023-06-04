@@ -1,4 +1,4 @@
-import { env } from '../utils/env.mjs';
+import { env } from '../env.mjs';
 
 export async function fetchStorefront<T>(init?: RequestInit | undefined) {
 	type StorefrontResponse = {
