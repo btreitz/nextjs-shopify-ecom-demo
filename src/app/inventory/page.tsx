@@ -24,7 +24,6 @@ export default async function Page({ searchParams }: Props) {
 	const products = await queryProductsById(paramsList);
 	return (
 		<>
-			<h1>Inventory</h1>
 			<div className=" flex flex-row flex-wrap">
 				{products.map((product, index) => (
 					<Link href={`/product/${product.id}`} key={index}>
@@ -51,9 +50,6 @@ async function queryProductsById(params: [string, string][]) {
 		query: productsQuery,
 		variables: { maxProducts: 100 },
 	});
-
-	console.log('data');
-	console.log(JSON.stringify(data));
 
 	return data.products.edges.map((product) => {
 		const { collections, id, title } = product.node;

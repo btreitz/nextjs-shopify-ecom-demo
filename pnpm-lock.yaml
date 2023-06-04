@@ -7,6 +7,9 @@ dependencies:
   '@apollo/experimental-nextjs-app-support':
     specifier: ^0.1.0
     version: 0.1.0(@apollo/client@3.8.0-alpha.15)(next@13.4.4)(react@18.2.0)
+  '@graphql-typed-document-node/core':
+    specifier: ^3.2.0
+    version: 3.2.0(graphql@16.6.0)
   '@t3-oss/env-nextjs':
     specifier: ^0.4.0
     version: 0.4.0(typescript@5.0.4)(zod@3.21.4)
@@ -31,6 +34,9 @@ dependencies:
   eslint-config-next:
     specifier: 13.4.2
     version: 13.4.2(eslint@8.40.0)(typescript@5.0.4)
+  graphql:
+    specifier: ^16.6.0
+    version: 16.6.0
   next:
     specifier: 13.4.4
     version: 13.4.4(@babel/core@7.22.1)(react-dom@18.2.0)(react@18.2.0)
