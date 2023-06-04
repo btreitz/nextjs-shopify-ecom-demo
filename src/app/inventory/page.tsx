@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 
 import { BASE_METADATA, METADATA_TITLE_BASE } from '@/lib/shared-metadata';
-import { GetFirstProductsType, fetchStorefront, getFirstProducts } from '@/lib/gql/index';
+import { getClient } from '@/lib/gql/ApolloClient';
+import { productsQuery } from '@/lib/gql/operations';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,
@@ -24,18 +24,7 @@ export default async function Page({ searchParams }: Props) {
 	return (
 		<>
 			<h1>Inventory</h1>
-			<div className=" flex flex-row flex-wrap">
-				{products.map((product, index) => (
-					<Link href={`/product/${product.id}`} key={index}>
-						<p className=" border rounded m-5 p-4">
-							<span>{product.title}</span>
-							<br />
-							<span>{product.id}</span>
-							<br />
-						</p>
-					</Link>
-				))}
-			</div>
+			<div className=" flex flex-row flex-wrap">{JSON.stringify(products)}</div>
 		</>
 	);
 }
@@ -50,14 +39,23 @@ async function queryProductsById(params: [string, string][]): Promise<Product[]>
 	console.log('params');
 	console.log(params);
 
-	const { data } = await fetchStorefront<GetFirstProductsType>({ body: getFirstProducts(5) });
+	const { data } = await getClient().query({ query: productsQuery, variables: { maxProducts: 5 } });
 
-	return data.products.edges.map((edge) => {
-		const product = edge.node;
-		return {
-			// encode id to base64
-			id: Buffer.from(product.id, 'utf-8').toString('base64'),
-			title: product.title,
-		};
-	});
+	console.log('data');
+	console.log(JSON.stringify(data));
+
+	return Promise.resolve([
+		{
+			id: '1',
+			title: 'Product 1',
+		},
+		{
+			id: '2',
+			title: 'Product 2',
+		},
+		{
+			id: '3',
+			title: 'Product 3',
+		},
+	]);
 }
