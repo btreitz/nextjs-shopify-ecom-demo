@@ -1,8 +1,10 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 import { BASE_METADATA, METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import { getClient } from '@/lib/gql/ApolloClient';
 import { productsQuery } from '@/lib/gql/operations';
+import { GetProductsQuery, GetProductsQueryVariables } from '@/lib/gql/__generated__/graphql';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,
@@ -20,42 +22,48 @@ type Props = {
 export default async function Page({ searchParams }: Props) {
 	const paramsList: [string, string][] = Object.entries(searchParams);
 	const products = await queryProductsById(paramsList);
-
 	return (
 		<>
 			<h1>Inventory</h1>
-			<div className=" flex flex-row flex-wrap">{JSON.stringify(products)}</div>
+			<div className=" flex flex-row flex-wrap">
+				{products.map((product, index) => (
+					<Link href={`/product/${product.id}`} key={index}>
+						<p className=" border rounded m-5 p-4">
+							<span>{product.title}</span>
+							<br />
+							<span>{product.id}</span>
+							<br />
+							<span>Collections: {product.collections.map((collection) => collection.title).join(', ')}</span>
+						</p>
+					</Link>
+				))}
+			</div>
 		</>
 	);
 }
 
-type Product = {
-	id: string;
-	title: string;
-};
-
-async function queryProductsById(params: [string, string][]): Promise<Product[]> {
+async function queryProductsById(params: [string, string][]) {
 	// TODO: query products by query params
 	console.log('params');
 	console.log(params);
 
-	const { data } = await getClient().query({ query: productsQuery, variables: { maxProducts: 5 } });
+	const { data } = await getClient().query<GetProductsQuery, GetProductsQueryVariables>({
+		query: productsQuery,
+		variables: { maxProducts: 100 },
+	});
 
 	console.log('data');
 	console.log(JSON.stringify(data));
 
-	return Promise.resolve([
-		{
-			id: '1',
-			title: 'Product 1',
-		},
-		{
-			id: '2',
-			title: 'Product 2',
-		},
-		{
-			id: '3',
-			title: 'Product 3',
-		},
-	]);
+	return data.products.edges.map((product) => {
+		const { collections, id, title } = product.node;
+		const encodedId = Buffer.from(id, 'utf-8').toString('base64');
+		return {
+			id: encodedId,
+			title,
+			collections: collections.nodes.map(({ id, title }) => {
+				return { id, title };
+			}),
+		};
+	});
 }

@@ -1,7 +1,7 @@
-import { gql } from '@apollo/client';
+import { gql } from './__generated__/gql';
 
 /* TEST APOLLO CLIENT */
-export const productsQuery = gql`
+export const productsQuery = gql(/* GraphQL */ `
 	query getProducts($maxProducts: Int!) {
 		products(first: $maxProducts) {
 			edges {
@@ -18,9 +18,9 @@ export const productsQuery = gql`
 			}
 		}
 	}
-`;
+`);
 
-export const productsInCollectionQuery = gql`
+export const productsInCollectionQuery = gql(/* GraphQL */ `
 	query getProductsInCollection($maxProducts: Int!, $collectionTitle: String!) {
 		collections(query: "title:$collectionTitle", first: 1) {
 			edges {
@@ -45,4 +45,4 @@ export const productsInCollectionQuery = gql`
 			}
 		}
 	}
-`;
+`);
