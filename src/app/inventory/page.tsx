@@ -3,8 +3,14 @@ import Link from 'next/link';
 
 import { BASE_METADATA, METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import { getClient } from '@/lib/gql/ApolloClient';
-import { productsQuery } from '@/lib/gql/operations';
-import { GetProductsQuery, GetProductsQueryVariables } from '@/lib/gql/__generated__/graphql';
+import { productsInCollectionQuery, productsQuery } from '@/lib/gql/operations';
+import {
+	GetProductsInCollectionQuery,
+	GetProductsInCollectionQueryVariables,
+	GetProductsQuery,
+	GetProductsQueryVariables,
+} from '@/lib/gql/__generated__/graphql';
+import { combineOR } from '@/lib/gql/utils/queryParams';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,
@@ -41,25 +47,55 @@ export default async function Page({ searchParams }: Props) {
 	);
 }
 
-async function queryProductsById(params: [string, string][]) {
-	// TODO: query products by query params
-	console.log('params');
-	console.log(params);
+function generateCollectionQueryParam(collections: string) {
+	return combineOR('title', collections.split(','));
+}
 
-	const { data } = await getClient().query<GetProductsQuery, GetProductsQueryVariables>({
+async function generateProductQuery(params: Map<string, string>) {
+	const collections = params.get('collection');
+	if (collections) {
+		const query = generateCollectionQueryParam(collections);
+		console.log('query');
+		console.log(query);
+		return await getClient().query<GetProductsInCollectionQuery, GetProductsInCollectionQueryVariables>({
+			query: productsInCollectionQuery,
+			variables: { maxProducts: 100, query },
+		});
+	}
+	return await getClient().query<GetProductsQuery, GetProductsQueryVariables>({
 		query: productsQuery,
 		variables: { maxProducts: 100 },
 	});
+}
 
-	return data.products.edges.map((product) => {
-		const { collections, id, title } = product.node;
-		const encodedId = Buffer.from(id, 'utf-8').toString('base64');
-		return {
-			id: encodedId,
-			title,
-			collections: collections.nodes.map(({ id, title }) => {
-				return { id, title };
-			}),
-		};
-	});
+// type guard to check if result is GetProductsInCollectionQuery
+function isGetProductsInCollectionQuery(
+	result: GetProductsInCollectionQuery | GetProductsQuery,
+): result is GetProductsInCollectionQuery {
+	return (result as GetProductsInCollectionQuery).collections !== undefined;
+}
+
+function createProductFromQueryResponse(product: GetProductsQuery['products']['edges'][0]) {
+	const { collections, id, title } = product.node;
+	const encodedId = Buffer.from(id, 'utf-8').toString('base64');
+	return {
+		id: encodedId,
+		title,
+		collections: collections.nodes.map(({ id, title }) => {
+			return { id, title };
+		}),
+	};
+}
+
+async function queryProductsById(params: [string, string][]) {
+	const paramsMap = new Map(params);
+	const { data } = await generateProductQuery(paramsMap);
+
+	if (isGetProductsInCollectionQuery(data)) {
+		return data.collections.edges.flatMap((collection) => {
+			return collection.node.products.edges.map(createProductFromQueryResponse);
+		});
+	}
+
+	return data.products.edges.map(createProductFromQueryResponse);
 }

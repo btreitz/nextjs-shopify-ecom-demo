@@ -1,6 +1,5 @@
 import { gql } from './__generated__/gql';
 
-/* TEST APOLLO CLIENT */
 export const productsQuery = gql(/* GraphQL */ `
 	query getProducts($maxProducts: Int!) {
 		products(first: $maxProducts) {
@@ -21,12 +20,10 @@ export const productsQuery = gql(/* GraphQL */ `
 `);
 
 export const productsInCollectionQuery = gql(/* GraphQL */ `
-	query getProductsInCollection($maxProducts: Int!, $collectionTitle: String!) {
-		collections(query: "title:$collectionTitle", first: 1) {
+	query getProductsInCollection($maxProducts: Int!, $query: String!, $maxCollections: Int = 100) {
+		collections(query: $query, first: $maxCollections) {
 			edges {
 				node {
-					title
-					id
 					products(first: $maxProducts) {
 						edges {
 							node {
