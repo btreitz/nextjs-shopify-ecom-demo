@@ -10,7 +10,12 @@ import {
 	GetProductsQuery,
 	GetProductsQueryVariables,
 } from '@/lib/gql/__generated__/graphql';
-import { combineOR } from '@/lib/gql/utils/queryParams';
+import {
+	SUPPORTED_COLLECTION_QUERY_PARAMS,
+	SUPPORTED_PRODUCT_QUERY_PARAMS,
+	SupportedQueryParams,
+	combineOR,
+} from '@/lib/gql/utils/queryParams';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,
@@ -38,6 +43,8 @@ export default async function Page({ searchParams }: Props) {
 							<br />
 							<span>{product.id}</span>
 							<br />
+							<span>{product.type}</span>
+							<br />
 							<span>Collections: {product.collections.map((collection) => collection.title).join(', ')}</span>
 						</p>
 					</Link>
@@ -47,24 +54,51 @@ export default async function Page({ searchParams }: Props) {
 	);
 }
 
-function generateCollectionQueryParam(collections: string) {
-	return combineOR('title', collections.split(','));
+function generateQueryParamBySupport(params: [string, string][], SUPPORTED_QUERY_PARAMS: SupportedQueryParams) {
+	return (
+		params
+			// filter out unsupported query params
+			.filter(([key]) => key in SUPPORTED_QUERY_PARAMS)
+			// combine multiple elements of an individual query param with OR
+			.map(([key, value]) => {
+				const supportedKey = key as keyof typeof SUPPORTED_QUERY_PARAMS;
+				return combineOR(SUPPORTED_QUERY_PARAMS[supportedKey], value.split(','));
+			})
+			// combine all seperate query params with AND
+			.map((query) => `(${query})`)
+			.join(' AND ')
+	);
 }
 
-async function generateProductQuery(params: Map<string, string>) {
-	const collections = params.get('collection');
-	if (collections) {
-		const query = generateCollectionQueryParam(collections);
+async function generateProductQuery(params: [string, string][]) {
+	// seperate collection query params from product query params
+	const { collectionParams, productParams } = params.reduce(
+		(acc, [key, value]) => {
+			if (key in SUPPORTED_COLLECTION_QUERY_PARAMS) {
+				acc.collectionParams.push([key, value]);
+			} else if (key in SUPPORTED_PRODUCT_QUERY_PARAMS) {
+				acc.productParams.push([key, value]);
+			}
+			return acc;
+		},
+		{ collectionParams: [] as [string, string][], productParams: [] as [string, string][] },
+	);
+
+	const productQuery = generateProductQueryParam(productParams);
+
+	if (collectionParams.length > 0) {
+		const collectionTitles;
+		const collectionQuery = combineOR(SUPPORTED_COLLECTION_QUERY_PARAMS.collection, collections.split(','));
 		console.log('query');
 		console.log(query);
 		return await getClient().query<GetProductsInCollectionQuery, GetProductsInCollectionQueryVariables>({
 			query: productsInCollectionQuery,
-			variables: { maxProducts: 100, query },
+			variables: { maxProducts: 100, collectionQuery },
 		});
 	}
 	return await getClient().query<GetProductsQuery, GetProductsQueryVariables>({
 		query: productsQuery,
-		variables: { maxProducts: 100 },
+		variables: { maxProducts: 100, productQuery },
 	});
 }
 
@@ -76,11 +110,12 @@ function isGetProductsInCollectionQuery(
 }
 
 function createProductFromQueryResponse(product: GetProductsQuery['products']['edges'][0]) {
-	const { collections, id, title } = product.node;
+	const { collections, id, title, productType } = product.node;
 	const encodedId = Buffer.from(id, 'utf-8').toString('base64');
 	return {
 		id: encodedId,
 		title,
+		type: productType,
 		collections: collections.nodes.map(({ id, title }) => {
 			return { id, title };
 		}),
@@ -89,7 +124,7 @@ function createProductFromQueryResponse(product: GetProductsQuery['products']['e
 
 async function queryProductsById(params: [string, string][]) {
 	const paramsMap = new Map(params);
-	const { data } = await generateProductQuery(paramsMap);
+	const { data } = await generateProductQuery(params);
 
 	if (isGetProductsInCollectionQuery(data)) {
 		return data.collections.edges.flatMap((collection) => {
