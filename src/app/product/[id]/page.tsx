@@ -15,30 +15,11 @@ type Product = {
 	title: string;
 };
 
-/*
-async function getProductData(id: string): Promise<Product> {
-	// decode id from base64
-	const decodedId = Buffer.from(id, 'base64').toString('utf-8');
-
-	const product: Product = await new Promise((resolve) => {
-		setTimeout(() => {
-			resolve({
-				id: decodedId,
-				title: 'Example product that is very good',
-				description: 'An example description for the product',
-				image: 'https://via.placeholder.com/150',
-			});
-		}, 2000);
-	});
-	return product;
-}
-*/
-
 export default async function Page({ params }: Props) {
 	const product: Product = await queryProductById(params.id);
 	return (
 		<>
-			<h1>Hello Product - {product.id}</h1>
+			<h1>{product.id}</h1>
 			<p>
 				<span>{product.title}</span>
 				<br />
@@ -48,26 +29,25 @@ export default async function Page({ params }: Props) {
 }
 
 async function queryProductById(id: string) {
-	console.log('queryProductById', id);
 	const decodedId = Buffer.from(decodeURIComponent(id), 'base64').toString('utf-8');
-	console.log('decodedId', decodedId);
 
-	const { data } = await getClient().query<GetProductQuery, GetProductQueryVariables>({
-		query: productQuery,
-		variables: { productId: decodedId },
-	});
+	try {
+		const { error, data } = await getClient().query<GetProductQuery, GetProductQueryVariables>({
+			query: productQuery,
+			variables: { productId: decodedId },
+		});
 
-	console.log('data', data);
-
-	// if data.product is undefined then re route to 404
-	if (!data.product) {
+		if (error || !data || !data.product) {
+			throw new Error(`Product with id ${id} not found: Error: ${error}`);
+		}
+		return {
+			id: data.product.id,
+			title: data.product.title,
+		};
+	} catch (error) {
+		console.error('error', error);
 		notFound();
 	}
-
-	return {
-		id: data.product.id,
-		title: data.product.title,
-	};
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
