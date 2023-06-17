@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n\tquery getProducts($productQuery: String = \"\", $maxProducts: Int = 100) {\n\t\tproducts(query: $productQuery, first: $maxProducts) {\n\t\t\tedges {\n\t\t\t\tnode {\n\t\t\t\t\tid\n\t\t\t\t\ttitle\n\t\t\t\t\tproductType\n\t\t\t\t\tcollections(first: 1) {\n\t\t\t\t\t\tnodes {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\ttitle\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n": types.GetProductsDocument,
+    "\n\tquery getProduct($productId: ID!) {\n\t\tproduct(id: $productId) {\n\t\t\tid\n\t\t\ttitle\n\t\t\tproductType\n\t\t\tcollections(first: 1) {\n\t\t\t\tnodes {\n\t\t\t\t\tid\n\t\t\t\t\ttitle\n\t\t\t\t}\n\t\t\t}\n\t\t\tdescription\n\t\t\tpublishedAt\n\t\t}\n\t}\n": types.GetProductDocument,
 };
 
 /**
@@ -34,6 +35,10 @@ export function gql(source: string): unknown;
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n\tquery getProducts($productQuery: String = \"\", $maxProducts: Int = 100) {\n\t\tproducts(query: $productQuery, first: $maxProducts) {\n\t\t\tedges {\n\t\t\t\tnode {\n\t\t\t\t\tid\n\t\t\t\t\ttitle\n\t\t\t\t\tproductType\n\t\t\t\t\tcollections(first: 1) {\n\t\t\t\t\t\tnodes {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\ttitle\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery getProducts($productQuery: String = \"\", $maxProducts: Int = 100) {\n\t\tproducts(query: $productQuery, first: $maxProducts) {\n\t\t\tedges {\n\t\t\t\tnode {\n\t\t\t\t\tid\n\t\t\t\t\ttitle\n\t\t\t\t\tproductType\n\t\t\t\t\tcollections(first: 1) {\n\t\t\t\t\t\tnodes {\n\t\t\t\t\t\t\tid\n\t\t\t\t\t\t\ttitle\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n\tquery getProduct($productId: ID!) {\n\t\tproduct(id: $productId) {\n\t\t\tid\n\t\t\ttitle\n\t\t\tproductType\n\t\t\tcollections(first: 1) {\n\t\t\t\tnodes {\n\t\t\t\t\tid\n\t\t\t\t\ttitle\n\t\t\t\t}\n\t\t\t}\n\t\t\tdescription\n\t\t\tpublishedAt\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery getProduct($productId: ID!) {\n\t\tproduct(id: $productId) {\n\t\t\tid\n\t\t\ttitle\n\t\t\tproductType\n\t\t\tcollections(first: 1) {\n\t\t\t\tnodes {\n\t\t\t\t\tid\n\t\t\t\t\ttitle\n\t\t\t\t}\n\t\t\t}\n\t\t\tdescription\n\t\t\tpublishedAt\n\t\t}\n\t}\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

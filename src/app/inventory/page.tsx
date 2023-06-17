@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { BASE_METADATA, METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import { getClient } from '@/lib/gql/ApolloClient';
-import { productsQuery } from '@/lib/gql/operations';
+import { inventoryProductsQuery } from '@/lib/gql/operations';
 import { GetProductsQuery, GetProductsQueryVariables } from '@/lib/gql/__generated__/graphql';
 import { SUPPORTED_PRODUCT_QUERY_PARAMS, combineOR } from '@/lib/gql/utils/queryParams';
 
@@ -20,9 +20,18 @@ type Props = {
 	searchParams: Record<string, string>;
 };
 
+type InventoryProduct = {
+	id: string;
+	title: string;
+	type: string;
+	collections: {
+		id: string;
+		title: string;
+	}[];
+};
+
 export default async function Page({ searchParams }: Props) {
-	const paramsList: [string, string][] = Object.entries(searchParams);
-	const products = await queryProductsById(paramsList);
+	const products: InventoryProduct[] = await queryProductsByParams(Object.entries(searchParams));
 	return (
 		<>
 			<div className=" flex flex-row flex-wrap">
@@ -66,9 +75,10 @@ function generateProductQueryParam(params: [string, string][]) {
 	);
 }
 
-function createProductFromQueryResponse(product: GetProductsQuery['products']['edges'][0]) {
+function createProductFromQueryResponse(product: GetProductsQuery['products']['edges'][0]): InventoryProduct {
 	const { collections, id, title, productType } = product.node;
-	const encodedId = Buffer.from(id, 'utf-8').toString('base64');
+	console.log('id: ', id);
+	const encodedId = encodeURIComponent(Buffer.from(id).toString('base64'));
 	return {
 		id: encodedId,
 		title,
@@ -84,11 +94,11 @@ function createProductFromQueryResponse(product: GetProductsQuery['products']['e
  * @param params - An array of key-value pairs representing query parameters.
  * @returns An array of products that match the provided query parameters.
  */
-async function queryProductsById(params: [string, string][]) {
+async function queryProductsByParams(params: [string, string][]): Promise<InventoryProduct[]> {
 	const productQuery = generateProductQueryParam(params);
 
 	const { data } = await getClient().query<GetProductsQuery, GetProductsQueryVariables>({
-		query: productsQuery,
+		query: inventoryProductsQuery,
 		variables: { maxProducts: 100, productQuery },
 	});
 
