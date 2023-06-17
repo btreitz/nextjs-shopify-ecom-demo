@@ -77,7 +77,6 @@ function generateProductQueryParam(params: [string, string][]) {
 
 function createProductFromQueryResponse(product: GetProductsQuery['products']['edges'][0]): InventoryProduct {
 	const { collections, id, title, productType } = product.node;
-	console.log('id: ', id);
 	const encodedId = encodeURIComponent(Buffer.from(id).toString('base64'));
 	return {
 		id: encodedId,
