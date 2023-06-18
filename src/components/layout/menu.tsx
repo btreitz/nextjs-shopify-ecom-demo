@@ -18,7 +18,7 @@ export default function Menu() {
 		}
 	}, [isOpen]);
 
-	// check if current pathname is active to highlight in navbar
+	// TODO: Check if current pathname is active to highlight in navbar
 	/*
     const pathname = usePathname();
     */
@@ -49,7 +49,7 @@ export default function Menu() {
 				onClick={() => setIsOpen(false)}
 			/>
 			<div
-				className={` absolute left-0 top-20 z-50 w-96 max-w-full xs:w-full h-[calc(100vh-80px)] px-8 bg-backgroundSecondary border-r border-gray-200 cursor-default transition-transform ease-out duration-500 ${
+				className={` absolute left-0 top-20 z-50 w-96 max-w-full xs:w-full h-[calc(100vh-80px)] px-8 pb-8 overflow-y-auto bg-backgroundSecondary border-r border-gray-200 cursor-default transition-transform ease-out duration-500 ${
 					isOpen === false && ' transform -translate-x-full'
 				}`}
 				onClick={(e) => e.stopPropagation()}

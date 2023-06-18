@@ -40,8 +40,6 @@ export default async function Page({ searchParams }: Props) {
 						<p className=" border rounded m-5 p-4">
 							<span>{product.title}</span>
 							<br />
-							<span>{product.id}</span>
-							<br />
 							<span>{product.type}</span>
 							<br />
 							<span>Collections: {product.collections.map((collection) => collection.title).join(', ')}</span>

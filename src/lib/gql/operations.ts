@@ -26,14 +26,29 @@ export const productQuery = gql(/* GraphQL */ `
 			id
 			title
 			productType
+			description
+			publishedAt
+			images(first: 100) {
+				nodes {
+					height
+					width
+					url
+				}
+			}
 			collections(first: 1) {
 				nodes {
 					id
 					title
 				}
 			}
-			description
-			publishedAt
+			variants(first: 1) {
+				nodes {
+					priceV2 {
+						amount
+						currencyCode
+					}
+				}
+			}
 		}
 	}
 `);
