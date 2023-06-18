@@ -6,6 +6,7 @@ import { getClient } from '@/lib/gql/ApolloClient';
 import { inventoryProductsQuery } from '@/lib/gql/operations';
 import { GetProductsQuery, GetProductsQueryVariables } from '@/lib/gql/__generated__/graphql';
 import { SUPPORTED_PRODUCT_QUERY_PARAMS, combineOR } from '@/lib/gql/utils/queryParams';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,
@@ -16,6 +17,9 @@ export const metadata: Metadata = {
 	},
 };
 
+// Disable caching for this page in production -> always fetch data from Shopify
+export const dynamic = 'force-dynamic';
+
 type Props = {
 	searchParams: Record<string, string>;
 };
@@ -23,27 +27,39 @@ type Props = {
 type InventoryProduct = {
 	id: string;
 	title: string;
-	type: string;
+	productType: string;
 	collections: {
 		id: string;
 		title: string;
 	}[];
+	images: {
+		src: string;
+		dimensions: {
+			width?: number | null;
+			height?: number | null;
+		};
+	}[];
+	price: {
+		amount: string;
+		currencyCode: string;
+	};
 };
 
 export default async function Page({ searchParams }: Props) {
 	const products: InventoryProduct[] = await queryProductsByParams(Object.entries(searchParams));
 	return (
 		<>
-			<div className=" flex flex-row flex-wrap">
+			<div className=" flex flex-row gap-5 flex-wrap">
 				{products.map((product, index) => (
 					<Link href={`/product/${product.id}`} key={index}>
-						<p className=" border rounded m-5 p-4">
-							<span>{product.title}</span>
-							<br />
-							<span>{product.type}</span>
-							<br />
-							<span>Collections: {product.collections.map((collection) => collection.title).join(', ')}</span>
-						</p>
+						<div className=" border border-transparent rounded p-4 w-60 h-80 flex flex-col justify-between text-sm hover:border-slate-300">
+							<Image alt="product image" src={product.images[0].src} width={200} height={200} />
+							<div className=" flex flex-col">
+								<span>{product.title}</span>
+								<span>{product.productType}</span>
+								<span>Collections: {product.collections.map((collection) => collection.title).join(', ')}</span>
+							</div>
+						</div>
 					</Link>
 				))}
 			</div>
@@ -74,15 +90,24 @@ function generateProductQueryParam(params: [string, string][]) {
 }
 
 function createProductFromQueryResponse(product: GetProductsQuery['products']['edges'][0]): InventoryProduct {
-	const { collections, id, title, productType } = product.node;
+	const { collections, id, title, productType, images, priceRange } = product.node;
 	const encodedId = encodeURIComponent(Buffer.from(id).toString('base64'));
 	return {
 		id: encodedId,
 		title,
-		type: productType,
-		collections: collections.nodes.map(({ id, title }) => {
-			return { id, title };
-		}),
+		productType,
+		collections: collections.nodes.map(({ id, title }) => ({ id, title })),
+		images: images.nodes.map((image) => ({
+			dimensions: {
+				width: image.width,
+				height: image.height,
+			},
+			src: image.url,
+		})),
+		price: {
+			amount: priceRange.minVariantPrice.amount,
+			currencyCode: priceRange.minVariantPrice.currencyCode,
+		},
 	};
 }
 

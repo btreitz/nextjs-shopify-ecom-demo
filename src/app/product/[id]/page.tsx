@@ -112,9 +112,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 			throw new Error(`Product with id ${id} not found: Error: ${error}`);
 		}
 		const product = {
-			title: data.product?.title || '404',
-			description: data.product?.description || 'Product not found',
-			image: 'https://via.placeholder.com/150',
+			title: data.product?.title,
+			description: data.product?.description,
+			image: data.product?.images.nodes[0].url,
 		};
 
 		// set the fields accordingly to the product
