@@ -38,7 +38,7 @@ export default async function Page({ params }: Props) {
 			<h1>{product.title}</h1>
 			<span>{product.productType}</span>
 			<br />
-			<div className=" w-[500px] h-[500px] relative rounded-lg overflow-hidden bg-slate-200">
+			<div className=" w-[500px] max-w-[90%] h-[500px] relative rounded-lg overflow-hidden bg-slate-200">
 				<Image alt="product image" src={product.images[0].src} fill />
 			</div>
 			<span>

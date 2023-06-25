@@ -5,7 +5,7 @@ import IconCart from '@/components/icons/Cart';
 import IconAccount from '@/components/icons/Account';
 import Menu from './menu';
 import HeaderLogo from './headerLogo';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 
 export const animLimit = 50; // scroll limit in pixels
@@ -15,7 +15,10 @@ export default function Header() {
 
 	const { scrollY } = useScroll();
 	const headerHeightRaw = useTransform(scrollY, [0, animLimit], [5, 3]);
-	const springHeaderHeight = useTransform(headerHeightRaw, (val) => `${val}rem`);
+	const springHeaderHeight = useTransform(
+		useSpring(headerHeightRaw, { mass: 0.3, stiffness: 200 }),
+		(val) => `${val}rem`,
+	);
 
 	return (
 		<motion.header
