@@ -10,7 +10,7 @@ export const BASE_METADATA: Metadata = {
 		description: 'Highend home furniture by Vörðr Sæde',
 		images: [
 			{
-				url: '/images/logo/logo.png',
+				url: '/images/logo/logo-main-full.png',
 			},
 		],
 	},

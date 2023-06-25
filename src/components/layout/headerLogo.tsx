@@ -33,7 +33,7 @@ export default function HeaderLogo() {
 				}}
 			>
 				<Link href="/">
-					<Image src={'/images/logo/logo-2.png'} alt={'Vörðr Sæde'} width={100} height={72.66} />
+					<Image src={'/images/logo/logo-main.png'} alt={'Vörðr Sæde'} width={100} height={72.66} />
 				</Link>
 			</motion.div>
 		</div>
