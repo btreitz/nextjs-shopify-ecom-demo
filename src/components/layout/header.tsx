@@ -1,15 +1,31 @@
+'use client';
+
 import Link from 'next/link';
 import IconCart from '@/components/icons/Cart';
 import IconAccount from '@/components/icons/Account';
 import Menu from './menu';
 import HeaderLogo from './headerLogo';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+
+export const animLimit = 50; // scroll limit in pixels
 
 export default function Header() {
+	const headerRef = useRef<HTMLElement>(null);
+
+	const { scrollY } = useScroll();
+	const headerHeightRaw = useTransform(scrollY, [0, animLimit], [5, 3]);
+	const springHeaderHeight = useTransform(headerHeightRaw, (val) => `${val}rem`);
+
 	return (
-		<header className=" h-20 sticky top-0 w-full backdrop-blur-sm bg-white/50 flex flex-col z-50">
+		<motion.header
+			ref={headerRef}
+			className=" sticky top-0 w-full backdrop-blur-sm bg-white/10 flex flex-col z-50"
+			style={{ height: springHeaderHeight }}
+		>
 			<nav className=" h-full w-full flex flex-row justify-between items-center px-5">
 				<div className=" flex justify-start">
-					<Menu />
+					<Menu headerRef={headerRef} />
 				</div>
 				<HeaderLogo />
 				<div className=" flex justify-end gap-5">
@@ -21,6 +37,6 @@ export default function Header() {
 					</button>
 				</div>
 			</nav>
-		</header>
+		</motion.header>
 	);
 }
