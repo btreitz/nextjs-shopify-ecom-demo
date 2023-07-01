@@ -1,10 +1,11 @@
+import MarketingCard from '@/components/MarketingCard';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Home() {
 	return (
 		<div className=" flex flex-col w-full">
-			<div className=" border w-full relative">
+			<section className=" border w-full relative">
 				<div className=" absolute top-[30%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center text-center text-primary w-3/4 sm:max-w-2xl">
 					<h1 className=" text-6xl font-bold tracking-tight pb-11">Vörðr Sæde</h1>
 					<p className=" pb-6">
@@ -25,8 +26,17 @@ export default function Home() {
 					width={1344}
 					height={896}
 				/>
-			</div>
-			<h1>Hello Home</h1>
+			</section>
+			<section className=" w-full text-center pb-12 px-6 sm:px-12">
+				<div>
+					<h1>we offer ...</h1>
+					<div className=" flex flex-row justify-center flex-wrap gap-6">
+						<MarketingCard title={'Excellence'} text={''} image={'/images/marketing/material-wood.png'} />
+						<MarketingCard title={'Opulence'} text={''} image={'/images/marketing/design.png'} />
+						<MarketingCard title={'Artistry'} text={''} image={'/images/marketing/lamp-glass.png'} />
+					</div>
+				</div>
+			</section>
 		</div>
 	);
 }
