@@ -1,4 +1,5 @@
-import MarketingCard from '@/components/MarketingCard';
+import MarketingCard from '@/components/marketingCard';
+import { ARTISTRY_TEXT, EXCELLENCE_TEXT, OPULENCE_TEXT } from '@/lib/consts';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -20,7 +21,7 @@ export default function Home() {
 					</Link>
 				</div>
 				<Image
-					src="/images/banner-hero.png"
+					src="/images/banner/banner-hero.png"
 					alt="banner home"
 					className=" w-full min-h-[calc(100vh-5rem)] object-cover z-10"
 					width={1344}
@@ -31,9 +32,9 @@ export default function Home() {
 				<div>
 					<h1>we offer ...</h1>
 					<div className=" flex flex-row justify-center flex-wrap gap-6">
-						<MarketingCard title={'Excellence'} text={''} image={'/images/marketing/material-wood.png'} />
-						<MarketingCard title={'Opulence'} text={''} image={'/images/marketing/design.png'} />
-						<MarketingCard title={'Artistry'} text={''} image={'/images/marketing/lamp-glass.png'} />
+						<MarketingCard title={'Excellence'} text={EXCELLENCE_TEXT} image={'/images/marketing/material-wood.png'} />
+						<MarketingCard title={'Opulence'} text={OPULENCE_TEXT} image={'/images/marketing/design.png'} />
+						<MarketingCard title={'Artistry'} text={ARTISTRY_TEXT} image={'/images/marketing/lamp-glass.png'} />
 					</div>
 				</div>
 			</section>
