@@ -38,6 +38,38 @@ export default function Home() {
 					</div>
 				</div>
 			</section>
+			<section className=" w-full p-4">
+				<div className="w-full bg-[#f1dce5] rounded-2xl flex flex-col items-center sm:flex-row ">
+					<div className=" w-full p-8 sm:w-1/3">
+						<h2 className=" text-3xl font-semibold pt-0">Collection 1</h2>
+						<p>
+							Some text about this specific collection. This text is fetched from shopify directly but it should not be
+							muhc longer than this text here
+						</p>
+					</div>
+					<div className=" h-96 w-full p-8 sm:w-2/3">
+						<div className=" h-full border border-black ">
+							<div className=" text-center mt-36">Here will be a carousel through a single collection</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section className=" w-full pt-0 p-4">
+				<div className="w-full bg-[#DCE5F1] rounded-2xl flex flex-col-reverse items-center sm:flex-row ">
+					<div className=" h-96 w-full p-8 sm:w-2/3">
+						<div className=" h-full border border-black ">
+							<div className=" text-center mt-36">Here will be a carousel through a single collection</div>
+						</div>
+					</div>
+					<div className=" w-full p-8 sm:w-1/3 text-end">
+						<h2 className=" text-3xl font-semibold pt-0">Collection 2</h2>
+						<p>
+							Some text about this specific collection. This text is fetched from shopify directly but it should not be
+							muhc longer than this text here
+						</p>
+					</div>
+				</div>
+			</section>
 		</div>
 	);
 }
