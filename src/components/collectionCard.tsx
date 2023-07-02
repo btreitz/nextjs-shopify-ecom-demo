@@ -1,6 +1,12 @@
+// Swiper styles
+import 'swiper/css';
+import 'swiper/css/scrollbar';
+
 import { getClient } from '@/lib/gql/ApolloClient';
 import { GetCollectionProductsQuery, GetCollectionProductsQueryVariables } from '@/lib/gql/__generated__/graphql';
 import { collectionProductsQuery } from '@/lib/gql/operations';
+import SwiperWrapper from './swiperWrapper';
+import Image from 'next/image';
 
 type CollectionCardProps = {
 	backgroundColor: string;
@@ -23,9 +29,24 @@ export default async function CollectionCard({
 				<h2 className=" text-4xl font-semibold pt-0">{collectionProducts.title}</h2>
 				<p>{collectionProducts.description}</p>
 			</div>
-			<div className="h-96 w-full p-8 sm:w-2/3">
-				<div className="h-full border border-black">
-					<div className="text-center leading-5 mt-36">Here will be a carousel through a single collection</div>
+			<div className=" w-full p-8 sm:w-2/3">
+				<div className="h-full">
+					<SwiperWrapper props={{ className: ' h-full' }}>
+						{collectionProducts.products.map((product) => (
+							<div key={product.id} className="h-full flex flex-col items-center justify-center">
+								<div className=" w-full rounded-lg overflow-hidden">
+									<Image
+										src={product.images[0].src}
+										alt={product.title}
+										className=" object-contain"
+										width={product.images[0].dimensions?.width || 500}
+										height={product.images[0].dimensions?.height || 500}
+									/>
+								</div>
+								<div className=" w-full pt-5 pb-4 pl-1">{product.title}</div>
+							</div>
+						))}
+					</SwiperWrapper>
 				</div>
 			</div>
 		</div>

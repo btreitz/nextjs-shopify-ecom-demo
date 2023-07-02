@@ -33,3 +33,11 @@
 	box-shadow: 6.7px 6.7px 10px rgba(0, 0, 0, 0.028), 22.3px 22.3px 33.5px rgba(0, 0, 0, 0.042),
 		100px 100px 150px rgba(0, 0, 0, 0.07);
 }
+
+/* If the screen is below 467px then don't display elements with classes swiper-button-next and swiper-button-prev */
+@media (max-width: 467px) {
+	.swiper-button-next,
+	.swiper-button-prev {
+		display: none !important;
+	}
+}
