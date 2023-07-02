@@ -34,10 +34,6 @@
 		100px 100px 150px rgba(0, 0, 0, 0.07);
 }
 
-/* If the screen is below 467px then don't display elements with classes swiper-button-next and swiper-button-prev */
-@media (max-width: 467px) {
-	.swiper-button-next,
-	.swiper-button-prev {
-		display: none !important;
-	}
+.swiper-scrollbar {
+	margin-top: 1rem;
 }

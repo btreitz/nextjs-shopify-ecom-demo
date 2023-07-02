@@ -22,7 +22,9 @@ export default async function CollectionCard({
 	const collectionProducts: CollectionWithProducts = await queryCollectionWithProducts(newestFirst);
 	return (
 		<div
-			className={`w-full rounded-2xl flex flex-col items-center ${rtl ? 'sm:flex-row-reverse' : ''} sm:flex-row`}
+			className={`w-full min-h-[380px] rounded-2xl flex flex-col items-center ${
+				rtl ? 'sm:flex-row-reverse' : ''
+			} sm:flex-row`}
 			style={{ backgroundColor: backgroundColor }}
 		>
 			<div className={`w-full p-8 sm:w-1/3 ${rtl ? 'text-end' : ''}`}>

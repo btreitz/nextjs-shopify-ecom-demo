@@ -36,24 +36,6 @@ export default function SwiperWrapper({ children, props }: SwiperWrapperProps) {
 					<SwiperSlide key={index}>{child}</SwiperSlide>
 				))}
 			</Swiper>
-			<div className=" absolute h-full top-0 z-10 flex flex-col justify-center -ml-7">
-				<button
-					className="swiper-button-prev w-12 h-12 bg-primary rounded-full flex justify-center items-center rotate-90"
-					aria-label="Prev slide"
-					onClick={() => swiper.slidePrev()}
-				>
-					<NextButton />
-				</button>
-			</div>
-			<div className=" absolute h-full top-0 right-0 z-10 flex flex-col justify-center -mr-7">
-				<button
-					className="swiper-button-next w-12 h-12 bg-primary rounded-full flex justify-center items-center -rotate-90"
-					aria-label="Next slide"
-					onClick={() => swiper.slideNext()}
-				>
-					<NextButton />
-				</button>
-			</div>
 		</div>
 	);
 }
