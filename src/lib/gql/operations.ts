@@ -1,5 +1,30 @@
 import { gql } from './__generated__/gql';
 
+export const collectionProductsQuery = gql(/* GraphQL */ `
+	query getCollectionProducts($firstCollections: Int = 1, $newestFirst: Boolean = true) {
+		collections(first: $firstCollections, sortKey: UPDATED_AT, reverse: $newestFirst) {
+			nodes {
+				title
+				description
+				updatedAt
+				products(first: 10) {
+					nodes {
+						id
+						title
+						images(first: 1) {
+							nodes {
+								height
+								width
+								url
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+`);
+
 export const inventoryProductsQuery = gql(/* GraphQL */ `
 	query getProducts($productQuery: String = "", $maxProducts: Int = 100) {
 		products(query: $productQuery, first: $maxProducts) {
