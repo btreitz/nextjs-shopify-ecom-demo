@@ -7,6 +7,7 @@ import { inventoryProductsQuery } from '@/lib/gql/operations';
 import { GetProductsQuery, GetProductsQueryVariables } from '@/lib/gql/__generated__/graphql';
 import { SUPPORTED_PRODUCT_QUERY_PARAMS, combineOR } from '@/lib/gql/utils/queryParams';
 import Image from 'next/image';
+import { encodeShopifyProductId } from '@/lib/utils';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,
@@ -91,7 +92,7 @@ function generateProductQueryParam(params: [string, string][]) {
 
 function createProductFromQueryResponse(product: GetProductsQuery['products']['edges'][0]): InventoryProduct {
 	const { collections, id, title, productType, images, priceRange } = product.node;
-	const encodedId = encodeURIComponent(Buffer.from(id).toString('base64'));
+	const encodedId = encodeShopifyProductId(id);
 	return {
 		id: encodedId,
 		title,

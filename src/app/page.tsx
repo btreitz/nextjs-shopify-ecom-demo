@@ -41,11 +41,11 @@ export default function Home() {
 			</section>
 			<section className="w-full max-w-screen-2xl px-4 py-2">
 				{/* @ts-expect-error Server Component */}
-				<CollectionCard backgroundColor={'#f1dce5'} />
+				<CollectionCard backgroundColor={'#D3E1C2'} />
 			</section>
 			<section className="w-full max-w-screen-2xl px-4 pt-2 pb-12">
 				{/* @ts-expect-error Server Component */}
-				<CollectionCard backgroundColor={'#DCE5F1'} rtl={true} newestFirst={false} />
+				<CollectionCard backgroundColor={'#E1D0C2'} rtl={true} newestFirst={false} />
 			</section>
 		</div>
 	);

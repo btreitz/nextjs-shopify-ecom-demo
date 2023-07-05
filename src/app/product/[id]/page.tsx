@@ -6,6 +6,7 @@ import { GetProductQuery, GetProductQueryVariables } from '@/lib/gql/__generated
 import { productQuery } from '@/lib/gql/operations';
 import { METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import Image from 'next/image';
+import { decodeToShopifyProductId } from '@/lib/utils';
 
 type Props = {
 	params: { id: string };
@@ -57,7 +58,7 @@ export default async function Page({ params }: Props) {
 }
 
 function executeProductQuery(rawId: string) {
-	const decodedId = Buffer.from(decodeURIComponent(rawId), 'base64').toString('utf-8');
+	const decodedId = decodeToShopifyProductId(rawId);
 	return getClient().query<GetProductQuery, GetProductQueryVariables>({
 		query: productQuery,
 		variables: { productId: decodedId },

@@ -2,8 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Scrollbar, A11y, Mousewheel } from 'swiper';
-import { Swiper, SwiperProps, SwiperSlide, useSwiper } from 'swiper/react';
-import NextButton from './icons/NextButton';
+import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react';
 
 type SwiperWrapperProps = {
 	children: React.ReactNode[];
@@ -11,7 +10,6 @@ type SwiperWrapperProps = {
 };
 
 export default function SwiperWrapper({ children, props }: SwiperWrapperProps) {
-	const swiper = useSwiper();
 	const swiperContainerRef = useRef<HTMLDivElement>(null);
 	const [swiperContainerWidth, setSwiperContainerWidth] = useState(swiperContainerRef.current?.offsetWidth);
 
@@ -24,7 +22,6 @@ export default function SwiperWrapper({ children, props }: SwiperWrapperProps) {
 		<div ref={swiperContainerRef} className=" relative">
 			<Swiper
 				modules={[Scrollbar, A11y, Mousewheel]}
-				navigation
 				scrollbar
 				mousewheel
 				slidesPerView={swiperContainerWidth && swiperContainerWidth > 600 ? 3 : 2}

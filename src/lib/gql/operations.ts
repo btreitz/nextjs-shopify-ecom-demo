@@ -4,6 +4,7 @@ export const collectionProductsQuery = gql(/* GraphQL */ `
 	query getCollectionProducts($firstCollections: Int = 1, $newestFirst: Boolean = true) {
 		collections(first: $firstCollections, sortKey: UPDATED_AT, reverse: $newestFirst) {
 			nodes {
+				id
 				title
 				description
 				updatedAt
