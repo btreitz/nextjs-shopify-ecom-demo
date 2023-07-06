@@ -23,13 +23,8 @@
 	}
 }
 
-.shadow-card:hover {
-	box-shadow: 6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028), 22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
-		100px 100px 80px rgba(0, 0, 0, 0.07);
-	transition: box-shadow 0.3s ease-in-out;
-}
-
 .shadow-card {
-	box-shadow: 6.7px 6.7px 10px rgba(0, 0, 0, 0.028), 22.3px 22.3px 33.5px rgba(0, 0, 0, 0.042),
-		100px 100px 150px rgba(0, 0, 0, 0.07);
+	box-shadow: -0.2px -0.2px 1.2px -13px rgba(0, 0, 0, 0.022), 0.2px 0.2px 3px -13px rgba(0, 0, 0, 0.031),
+		1.6px 1.6px 6.2px -13px rgba(0, 0, 0, 0.039), 5px 5px 12.8px -13px rgba(0, 0, 0, 0.048),
+		15px 15px 35px -13px rgba(0, 0, 0, 0.07);
 }
