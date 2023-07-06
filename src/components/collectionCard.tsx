@@ -24,7 +24,7 @@ export default async function CollectionCard({
 	const collectionProducts: CollectionWithProducts = await queryCollectionWithProducts(newestFirst);
 	return (
 		<div
-			className={` relative w-full min-h-[380px] rounded-2xl flex flex-col items-center ${
+			className={` shadow-card relative w-full min-h-[380px] rounded-2xl flex flex-col items-center ${
 				rtl ? 'sm:flex-row-reverse' : ''
 			} sm:flex-row`}
 			style={{ backgroundColor: backgroundColor }}
