@@ -28,3 +28,8 @@
 		1.6px 1.6px 6.2px -13px rgba(0, 0, 0, 0.039), 5px 5px 12.8px -13px rgba(0, 0, 0, 0.048),
 		15px 15px 35px -13px rgba(0, 0, 0, 0.07);
 }
+
+.swiper-pagination-bullet-active {
+	background-color: #126160 !important;
+}
+

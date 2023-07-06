@@ -1,11 +1,7 @@
-// Swiper styles
-import 'swiper/css';
-import 'swiper/css/scrollbar';
-
 import { getClient } from '@/lib/gql/ApolloClient';
 import { GetCollectionProductsQuery, GetCollectionProductsQueryVariables } from '@/lib/gql/__generated__/graphql';
 import { collectionProductsQuery } from '@/lib/gql/operations';
-import SwiperWrapper from './swiperWrapper';
+import SwiperWrapper from './collectionSwiperWrapper';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cleanQueryParam, encodeShopifyProductId } from '@/lib/utils';
