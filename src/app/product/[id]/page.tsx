@@ -7,9 +7,10 @@ import { productQuery } from '@/lib/gql/operations';
 import { METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import Image from 'next/image';
 import { ProductType, decodeToShopifyProductId, getProductDimensions } from '@/lib/utils';
-import ProductSwiperWrapper from '@/components/productSwiperWrapper';
+import ProductSwiperWrapper from '@/components/swiperWrappers/productSwiperWrapper';
 import ProductDecscription from '@/components/productDescription';
 import ArrowDoubleSided from '@/components/icons/ArrowDoubledSided';
+import RecomendationSwiperWrapper from '@/components/swiperWrappers/recommendationSwiperWrapper';
 
 type Props = {
 	params: { id: string };
@@ -56,27 +57,53 @@ export default async function Page({ params }: Props) {
 					))}
 				</ProductSwiperWrapper>
 			</div>
-			<div className=" p-4 text-sm leading-6">
-				<ProductDecscription description={product.description} />
-				<div className=" h-[1px] w-full bg-gray-200 my-4" />
-				<div>
-					<ul>
-						<li className=" flex flex-row items-center w-20 justify-between">
-							<ArrowDoubleSided /> <span>{productDimensions.width}cm</span>
-						</li>
-						<li className=" flex flex-row items-center w-20 justify-between">
-							<ArrowDoubleSided className=" rotate-90" /> <span>{productDimensions.height}cm</span>
-						</li>
-						<li className=" flex flex-row items-center w-20 justify-between">
-							<ArrowDoubleSided className=" -rotate-45" /> <span>{productDimensions.depth}cm</span>
-						</li>
-					</ul>
+			<div className=" p-4">
+				<div className=" text-sm leading-6">
+					<ProductDecscription description={product.description} />
+					<div className=" h-[1px] w-full bg-gray-200 my-4" />
+					<div>
+						<ul>
+							<li className=" flex flex-row items-center w-20 justify-between">
+								<ArrowDoubleSided /> <span>{productDimensions.width}cm</span>
+							</li>
+							<li className=" flex flex-row items-center w-20 justify-between">
+								<ArrowDoubleSided className=" rotate-90" /> <span>{productDimensions.height}cm</span>
+							</li>
+							<li className=" flex flex-row items-center w-20 justify-between">
+								<ArrowDoubleSided className=" -rotate-45" /> <span>{productDimensions.depth}cm</span>
+							</li>
+						</ul>
+					</div>
 				</div>
 				<div className=" h-[1px] w-full bg-gray-200 my-4" />
+				{/* Recommend products from the same collection */}
+				<div>
+					<span>
+						More from collection <i>{product.collections[0].title}</i>
+					</span>
+					<RecomendationSwiperWrapper>
+						<div className=" h-56 w-40 border">Placeholder 1</div>
+						<div className=" h-56 w-40 border">Placeholder 2</div>
+						<div className=" h-56 w-40 border">Placeholder 3</div>
+						<div className=" h-56 w-40 border">Placeholder 4</div>
+						<div className=" h-56 w-40 border">Placeholder 5</div>
+					</RecomendationSwiperWrapper>
+				</div>
+
+				<div className=" h-[1px] w-full bg-gray-200 my-4" />
+				{/* Recomment products from the same product type */}
+				<div>
+					<span>You may also like</span>
+					<RecomendationSwiperWrapper>
+						<div className=" h-56 w-40 border">Placeholder 1</div>
+						<div className=" h-56 w-40 border">Placeholder 2</div>
+						<div className=" h-56 w-40 border">Placeholder 3</div>
+						<div className=" h-56 w-40 border">Placeholder 4</div>
+						<div className=" h-56 w-40 border">Placeholder 5</div>
+					</RecomendationSwiperWrapper>
+				</div>
 			</div>
 
-			{/* Recommend products from the same collection */}
-			{/* Recomment products from the same product type */}
 			<div className=" fixed bottom-0 w-full flex flex-col bg-white bg-opacity-95 text-primary p-4 z-20 border-t">
 				<div className=" flex flex-row justify-between pb-4 px-1 items-center">
 					<div className=" text-lg">{product.title}</div>

@@ -8,12 +8,12 @@ import 'swiper/css/a11y';
 import { A11y, Pagination, Mousewheel } from 'swiper';
 import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react';
 
-type SwiperWrapperProps = {
+type ProductSwiperWrapperProps = {
 	children: React.ReactNode[];
 	props?: SwiperProps;
 };
 
-export default function ProductSwiperWrapper({ children, props }: SwiperWrapperProps) {
+export default function ProductSwiperWrapper({ children, props }: ProductSwiperWrapperProps) {
 	return (
 		<Swiper
 			modules={[A11y, Pagination, Mousewheel]}
