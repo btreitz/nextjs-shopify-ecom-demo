@@ -7,8 +7,10 @@ import {
 	GetProductQueryVariables,
 	GetProductsInCollectionQuery,
 	GetProductsInCollectionQueryVariables,
+	GetProductsOfSameTypeQuery,
+	GetProductsOfSameTypeQueryVariables,
 } from '@/lib/gql/__generated__/graphql';
-import { productQuery, productsInCollectionQuery } from '@/lib/gql/operations/product';
+import { productOfSameTypeQuery, productQuery, productsInCollectionQuery } from '@/lib/gql/operations/product';
 import { METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import Image from 'next/image';
 import { ProductType, decodeToShopifyProductId, encodeShopifyProductId, getProductDimensions } from '@/lib/utils';
@@ -64,7 +66,7 @@ export default async function Page({ params }: Props) {
 	);
 	const recommendedFromProductType: RecommendedProduct[] = await queryProductsByProductType(
 		product.productType,
-		product.collections[0].id,
+		product.collections[0].title,
 	);
 
 	return (
@@ -139,13 +141,22 @@ export default async function Page({ params }: Props) {
 					<>
 						<div className=" h-[1px] w-full bg-gray-200 my-4" />
 						<div>
-							<span>You may also like</span>
+							<div className=" mb-4">You may also like</div>
 							<RecomendationSwiperWrapper>
-								<div className=" h-56 w-40 border">Placeholder 1</div>
-								<div className=" h-56 w-40 border">Placeholder 2</div>
-								<div className=" h-56 w-40 border">Placeholder 3</div>
-								<div className=" h-56 w-40 border">Placeholder 4</div>
-								<div className=" h-56 w-40 border">Placeholder 5</div>
+								{recommendedFromProductType.map((product, index) => (
+									<Link href={`/product/${product.id}`} key={index} className=" h-full">
+										<div className=" w-full rounded-lg overflow-hidden aspect-square">
+											<Image
+												src={product.images.src}
+												alt={product.title}
+												className=" object-contain"
+												width={product.images.dimensions.width || 768}
+												height={product.images.dimensions.height || 1024}
+											/>
+										</div>
+										<div className=" w-full pt-3 mb-6 pl-1">{product.title}</div>
+									</Link>
+								))}
 							</RecomendationSwiperWrapper>
 						</div>
 					</>
@@ -249,9 +260,32 @@ async function queryProductsByCollectionId(id: string, currentProductId: string)
 	}
 }
 
-async function queryProductsByProductType(id: string, excludedCollectionId: string): Promise<RecommendedProduct[]> {
+async function queryProductsByProductType(
+	productType: string,
+	excludedCollectionId: string,
+): Promise<RecommendedProduct[]> {
+	const query = `(product_type:${productType}) NOT (tag:${excludedCollectionId})`;
 	try {
-		return [];
+		const { error, data } = await getClient().query<GetProductsOfSameTypeQuery, GetProductsOfSameTypeQueryVariables>({
+			query: productOfSameTypeQuery,
+			variables: { query },
+		});
+
+		if (error || !data || !data.products) {
+			throw new Error(`Products of type ${productType} not found: Error: ${error}`);
+		}
+
+		return data.products.nodes.map((node) => ({
+			id: encodeShopifyProductId(node.id),
+			title: node.title,
+			images: {
+				dimensions: {
+					width: node.images.nodes[0].width,
+					height: node.images.nodes[0].height,
+				},
+				src: node.images.nodes[0].url,
+			},
+		}));
 	} catch (error) {
 		console.error('error', error);
 		return [];
