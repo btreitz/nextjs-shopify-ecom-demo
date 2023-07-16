@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { BASE_METADATA, METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import { getClient } from '@/lib/gql/ApolloClient';
-import { inventoryProductsQuery } from '@/lib/gql/operations';
+import { productsQuery } from '@/lib/gql/operations/inventory';
 import { GetProductsQuery, GetProductsQueryVariables } from '@/lib/gql/__generated__/graphql';
 import { SUPPORTED_PRODUCT_QUERY_PARAMS, combineOR } from '@/lib/gql/utils/queryParams';
 import Image from 'next/image';
@@ -121,7 +121,7 @@ async function queryProductsByParams(params: [string, string][]): Promise<Invent
 	const productQuery = generateProductQueryParam(params);
 
 	const { data } = await getClient().query<GetProductsQuery, GetProductsQueryVariables>({
-		query: inventoryProductsQuery,
+		query: productsQuery,
 		variables: { maxProducts: 100, productQuery },
 	});
 

@@ -1,6 +1,6 @@
 import { getClient } from '@/lib/gql/ApolloClient';
 import { GetCollectionProductsQuery, GetCollectionProductsQueryVariables } from '@/lib/gql/__generated__/graphql';
-import { collectionProductsQuery } from '@/lib/gql/operations';
+import { collectionProductsQuery } from '@/lib/gql/operations/home';
 import SwiperWrapper from './swiperWrappers/collectionSwiperWrapper';
 import Image from 'next/image';
 import Link from 'next/link';

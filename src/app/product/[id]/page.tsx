@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { getClient } from '@/lib/gql/ApolloClient';
 import { GetProductQuery, GetProductQueryVariables } from '@/lib/gql/__generated__/graphql';
-import { productQuery } from '@/lib/gql/operations';
+import { productQuery } from '@/lib/gql/operations/product';
 import { METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import Image from 'next/image';
 import { ProductType, decodeToShopifyProductId, getProductDimensions } from '@/lib/utils';
@@ -29,16 +29,35 @@ type Product = {
 			height?: number | null;
 		};
 	}[];
-	collections: { id: string; title: string }[];
+	collections: { id: string; title: string; description: string }[];
 	price: {
 		amount: string;
 		currencyCode: string;
 	};
 };
 
+type RecommendedProduct = {
+	id: string;
+	title: string;
+	images: {
+		src: any;
+		dimensions: {
+			width: number | null | undefined;
+			height: number | null | undefined;
+		};
+	};
+};
+
 export default async function Page({ params }: Props) {
 	const product: Product = await queryProductById(params.id);
 	const productDimensions = getProductDimensions(product.productType);
+
+	const recommendedFromCollection: RecommendedProduct[] = await queryProductsByCollectionId(product.collections[0].id);
+	const recommendedFromProductType: RecommendedProduct[] = await queryProductsByProductType(
+		product.productType,
+		product.collections[0].id,
+	);
+
 	return (
 		<div className="  w-full">
 			<div className=" w-full relative">
@@ -75,33 +94,44 @@ export default async function Page({ params }: Props) {
 						</ul>
 					</div>
 				</div>
-				<div className=" h-[1px] w-full bg-gray-200 my-4" />
+				{/* About the collection */}
+				<div>
+					<div className=" h-[1px] w-full bg-gray-200 my-4" />
+					<div>
+						<div className=" mb-3">
+							Collection <span className=" font-medium">{product.collections[0].title}</span>
+						</div>
+						<p className=" text-sm">{product.collections[0].description}</p>
+					</div>
+				</div>
 				{/* Recommend products from the same collection */}
-				<div>
-					<span>
-						More from collection <i>{product.collections[0].title}</i>
-					</span>
-					<RecomendationSwiperWrapper>
-						<div className=" h-56 w-40 border">Placeholder 1</div>
-						<div className=" h-56 w-40 border">Placeholder 2</div>
-						<div className=" h-56 w-40 border">Placeholder 3</div>
-						<div className=" h-56 w-40 border">Placeholder 4</div>
-						<div className=" h-56 w-40 border">Placeholder 5</div>
-					</RecomendationSwiperWrapper>
-				</div>
-
-				<div className=" h-[1px] w-full bg-gray-200 my-4" />
+				{recommendedFromCollection.length > 0 && (
+					<div className=" mt-5">
+						<RecomendationSwiperWrapper>
+							<div className=" h-56 w-40 border">Placeholder 1</div>
+							<div className=" h-56 w-40 border">Placeholder 2</div>
+							<div className=" h-56 w-40 border">Placeholder 3</div>
+							<div className=" h-56 w-40 border">Placeholder 4</div>
+							<div className=" h-56 w-40 border">Placeholder 5</div>
+						</RecomendationSwiperWrapper>
+					</div>
+				)}
 				{/* Recomment products from the same product type */}
-				<div>
-					<span>You may also like</span>
-					<RecomendationSwiperWrapper>
-						<div className=" h-56 w-40 border">Placeholder 1</div>
-						<div className=" h-56 w-40 border">Placeholder 2</div>
-						<div className=" h-56 w-40 border">Placeholder 3</div>
-						<div className=" h-56 w-40 border">Placeholder 4</div>
-						<div className=" h-56 w-40 border">Placeholder 5</div>
-					</RecomendationSwiperWrapper>
-				</div>
+				{recommendedFromProductType.length > 0 && (
+					<>
+						<div className=" h-[1px] w-full bg-gray-200 my-4" />
+						<div>
+							<span>You may also like</span>
+							<RecomendationSwiperWrapper>
+								<div className=" h-56 w-40 border">Placeholder 1</div>
+								<div className=" h-56 w-40 border">Placeholder 2</div>
+								<div className=" h-56 w-40 border">Placeholder 3</div>
+								<div className=" h-56 w-40 border">Placeholder 4</div>
+								<div className=" h-56 w-40 border">Placeholder 5</div>
+							</RecomendationSwiperWrapper>
+						</div>
+					</>
+				)}
 			</div>
 
 			<div className=" fixed bottom-0 w-full flex flex-col bg-white bg-opacity-95 text-primary p-4 z-20 border-t">
@@ -152,9 +182,10 @@ async function queryProductById(id: string): Promise<Product> {
 				},
 				src: image.url,
 			})),
-			collections: data.product.collections.nodes.map(({ id, title }) => ({
+			collections: data.product.collections.nodes.map(({ id, title, description }) => ({
 				id,
 				title,
+				description,
 			})),
 			price: {
 				amount: data.product.variants.nodes[0].priceV2.amount as string,
@@ -164,6 +195,24 @@ async function queryProductById(id: string): Promise<Product> {
 	} catch (error) {
 		console.error('error', error);
 		notFound();
+	}
+}
+
+async function queryProductsByCollectionId(id: string): Promise<RecommendedProduct[]> {
+	try {
+		return [];
+	} catch (error) {
+		console.error('error', error);
+		return [];
+	}
+}
+
+async function queryProductsByProductType(id: string, excludedCollectionId: string): Promise<RecommendedProduct[]> {
+	try {
+		return [];
+	} catch (error) {
+		console.error('error', error);
+		return [];
 	}
 }
 
