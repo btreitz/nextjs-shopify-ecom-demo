@@ -119,7 +119,7 @@ export default async function Page({ params }: Props) {
 						<RecomendationSwiperWrapper>
 							{recommendedFromCollection.map((product, index) => (
 								<Link href={`/product/${product.id}`} key={index} className=" h-full">
-									<div className=" w-full rounded-lg overflow-hidden">
+									<div className=" w-full rounded-lg overflow-hidden aspect-square">
 										<Image
 											src={product.images.src}
 											alt={product.title}
