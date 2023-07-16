@@ -2,15 +2,21 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { getClient } from '@/lib/gql/ApolloClient';
-import { GetProductQuery, GetProductQueryVariables } from '@/lib/gql/__generated__/graphql';
-import { productQuery } from '@/lib/gql/operations/product';
+import {
+	GetProductQuery,
+	GetProductQueryVariables,
+	GetProductsInCollectionQuery,
+	GetProductsInCollectionQueryVariables,
+} from '@/lib/gql/__generated__/graphql';
+import { productQuery, productsInCollectionQuery } from '@/lib/gql/operations/product';
 import { METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import Image from 'next/image';
-import { ProductType, decodeToShopifyProductId, getProductDimensions } from '@/lib/utils';
+import { ProductType, decodeToShopifyProductId, encodeShopifyProductId, getProductDimensions } from '@/lib/utils';
 import ProductSwiperWrapper from '@/components/swiperWrappers/productSwiperWrapper';
 import ProductDecscription from '@/components/productDescription';
 import ArrowDoubleSided from '@/components/icons/ArrowDoubledSided';
 import RecomendationSwiperWrapper from '@/components/swiperWrappers/recommendationSwiperWrapper';
+import Link from 'next/link';
 
 type Props = {
 	params: { id: string };
@@ -52,7 +58,10 @@ export default async function Page({ params }: Props) {
 	const product: Product = await queryProductById(params.id);
 	const productDimensions = getProductDimensions(product.productType);
 
-	const recommendedFromCollection: RecommendedProduct[] = await queryProductsByCollectionId(product.collections[0].id);
+	const recommendedFromCollection: RecommendedProduct[] = await queryProductsByCollectionId(
+		product.collections[0].id,
+		product.id,
+	);
 	const recommendedFromProductType: RecommendedProduct[] = await queryProductsByProductType(
 		product.productType,
 		product.collections[0].id,
@@ -108,11 +117,20 @@ export default async function Page({ params }: Props) {
 				{recommendedFromCollection.length > 0 && (
 					<div className=" mt-5">
 						<RecomendationSwiperWrapper>
-							<div className=" h-56 w-40 border">Placeholder 1</div>
-							<div className=" h-56 w-40 border">Placeholder 2</div>
-							<div className=" h-56 w-40 border">Placeholder 3</div>
-							<div className=" h-56 w-40 border">Placeholder 4</div>
-							<div className=" h-56 w-40 border">Placeholder 5</div>
+							{recommendedFromCollection.map((product, index) => (
+								<Link href={`/product/${product.id}`} key={index} className=" h-full">
+									<div className=" w-full rounded-lg overflow-hidden">
+										<Image
+											src={product.images.src}
+											alt={product.title}
+											className=" object-contain"
+											width={product.images.dimensions.width || 768}
+											height={product.images.dimensions.height || 1024}
+										/>
+									</div>
+									<div className=" w-full pt-3 mb-6 pl-1">{product.title}</div>
+								</Link>
+							))}
 						</RecomendationSwiperWrapper>
 					</div>
 				)}
@@ -198,9 +216,33 @@ async function queryProductById(id: string): Promise<Product> {
 	}
 }
 
-async function queryProductsByCollectionId(id: string): Promise<RecommendedProduct[]> {
+async function queryProductsByCollectionId(id: string, currentProductId: string): Promise<RecommendedProduct[]> {
 	try {
-		return [];
+		const { error, data } = await getClient().query<
+			GetProductsInCollectionQuery,
+			GetProductsInCollectionQueryVariables
+		>({
+			query: productsInCollectionQuery,
+			variables: { collectionId: id },
+		});
+
+		if (error || !data || !data.collection) {
+			throw new Error(`Collection with id ${id} not found: Error: ${error}`);
+		}
+
+		return data.collection.products.nodes
+			.filter((product) => product.id !== currentProductId) // exclude current product
+			.map((product) => ({
+				id: encodeShopifyProductId(product.id),
+				title: product.title,
+				images: {
+					dimensions: {
+						width: product.images.nodes[0].width,
+						height: product.images.nodes[0].height,
+					},
+					src: product.images.nodes[0].url,
+				},
+			}));
 	} catch (error) {
 		console.error('error', error);
 		return [];
