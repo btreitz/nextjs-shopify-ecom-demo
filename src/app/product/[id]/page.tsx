@@ -70,42 +70,58 @@ export default async function Page({ params }: Props) {
 	);
 
 	return (
-		<div className="  w-full">
-			<div className=" w-full relative">
-				<ProductSwiperWrapper props={{ className: ' w-full' }}>
-					{product.images.map((image, index) => (
-						<div key={index} className=" w-full">
-							<Image
-								src={image.src}
-								alt={product.title}
-								className=" object-contain"
-								width={image.dimensions?.width || 768}
-								height={image.dimensions?.height || 1024}
-							/>
-							<div className=" h-8 w-full" />
+		<div className=" w-full max-w-[1920ox]">
+			<div className=" md:flex">
+				<div className=" w-full relative md:w-3/5">
+					<ProductSwiperWrapper props={{ className: ' w-full' }}>
+						{product.images.map((image, index) => (
+							<div key={index} className=" w-full">
+								<Image
+									src={image.src}
+									alt={product.title}
+									className=" object-contain"
+									width={image.dimensions?.width || 768}
+									height={image.dimensions?.height || 1024}
+								/>
+								<div className=" h-8 w-full" />
+							</div>
+						))}
+					</ProductSwiperWrapper>
+				</div>
+				<div className=" p-4 md:w-2/5">
+					<div className=" hidden md:block">
+						<div className=" text-3xl font-light py-2">{product.title}</div>
+						<div className=" py-4">
+							<span>{product.price.amount}</span>{' '}
+							<span>{product.price.currencyCode === 'EUR' ? '€' : product.price.currencyCode}</span>
 						</div>
-					))}
-				</ProductSwiperWrapper>
-			</div>
-			<div className=" p-4">
-				<div className=" text-sm leading-6">
-					<ProductDecscription description={product.description} />
-					<div className=" h-[1px] w-full bg-gray-200 my-4" />
-					<div>
-						<ul>
-							<li className=" flex flex-row items-center w-20 justify-between">
-								<ArrowDoubleSided /> <span>{productDimensions.width}cm</span>
-							</li>
-							<li className=" flex flex-row items-center w-20 justify-between">
-								<ArrowDoubleSided className=" rotate-90" /> <span>{productDimensions.height}cm</span>
-							</li>
-							<li className=" flex flex-row items-center w-20 justify-between">
-								<ArrowDoubleSided className=" -rotate-45" /> <span>{productDimensions.depth}cm</span>
-							</li>
-						</ul>
+					</div>
+					<div className=" text-sm leading-6">
+						<ProductDecscription description={product.description} />
+						<div className=" h-[1px] w-full bg-gray-200 my-4" />
+						<div>
+							<ul>
+								<li className=" flex flex-row items-center w-20 justify-between">
+									<ArrowDoubleSided /> <span>{productDimensions.width}cm</span>
+								</li>
+								<li className=" flex flex-row items-center w-20 justify-between">
+									<ArrowDoubleSided className=" rotate-90" /> <span>{productDimensions.height}cm</span>
+								</li>
+								<li className=" flex flex-row items-center w-20 justify-between">
+									<ArrowDoubleSided className=" -rotate-45" /> <span>{productDimensions.depth}cm</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div className=" hidden md:block pt-6">
+						<div className=" rounded-lg w-full bg-primary text-center p-3 text-white hover:opacity-80 hover:cursor-pointer transition-opacity duration-150">
+							Add to Cart
+						</div>
 					</div>
 				</div>
-				{/* About the collection */}
+			</div>
+			{/* About the collection */}
+			<div className=" p-4">
 				<div>
 					<div className=" h-[1px] w-full bg-gray-200 my-4" />
 					<div>
@@ -163,7 +179,7 @@ export default async function Page({ params }: Props) {
 				)}
 			</div>
 
-			<div className=" fixed bottom-0 w-full flex flex-col bg-white bg-opacity-95 text-primary p-4 z-20 border-t">
+			<div className=" md:hidden fixed bottom-0 w-full flex flex-col bg-white bg-opacity-95 text-primary p-4 z-20 border-t">
 				<div className=" flex flex-row justify-between pb-4 px-1 items-center">
 					<div className=" text-lg">{product.title}</div>
 					<div className=" text-sm">
@@ -262,9 +278,9 @@ async function queryProductsByCollectionId(id: string, currentProductId: string)
 
 async function queryProductsByProductType(
 	productType: string,
-	excludedCollectionId: string,
+	excludedCollectionTitle: string,
 ): Promise<RecommendedProduct[]> {
-	const query = `(product_type:${productType}) NOT (tag:${excludedCollectionId})`;
+	const query = `(product_type:${productType}) NOT (tag:${excludedCollectionTitle})`;
 	try {
 		const { error, data } = await getClient().query<GetProductsOfSameTypeQuery, GetProductsOfSameTypeQueryVariables>({
 			query: productOfSameTypeQuery,
