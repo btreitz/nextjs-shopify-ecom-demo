@@ -5,18 +5,33 @@ import 'swiper/css';
 import 'swiper/css/scrollbar';
 import 'swiper/css/a11y';
 
-import { A11y, Mousewheel, Scrollbar } from 'swiper';
+import { A11y, Scrollbar } from 'swiper';
 import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 type RecommendationWrapperProps = {
 	children: React.ReactNode[];
+	maxCardWidth?: number;
 	props?: SwiperProps;
 };
 
-export default function RecomendationSwiperWrapper({ children, props }: RecommendationWrapperProps) {
+export default function RecomendationSwiperWrapper({
+	children,
+	props,
+	maxCardWidth = 400,
+}: RecommendationWrapperProps) {
 	const swiperContainerRef = useRef<HTMLDivElement>(null);
 	const [swiperContainerWidth, setSwiperContainerWidth] = useState(swiperContainerRef.current?.offsetWidth);
+	const slidesPerView = useMemo(() => {
+		if (swiperContainerWidth && swiperContainerWidth / maxCardWidth > 3) {
+			return swiperContainerWidth / maxCardWidth;
+		} else if (swiperContainerWidth && swiperContainerWidth > 600) {
+			return 3;
+		}
+		return 2;
+	}, [maxCardWidth, swiperContainerWidth]);
+
+	console.log(swiperContainerWidth);
 
 	useEffect(() => {
 		setSwiperContainerWidth(swiperContainerRef.current?.offsetWidth);
@@ -26,10 +41,9 @@ export default function RecomendationSwiperWrapper({ children, props }: Recommen
 	return (
 		<div ref={swiperContainerRef} className=" relative">
 			<Swiper
-				modules={[Scrollbar, A11y, Mousewheel]}
+				modules={[Scrollbar, A11y]}
 				scrollbar
-				mousewheel
-				slidesPerView={swiperContainerWidth && swiperContainerWidth > 600 ? 3 : 2}
+				slidesPerView={slidesPerView}
 				loop={true}
 				spaceBetween={15}
 				{...props}

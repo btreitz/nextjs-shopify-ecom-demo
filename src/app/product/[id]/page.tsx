@@ -70,8 +70,8 @@ export default async function Page({ params }: Props) {
 	);
 
 	return (
-		<div className=" w-full max-w-[1920ox]">
-			<div className=" md:flex">
+		<div className=" w-full max-w-[1920px] md:px-12">
+			<div className=" md:flex md:gap-12">
 				<div className=" w-full relative md:w-3/5">
 					<ProductSwiperWrapper props={{ className: ' w-full' }}>
 						{product.images.map((image, index) => (
@@ -79,7 +79,7 @@ export default async function Page({ params }: Props) {
 								<Image
 									src={image.src}
 									alt={product.title}
-									className=" object-contain"
+									className=" object-contain ml-auto mr-auto"
 									width={image.dimensions?.width || 768}
 									height={image.dimensions?.height || 1024}
 								/>
@@ -88,76 +88,78 @@ export default async function Page({ params }: Props) {
 						))}
 					</ProductSwiperWrapper>
 				</div>
-				<div className=" p-4 md:w-2/5">
-					<div className=" hidden md:block">
-						<div className=" text-3xl font-light py-2">{product.title}</div>
-						<div className=" py-4">
-							<span>{product.price.amount}</span>{' '}
-							<span>{product.price.currencyCode === 'EUR' ? '€' : product.price.currencyCode}</span>
+				<div className="md:w-2/5 flex flex-col">
+					<div className=" p-4 w-full md:p-8 md:bg-light">
+						<div className=" hidden md:block">
+							<h1 className=" text-3xl font-light py-2">{product.title}</h1>
+							<div className=" py-4">
+								<span>{product.price.amount}</span>{' '}
+								<span>{product.price.currencyCode === 'EUR' ? '€' : product.price.currencyCode}</span>
+							</div>
 						</div>
-					</div>
-					<div className=" text-sm leading-6">
-						<ProductDecscription description={product.description} />
-						<div className=" h-[1px] w-full bg-gray-200 my-4" />
-						<div>
-							<ul>
-								<li className=" flex flex-row items-center w-20 justify-between">
-									<ArrowDoubleSided /> <span>{productDimensions.width}cm</span>
-								</li>
-								<li className=" flex flex-row items-center w-20 justify-between">
-									<ArrowDoubleSided className=" rotate-90" /> <span>{productDimensions.height}cm</span>
-								</li>
-								<li className=" flex flex-row items-center w-20 justify-between">
-									<ArrowDoubleSided className=" -rotate-45" /> <span>{productDimensions.depth}cm</span>
-								</li>
-							</ul>
+						<div className=" text-sm leading-6">
+							<ProductDecscription description={product.description} />
+							<div className=" h-[1px] w-full bg-gray-200 my-4" />
+							<div>
+								<ul>
+									<li className=" flex flex-row items-center w-20 justify-between">
+										<ArrowDoubleSided /> <span>{productDimensions.width}cm</span>
+									</li>
+									<li className=" flex flex-row items-center w-20 justify-between">
+										<ArrowDoubleSided className=" rotate-90" /> <span>{productDimensions.height}cm</span>
+									</li>
+									<li className=" flex flex-row items-center w-20 justify-between">
+										<ArrowDoubleSided className=" -rotate-45" /> <span>{productDimensions.depth}cm</span>
+									</li>
+								</ul>
+							</div>
 						</div>
-					</div>
-					<div className=" hidden md:block pt-6">
-						<div className=" rounded-lg w-full bg-primary text-center p-3 text-white hover:opacity-80 hover:cursor-pointer transition-opacity duration-150">
-							Add to Cart
+						<div className=" hidden md:block pt-8">
+							<div className=" rounded-lg w-full bg-primary text-center p-3 text-white hover:opacity-80 hover:cursor-pointer transition-opacity duration-150">
+								Add to Cart
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			{/* About the collection */}
-			<div className=" p-4">
-				<div>
-					<div className=" h-[1px] w-full bg-gray-200 my-4" />
+			<div className=" px-4 pb-6 md:px-0">
+				<div className=" h-[1px] w-full bg-gray-200 mb-4 md:opacity-0" />
+				<div className=" pb-4 md:pt-4">
 					<div>
-						<div className=" mb-3">
+						<h2 className=" py-2 mb-3 md:text-2xl">
 							Collection <span className=" font-medium">{product.collections[0].title}</span>
-						</div>
+						</h2>
 						<p className=" text-sm">{product.collections[0].description}</p>
 					</div>
+					{/* Recommend products from the same collection */}
+					{recommendedFromCollection.length > 0 && (
+						<div className=" mt-5">
+							<RecomendationSwiperWrapper>
+								{recommendedFromCollection.map((product, index) => (
+									<Link href={`/product/${product.id}`} key={index} className=" h-full">
+										<div className=" w-full rounded-lg overflow-hidden aspect-square">
+											<Image
+												src={product.images.src}
+												alt={product.title}
+												className=" object-contain"
+												width={product.images.dimensions.width || 768}
+												height={product.images.dimensions.height || 1024}
+											/>
+										</div>
+										<div className=" w-full pt-3 mb-6 pl-1">{product.title}</div>
+									</Link>
+								))}
+							</RecomendationSwiperWrapper>
+						</div>
+					)}
 				</div>
-				{/* Recommend products from the same collection */}
-				{recommendedFromCollection.length > 0 && (
-					<div className=" mt-5">
-						<RecomendationSwiperWrapper>
-							{recommendedFromCollection.map((product, index) => (
-								<Link href={`/product/${product.id}`} key={index} className=" h-full">
-									<div className=" w-full rounded-lg overflow-hidden aspect-square">
-										<Image
-											src={product.images.src}
-											alt={product.title}
-											className=" object-contain"
-											width={product.images.dimensions.width || 768}
-											height={product.images.dimensions.height || 1024}
-										/>
-									</div>
-									<div className=" w-full pt-3 mb-6 pl-1">{product.title}</div>
-								</Link>
-							))}
-						</RecomendationSwiperWrapper>
-					</div>
-				)}
 				{/* Recomment products from the same product type */}
 				{recommendedFromProductType.length > 0 && (
-					<>
-						<div className=" h-[1px] w-full bg-gray-200 my-4" />
+					<div className=" pb-8">
+						<div className=" h-[1px] w-full bg-gray-200 my-4 md:opacity-0" />
 						<div>
-							<div className=" mb-4">You may also like</div>
+							<h2 className=" py-2 mb-4 md:text-2xl">You may also like</h2>
 							<RecomendationSwiperWrapper>
 								{recommendedFromProductType.map((product, index) => (
 									<Link href={`/product/${product.id}`} key={index} className=" h-full">
@@ -175,11 +177,11 @@ export default async function Page({ params }: Props) {
 								))}
 							</RecomendationSwiperWrapper>
 						</div>
-					</>
+					</div>
 				)}
 			</div>
 
-			<div className=" md:hidden fixed bottom-0 w-full flex flex-col bg-white bg-opacity-95 text-primary p-4 z-20 border-t">
+			<div className=" md:hidden fixed bottom-0 w-full flex flex-col bg-light bg-opacity-95 text-primary p-4 z-20 border-t">
 				<div className=" flex flex-row justify-between pb-4 px-1 items-center">
 					<div className=" text-lg">{product.title}</div>
 					<div className=" text-sm">
