@@ -31,13 +31,10 @@ export default function RecomendationSwiperWrapper({
 		return 2;
 	}, [maxCardWidth, swiperContainerWidth]);
 
-	console.log(swiperContainerWidth);
-
 	useEffect(() => {
 		setSwiperContainerWidth(swiperContainerRef.current?.offsetWidth);
 	}, []);
 
-	// get width of the swiper container
 	return (
 		<div ref={swiperContainerRef} className=" relative">
 			<Swiper
