@@ -1,11 +1,7 @@
-// Swiper styles
-import 'swiper/css';
-import 'swiper/css/scrollbar';
-
 import { getClient } from '@/lib/gql/ApolloClient';
 import { GetCollectionProductsQuery, GetCollectionProductsQueryVariables } from '@/lib/gql/__generated__/graphql';
-import { collectionProductsQuery } from '@/lib/gql/operations';
-import SwiperWrapper from './swiperWrapper';
+import { collectionProductsQuery } from '@/lib/gql/operations/home';
+import SwiperWrapper from './swiperWrappers/collectionSwiperWrapper';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cleanQueryParam, encodeShopifyProductId } from '@/lib/utils';
@@ -41,7 +37,7 @@ export default async function CollectionCard({
 						{collectionProducts.products.map((product) => (
 							<Link href={`/product/${product.id}`} key={product.id} className=" h-full">
 								<div className="h-full flex flex-col items-center justify-center">
-									<div className=" w-full rounded-lg overflow-hidden">
+									<div className=" w-full rounded-lg overflow-hidden aspect-square">
 										<Image
 											src={product.images[0].src}
 											alt={product.title}
@@ -50,7 +46,7 @@ export default async function CollectionCard({
 											height={product.images[0].dimensions?.height || 500}
 										/>
 									</div>
-									<div className=" w-full pt-5 mb-6 pl-1">{product.title}</div>
+									<div className=" w-full pt-3 mb-6 pl-1">{product.title}</div>
 								</div>
 							</Link>
 						))}

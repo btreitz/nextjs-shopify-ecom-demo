@@ -26,7 +26,7 @@ export default function Header() {
 			className=" sticky top-0 w-full backdrop-blur-sm bg-white/10 flex flex-col z-50 items-center"
 			style={{ height: springHeaderHeight }}
 		>
-			<nav className=" h-full w-full max-w-[1920px] flex flex-row justify-between items-center px-5">
+			<nav className=" h-full w-full max-w-[1680px] flex flex-row justify-between items-center px-5">
 				<div className=" flex justify-start">
 					<Menu headerRef={headerRef} />
 				</div>

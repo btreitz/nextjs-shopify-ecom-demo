@@ -1,15 +1,20 @@
 'use client';
 
+// Swiper styles
+import 'swiper/css';
+import 'swiper/css/scrollbar';
+import 'swiper/css/a11y';
+
 import { useEffect, useRef, useState } from 'react';
 import { Scrollbar, A11y, Mousewheel } from 'swiper';
 import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react';
 
-type SwiperWrapperProps = {
+type CollectionSwiperWrapperProps = {
 	children: React.ReactNode[];
-	props: SwiperProps;
+	props?: SwiperProps;
 };
 
-export default function SwiperWrapper({ children, props }: SwiperWrapperProps) {
+export default function CollectionSwiperWrapper({ children, props }: CollectionSwiperWrapperProps) {
 	const swiperContainerRef = useRef<HTMLDivElement>(null);
 	const [swiperContainerWidth, setSwiperContainerWidth] = useState(swiperContainerRef.current?.offsetWidth);
 
