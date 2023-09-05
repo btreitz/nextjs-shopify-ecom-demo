@@ -33,6 +33,11 @@
 	background-color: #126160 !important;
 }
 
+.swiper-button-next,
+.swiper-button-prev {
+	color: #126160 !important;
+}
+
 dialog {
 	max-width: 100vw;
 	max-height: 100vh;

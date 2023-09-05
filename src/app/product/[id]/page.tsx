@@ -70,21 +70,19 @@ export default async function Page({ params }: Props) {
 	);
 
 	return (
-		<div className=" w-full max-w-[1920px] md:px-12">
+		<div className=" w-full max-w-[1680px] md:px-12">
 			<div className=" md:flex md:gap-12">
 				<div className=" w-full relative md:w-3/5">
-					<ProductSwiperWrapper props={{ className: ' w-full' }}>
+					<ProductSwiperWrapper props={{ className: ' w-full' }} productTitle={product.title}>
 						{product.images.map((image, index) => (
-							<div key={index} className=" w-full">
-								<Image
-									src={image.src}
-									alt={product.title}
-									className=" object-contain ml-auto mr-auto"
-									width={image.dimensions?.width || 768}
-									height={image.dimensions?.height || 1024}
-								/>
-								<div className=" h-8 w-full" />
-							</div>
+							<Image
+								key={index}
+								src={image.src}
+								alt={product.title}
+								className=" object-contain ml-auto mr-auto h-full"
+								width={image.dimensions?.width || 768}
+								height={image.dimensions?.height || 1024}
+							/>
 						))}
 					</ProductSwiperWrapper>
 				</div>
