@@ -53,7 +53,7 @@ export default function ProductSwiperWrapper({ children, productTitle, props }: 
 			<DialogModal
 				openModal={openDialog}
 				closeModal={() => setOpenDialog(false)}
-				props={{ className: ' w-screen h-screen bg-background' }}
+				props={{ className: ' w-full h-full bg-background' }}
 			>
 				<div className=" w-full h-full flex flex-col ">
 					<div className=" sticky top-0 flex justify-between h-16 items-center border-b border-gray-200 px-8 bg-light z-10">
