@@ -10,6 +10,7 @@ import { SUPPORTED_PRODUCT_QUERY_PARAMS, combineOR } from '@/lib/gql/utils/query
 import { encodeShopifyProductId } from '@/lib/utils';
 
 import SortIcon from '@/components/icons/Sort';
+import FilterIcon from '@/components/icons/Filter';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,
@@ -52,29 +53,42 @@ export default async function Page({ searchParams }: Props) {
 	const products: InventoryProduct[] = await queryProductsByParams(Object.entries(searchParams));
 	const resultCount = products.length;
 	return (
-		<div className=" flex flex-col px-4">
-			<div className=" flex justify-between text-sm pt-1 pb-4 items-center">
-				<div className=" opacity-60 hover:opacity-100">{resultCount} Results</div>
-				<div className=" opacity-60 hover:opacity-100">
-					<SortIcon className=" h-7 w-7" />
+		<>
+			<div className=" flex flex-col px-4">
+				<div className=" flex justify-between text-sm pt-1 pb-4 items-center">
+					<div className=" opacity-60 hover:opacity-100">{resultCount} Results</div>
+					<div className=" opacity-60 hover:opacity-100">
+						<SortIcon className=" h-7 w-7" />
+					</div>
+				</div>
+				<div className=" h-[1px] w-full bg-gray-200 mb-4" />
+				<div className=" flex flex-row flex-wrap gap-4">
+					{products.map((product, index) => (
+						<Link href={`/product/${product.id}`} key={index}>
+							<div className=" w-full flex flex-col">
+								<Image
+									alt="product image"
+									src={product.images[0].src}
+									className=" object-contain h-full"
+									width={product.images[0].dimensions?.width || 768}
+									height={product.images[0].dimensions?.height || 1024}
+								/>
+								<div className=" flex flex-col text-sm py-2 leading-6">
+									<span className=" text-base">{product.title}</span>
+									<div className=" text-sm opacity-60">
+										<span>{product.price.amount}</span>{' '}
+										<span>{product.price.currencyCode === 'EUR' ? '€' : product.price.currencyCode}</span>
+									</div>
+								</div>
+							</div>
+						</Link>
+					))}
 				</div>
 			</div>
-			<div className=" h-[1px] w-full bg-gray-200 mb-4" />
-			<div className=" flex flex-row gap-5 flex-wrap">
-				{products.map((product, index) => (
-					<Link href={`/product/${product.id}`} key={index}>
-						<div className=" border border-transparent rounded w-60 h-80 flex flex-col justify-between text-sm hover:border-slate-300">
-							<Image alt="product image" src={product.images[0].src} width={200} height={200} />
-							<div className=" flex flex-col">
-								<span>{product.title}</span>
-								<span>{product.productType}</span>
-								<span>Collections: {product.collections.map((collection) => collection.title).join(', ')}</span>
-							</div>
-						</div>
-					</Link>
-				))}
+			<div className=" sticky bottom-10 bg-primary rounded px-4 py-2 text-white text-sm flex flex-row items-center gap-2 my-12">
+				Filter <FilterIcon className=" h-5 w-6 fill-white" />
 			</div>
-		</div>
+		</>
 	);
 }
 
