@@ -1,13 +1,15 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { BASE_METADATA, METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import { getClient } from '@/lib/gql/ApolloClient';
 import { productsQuery } from '@/lib/gql/operations/inventory';
 import { GetProductsQuery, GetProductsQueryVariables } from '@/lib/gql/__generated__/graphql';
 import { SUPPORTED_PRODUCT_QUERY_PARAMS, combineOR } from '@/lib/gql/utils/queryParams';
-import Image from 'next/image';
 import { encodeShopifyProductId } from '@/lib/utils';
+
+import SortIcon from '@/components/icons/Sort';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,
@@ -48,12 +50,20 @@ type InventoryProduct = {
 
 export default async function Page({ searchParams }: Props) {
 	const products: InventoryProduct[] = await queryProductsByParams(Object.entries(searchParams));
+	const resultCount = products.length;
 	return (
-		<>
+		<div className=" flex flex-col px-4">
+			<div className=" flex justify-between text-sm pt-1 pb-4 items-center">
+				<div className=" opacity-60 hover:opacity-100">{resultCount} Results</div>
+				<div className=" opacity-60 hover:opacity-100">
+					<SortIcon className=" h-7 w-7" />
+				</div>
+			</div>
+			<div className=" h-[1px] w-full bg-gray-200 mb-4" />
 			<div className=" flex flex-row gap-5 flex-wrap">
 				{products.map((product, index) => (
 					<Link href={`/product/${product.id}`} key={index}>
-						<div className=" border border-transparent rounded p-4 w-60 h-80 flex flex-col justify-between text-sm hover:border-slate-300">
+						<div className=" border border-transparent rounded w-60 h-80 flex flex-col justify-between text-sm hover:border-slate-300">
 							<Image alt="product image" src={product.images[0].src} width={200} height={200} />
 							<div className=" flex flex-col">
 								<span>{product.title}</span>
@@ -64,7 +74,7 @@ export default async function Page({ searchParams }: Props) {
 					</Link>
 				))}
 			</div>
-		</>
+		</div>
 	);
 }
 
