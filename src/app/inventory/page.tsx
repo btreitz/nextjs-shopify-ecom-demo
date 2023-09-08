@@ -9,8 +9,7 @@ import { GetProductsQuery, GetProductsQueryVariables } from '@/lib/gql/__generat
 import { SUPPORTED_PRODUCT_QUERY_PARAMS, combineOR } from '@/lib/gql/utils/queryParams';
 import { encodeShopifyProductId } from '@/lib/utils';
 
-import SortIcon from '@/components/icons/Sort';
-import FilterIcon from '@/components/icons/Filter';
+import InventoryFilter from '@/components/inventoryFilter';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,
@@ -55,11 +54,8 @@ export default async function Page({ searchParams }: Props) {
 	return (
 		<>
 			<div className=" flex flex-col px-4">
-				<div className=" flex justify-between text-sm pt-1 pb-4 items-center">
+				<div className=" flex justify-end text-sm pt-1 pb-4 items-center">
 					<div className=" opacity-60 hover:opacity-100">{resultCount} Results</div>
-					<div className=" opacity-60 hover:opacity-100">
-						<SortIcon className=" h-7 w-7" />
-					</div>
 				</div>
 				<div className=" h-[1px] w-full bg-gray-200 mb-4" />
 				<div className=" flex flex-row flex-wrap gap-4">
@@ -85,9 +81,7 @@ export default async function Page({ searchParams }: Props) {
 					))}
 				</div>
 			</div>
-			<div className=" sticky bottom-10 bg-primary rounded px-4 py-2 text-white text-sm flex flex-row items-center gap-2 my-12">
-				Filter <FilterIcon className=" h-5 w-6 fill-white" />
-			</div>
+			<InventoryFilter />
 		</>
 	);
 }

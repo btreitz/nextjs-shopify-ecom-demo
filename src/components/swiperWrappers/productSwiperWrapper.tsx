@@ -11,7 +11,7 @@ import { Swiper, SwiperProps, SwiperRef, SwiperSlide } from 'swiper/react';
 import ZoomIcon from '../icons/Zoom';
 import { useRef, useState } from 'react';
 import DialogModal from '../dialogModal';
-import BurgerButton from '../layout/burgerButton';
+import ExitIcon from '../icons/Exit';
 
 type ProductSwiperWrapperProps = {
 	children: React.ReactNode[];
@@ -56,9 +56,11 @@ export default function ProductSwiperWrapper({ children, productTitle, props }: 
 				props={{ className: ' w-full h-full bg-background' }}
 			>
 				<div className=" w-full h-full flex flex-col ">
-					<div className=" sticky top-0 flex justify-between h-16 items-center border-b border-gray-200 px-8 bg-light z-10">
+					<div className=" sticky top-0 flex justify-between h-16 items-center border-b border-gray-200 px-5 bg-light z-10">
 						<div>{productTitle}</div>
-						<BurgerButton isOpen={openDialog} setIsOpen={setOpenDialog} />
+						<button onClick={() => setOpenDialog(false)}>
+							<ExitIcon />
+						</button>
 					</div>
 					<div className=" flex justify-center max-h-[calc(100%-4rem)]">
 						<Swiper

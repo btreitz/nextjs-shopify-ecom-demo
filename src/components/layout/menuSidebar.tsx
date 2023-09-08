@@ -1,17 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { RefObject, useEffect, useState } from 'react';
+import { RefObject, useContext, useEffect } from 'react';
 
 import collections from './collections';
-import BurgerButton from './burgerButton';
+import { SideBarContext } from './contexts';
 
-type MenuProps = {
+type MenuSidebarProps = {
 	headerRef: RefObject<HTMLElement>;
 };
 
-export default function Menu({ headerRef }: MenuProps) {
-	const [isOpen, setIsOpen] = useState(false);
+export default function MenuSidebar({ headerRef }: MenuSidebarProps) {
+	const { leftIsOpen, setLeftIsOpen } = useContext(SideBarContext);
 
 	// TODO: Check if current pathname is active to highlight in navbar
 	/*
@@ -23,33 +23,35 @@ export default function Menu({ headerRef }: MenuProps) {
 	useEffect(() => {
 		// if isOpen is true, then add a class to the body to prevent scrolling
 		if (typeof window !== 'undefined') {
-			if (isOpen) {
+			if (leftIsOpen) {
 				document.body.classList.add('overflow-hidden');
 			} else {
 				document.body.classList.remove('overflow-hidden');
 			}
 		}
-	}, [isOpen]);
+	}, [leftIsOpen]);
 
 	return (
 		<>
-			<BurgerButton isOpen={isOpen} setIsOpen={setIsOpen} />
-
 			<div
-				className={` absolute left-0 z-40 w-full bg-black/60 cursor-pointer ${isOpen === false && ' hidden'}`}
+				className={` absolute left-0 z-40 w-full bg-black/60 cursor-pointer ${leftIsOpen === false && ' hidden'}`}
 				style={{ height: `calc(100vh - ${headerHeight}px)`, top: `${headerHeight}px` }}
-				onClick={() => setIsOpen(false)}
+				onClick={() => setLeftIsOpen(false)}
 			/>
 			<div
 				className={` absolute left-0 z-50 w-96 max-w-full xs:w-full px-8 pb-8 overflow-y-auto bg-backgroundSecondary border-r border-gray-200 cursor-default transition-transform ease-out duration-500 ${
-					isOpen === false && ' transform -translate-x-full'
+					leftIsOpen === false && ' transform -translate-x-full'
 				}`}
 				style={{ height: `calc(100vh - ${headerHeight}px)`, top: `${headerHeight}px` }}
 				onClick={(e) => e.stopPropagation()}
 			>
 				<div className=" flex flex-col">
 					<div className=" flex flex-col">
-						<Link href={{ pathname: '/inventory' }} className=" hoverable mt-4 mb-3" onClick={() => setIsOpen(false)}>
+						<Link
+							href={{ pathname: '/inventory' }}
+							className=" hoverable mt-4 mb-3"
+							onClick={() => setLeftIsOpen(false)}
+						>
 							<span className=" text-xl">All Collections</span>
 						</Link>
 					</div>
@@ -58,7 +60,7 @@ export default function Menu({ headerRef }: MenuProps) {
 							<Link
 								href={{ pathname: '/inventory', query: { category: collection.query } }}
 								className=" hoverable mt-4 mb-3"
-								onClick={() => setIsOpen(false)}
+								onClick={() => setLeftIsOpen(false)}
 							>
 								<span className=" text-xl">{collection.category}</span>
 							</Link>
@@ -69,7 +71,7 @@ export default function Menu({ headerRef }: MenuProps) {
 											href={{ pathname: '/inventory', query: { collection: item.query } }}
 											key={index}
 											className=" hoverable"
-											onClick={() => setIsOpen(false)}
+											onClick={() => setLeftIsOpen(false)}
 										>
 											{item.label}
 										</Link>
