@@ -8,6 +8,7 @@ import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import BurgerButton from './burgerButton';
 import MenuSidebar from './menuSidebar';
+import FilterSidebar from './filterSidebar';
 
 export const animLimit = 50; // scroll limit in pixels
 
@@ -44,6 +45,7 @@ export default function Header() {
 				</nav>
 			</motion.header>
 			<MenuSidebar headerRef={headerRef} />
+			<FilterSidebar headerRef={headerRef} />
 		</>
 	);
 }
