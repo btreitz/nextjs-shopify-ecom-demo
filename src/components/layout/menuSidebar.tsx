@@ -15,7 +15,12 @@ export default function MenuSidebar({ header }: MenuSidebarProps) {
 	const { menuSidebarIsOpen, setMenuSidebarIsOpen } = useContext(SideBarContext);
 
 	return (
-		<Sidebar header={header} isOpen={menuSidebarIsOpen} orientation="left">
+		<Sidebar
+			className={` px-8 pb-8 bg-backgroundSecondary`}
+			header={header}
+			isOpen={menuSidebarIsOpen}
+			orientation="left"
+		>
 			<div className=" flex flex-col">
 				<div className=" flex flex-col">
 					<Link

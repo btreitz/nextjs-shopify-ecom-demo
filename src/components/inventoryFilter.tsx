@@ -6,16 +6,6 @@ import FilterIcon from '@/components/icons/Filter';
 import { useContext } from 'react';
 import { SideBarContext } from './layout/contexts';
 
-const sortVariants = {
-	dateDesc: 'Newest',
-	dateAsc: 'Oldest',
-	prizeAsc: 'Price: Low to High',
-	prizeDesc: 'Price: High to Low',
-	productType: 'Product Type',
-	name: 'Name: a to z',
-} as const;
-type SortVariant = keyof typeof sortVariants;
-
 type InventoryFilterProps = {};
 
 export default function InventoryFilter({}: InventoryFilterProps) {

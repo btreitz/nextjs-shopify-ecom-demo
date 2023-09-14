@@ -8,9 +8,10 @@ type SidebarProps = {
 	header: RefObject<HTMLElement>;
 	isOpen: boolean;
 	orientation: 'left' | 'right';
+	className?: string;
 };
 
-export default function Sidebar({ children, header, isOpen, orientation }: SidebarProps) {
+export default function Sidebar({ children, header, isOpen, orientation, className }: SidebarProps) {
 	const headerHeight = header.current?.clientHeight ?? 0;
 	const { closeSidebars } = useContext(SideBarContext);
 	const sidebarRef = useRef<HTMLDivElement>(null);
@@ -43,7 +44,7 @@ export default function Sidebar({ children, header, isOpen, orientation }: Sideb
 	return (
 		<div
 			ref={sidebarRef}
-			className={` absolute z-50 w-96 max-w-full xs:w-full px-8 pb-8 overflow-y-auto bg-backgroundSecondary border-r border-gray-200 cursor-default transition-transform ease-out duration-500 ${
+			className={` ${className} absolute z-50 w-96 max-w-full xs:w-full overflow-y-auto border-r border-gray-200 cursor-default transition-transform ease-out duration-500 ${
 				orientation === 'left' ? 'left-0' : 'right-0'
 			} ${
 				isOpen === false ? (orientation === 'left' ? 'transform -translate-x-full' : 'transform translate-x-full') : ''
