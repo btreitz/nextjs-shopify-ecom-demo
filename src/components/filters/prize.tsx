@@ -1,9 +1,11 @@
-import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
+
+import Slider from 'rc-slider';
 import { useState } from 'react';
 
 const MIN_PRIZE = 0;
 const MAX_PRIZE = 5000;
+let timeout: NodeJS.Timeout | null = null;
 
 type PrizeProps = {};
 
@@ -14,7 +16,8 @@ export default function Prize({}: PrizeProps) {
 		setValue(value);
 
 		// if the value does not change within 500ms, then update the url
-		setTimeout(() => {
+		if (timeout) clearTimeout(timeout);
+		timeout = setTimeout(() => {
 			console.log('update url');
 		}, 500);
 	};
