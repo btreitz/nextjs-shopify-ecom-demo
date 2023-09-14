@@ -1,3 +1,5 @@
+'use client';
+
 import { createContext } from 'react';
 
 export const SideBarContext = createContext({
@@ -5,4 +7,5 @@ export const SideBarContext = createContext({
 	setLeftIsOpen: (value: boolean) => {},
 	rightIsOpen: false,
 	setRightIsOpen: (value: boolean) => {},
+	closeOpenSidebars: () => {},
 });

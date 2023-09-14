@@ -1,17 +1,19 @@
 'use client';
 
-import React, { RefObject, useEffect } from 'react';
+import React, { RefObject, useContext, useEffect, useRef } from 'react';
+import { SideBarContext } from './layout/contexts';
 
 type SidebarProps = {
 	children: React.ReactNode;
-	headerRef: RefObject<HTMLElement>;
+	header: RefObject<HTMLElement>;
 	isOpen: boolean;
-	setIsOpen: (isOpen: boolean) => void;
 	orientation: 'left' | 'right';
 };
 
-export default function Sidebar({ children, headerRef, isOpen, setIsOpen, orientation }: SidebarProps) {
-	const headerHeight = headerRef.current?.clientHeight || 0;
+export default function Sidebar({ children, header, isOpen, orientation }: SidebarProps) {
+	const headerHeight = header.current?.clientHeight ?? 0;
+	const { closeOpenSidebars } = useContext(SideBarContext);
+	const sidebarRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		// if isOpen is true, then add a class to the body to prevent scrolling
@@ -24,32 +26,32 @@ export default function Sidebar({ children, headerRef, isOpen, setIsOpen, orient
 		}
 	}, [isOpen]);
 
+	useEffect(() => {
+		const handleOutsideClick = (e: MouseEvent) => {
+			if (isOpen && !sidebarRef.current?.contains(e.target as Node)) {
+				closeOpenSidebars();
+			}
+		};
+
+		document.addEventListener('click', handleOutsideClick);
+
+		return () => {
+			document.removeEventListener('click', handleOutsideClick);
+		};
+	}, [isOpen, closeOpenSidebars]);
+
 	return (
-		<>
-			{/* Background dimming */}
-			<div
-				className={` absolute z-40 w-full bg-black/60 cursor-pointer ${isOpen === false && ' hidden'} ${
-					orientation === 'left' ? ' left-0' : ' right-0'
-				}`}
-				style={{ height: `calc(100vh - ${headerHeight}px)`, top: `${headerHeight}px` }}
-				onClick={() => setIsOpen(false)}
-			/>
-			{/* Sidebar */}
-			<div
-				className={` absolute z-50 w-96 max-w-full xs:w-full px-8 pb-8 overflow-y-auto bg-backgroundSecondary border-r border-gray-200 cursor-default transition-transform ease-out duration-500 ${
-					orientation === 'left' ? ' left-0' : ' right-0'
-				} ${
-					isOpen === false
-						? orientation === 'left'
-							? ' transform -translate-x-full'
-							: ' transform translate-x-full'
-						: ''
-				}`}
-				style={{ height: `calc(100vh - ${headerHeight}px)`, top: `${headerHeight}px` }}
-				onClick={(e) => e.stopPropagation()}
-			>
-				{children}
-			</div>
-		</>
+		<div
+			ref={sidebarRef}
+			className={` absolute z-50 w-96 max-w-full xs:w-full px-8 pb-8 overflow-y-auto bg-backgroundSecondary border-r border-gray-200 cursor-default transition-transform ease-out duration-500 ${
+				orientation === 'left' ? 'left-0' : 'right-0'
+			} ${
+				isOpen === false ? (orientation === 'left' ? 'transform -translate-x-full' : 'transform translate-x-full') : ''
+			}`}
+			style={{ height: `calc(100vh - ${headerHeight}px)`, top: `${headerHeight}px` }}
+			onClick={(e) => e.stopPropagation()}
+		>
+			{children}
+		</div>
 	);
 }

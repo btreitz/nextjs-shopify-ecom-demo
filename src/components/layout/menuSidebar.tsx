@@ -1,21 +1,21 @@
 'use client';
 
 import Link from 'next/link';
-import { RefObject, useContext, useEffect } from 'react';
+import { RefObject, useContext } from 'react';
 
 import collections from './collections';
 import { SideBarContext } from './contexts';
 import Sidebar from '../sidebar';
 
 type MenuSidebarProps = {
-	headerRef: RefObject<HTMLElement>;
+	header: RefObject<HTMLElement>;
 };
 
-export default function MenuSidebar({ headerRef }: MenuSidebarProps) {
+export default function MenuSidebar({ header }: MenuSidebarProps) {
 	const { leftIsOpen, setLeftIsOpen } = useContext(SideBarContext);
 
 	return (
-		<Sidebar headerRef={headerRef} isOpen={leftIsOpen} setIsOpen={setLeftIsOpen} orientation="left">
+		<Sidebar header={header} isOpen={leftIsOpen} orientation="left">
 			<div className=" flex flex-col">
 				<div className=" flex flex-col">
 					<Link href={{ pathname: '/inventory' }} className=" hoverable mt-4 mb-3" onClick={() => setLeftIsOpen(false)}>

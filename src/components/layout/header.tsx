@@ -7,19 +7,19 @@ import HeaderLogo from './headerLogo';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import BurgerButton from './burgerButton';
-import MenuSidebar from './menuSidebar';
-import FilterSidebar from './filterSidebar';
+import Sidebars from './sidebars';
 
 export const animLimit = 50; // scroll limit in pixels
 
-export default function Header() {
-	const headerRef = useRef<HTMLElement>(null);
+type HeaderProps = {};
 
+export default function Header({}: HeaderProps) {
+	const headerRef = useRef<HTMLElement>(null);
 	const { scrollY } = useScroll();
 	const headerHeightRaw = useTransform(scrollY, [0, animLimit], [5, 3]);
 	const springHeaderHeight = useTransform(
 		useSpring(headerHeightRaw, { mass: 0.3, stiffness: 200 }),
-		(val) => `${val}rem`,
+		(val) => `${(val as number).toFixed(2)}rem`,
 	);
 
 	return (
@@ -43,9 +43,8 @@ export default function Header() {
 						</button>
 					</div>
 				</nav>
+				<Sidebars header={headerRef} />
 			</motion.header>
-			<MenuSidebar headerRef={headerRef} />
-			<FilterSidebar headerRef={headerRef} />
 		</>
 	);
 }
