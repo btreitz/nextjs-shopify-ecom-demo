@@ -19,14 +19,14 @@ type SortVariant = keyof typeof sortVariants;
 type InventoryFilterProps = {};
 
 export default function InventoryFilter({}: InventoryFilterProps) {
-	const { rightIsOpen, setRightIsOpen } = useContext(SideBarContext);
+	const { filterSidebarIsOpen, setFilterSidebarIsOpen } = useContext(SideBarContext);
 
 	return (
 		<motion.div
 			initial={{ y: '5rem' }}
 			animate={{ y: 0 }}
 			className=" sticky bottom-10 text-white text-sm my-12 flex flex-row justify-center gap-2 bg-primary rounded px-4 py-2"
-			onClick={() => setRightIsOpen(!rightIsOpen)}
+			onClick={() => setFilterSidebarIsOpen(!filterSidebarIsOpen)}
 		>
 			Filter <FilterIcon className=" h-5 w-6 fill-white" />
 		</motion.div>

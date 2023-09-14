@@ -12,7 +12,7 @@ type SidebarProps = {
 
 export default function Sidebar({ children, header, isOpen, orientation }: SidebarProps) {
 	const headerHeight = header.current?.clientHeight ?? 0;
-	const { closeOpenSidebars } = useContext(SideBarContext);
+	const { closeSidebars } = useContext(SideBarContext);
 	const sidebarRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -29,7 +29,7 @@ export default function Sidebar({ children, header, isOpen, orientation }: Sideb
 	useEffect(() => {
 		const handleOutsideClick = (e: MouseEvent) => {
 			if (isOpen && !sidebarRef.current?.contains(e.target as Node)) {
-				closeOpenSidebars();
+				closeSidebars();
 			}
 		};
 
@@ -38,7 +38,7 @@ export default function Sidebar({ children, header, isOpen, orientation }: Sideb
 		return () => {
 			document.removeEventListener('click', handleOutsideClick);
 		};
-	}, [isOpen, closeOpenSidebars]);
+	}, [isOpen, closeSidebars]);
 
 	return (
 		<div

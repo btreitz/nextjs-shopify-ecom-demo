@@ -6,8 +6,8 @@ type SidebarBackgroundProps = {
 };
 
 export default function SidebarBackground({ header }: SidebarBackgroundProps) {
-	const { leftIsOpen, rightIsOpen } = useContext(SideBarContext);
-	const isOpen = leftIsOpen || rightIsOpen;
+	const { menuSidebarIsOpen, filterSidebarIsOpen } = useContext(SideBarContext);
+	const isOpen = menuSidebarIsOpen || filterSidebarIsOpen;
 
 	const headerHeight = header.current?.clientHeight || 0;
 

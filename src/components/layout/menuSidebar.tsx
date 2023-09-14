@@ -12,13 +12,17 @@ type MenuSidebarProps = {
 };
 
 export default function MenuSidebar({ header }: MenuSidebarProps) {
-	const { leftIsOpen, setLeftIsOpen } = useContext(SideBarContext);
+	const { menuSidebarIsOpen, setMenuSidebarIsOpen } = useContext(SideBarContext);
 
 	return (
-		<Sidebar header={header} isOpen={leftIsOpen} orientation="left">
+		<Sidebar header={header} isOpen={menuSidebarIsOpen} orientation="left">
 			<div className=" flex flex-col">
 				<div className=" flex flex-col">
-					<Link href={{ pathname: '/inventory' }} className=" hoverable mt-4 mb-3" onClick={() => setLeftIsOpen(false)}>
+					<Link
+						href={{ pathname: '/inventory' }}
+						className=" hoverable mt-4 mb-3"
+						onClick={() => setMenuSidebarIsOpen(false)}
+					>
 						<span className=" text-xl">All Collections</span>
 					</Link>
 				</div>
@@ -27,7 +31,7 @@ export default function MenuSidebar({ header }: MenuSidebarProps) {
 						<Link
 							href={{ pathname: '/inventory', query: { category: collection.query } }}
 							className=" hoverable mt-4 mb-3"
-							onClick={() => setLeftIsOpen(false)}
+							onClick={() => setMenuSidebarIsOpen(false)}
 						>
 							<span className=" text-xl">{collection.category}</span>
 						</Link>
@@ -38,7 +42,7 @@ export default function MenuSidebar({ header }: MenuSidebarProps) {
 										href={{ pathname: '/inventory', query: { collection: item.query } }}
 										key={index}
 										className=" hoverable"
-										onClick={() => setLeftIsOpen(false)}
+										onClick={() => setMenuSidebarIsOpen(false)}
 									>
 										{item.label}
 									</Link>

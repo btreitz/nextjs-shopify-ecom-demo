@@ -8,36 +8,36 @@ type ProviderProps = {
 };
 
 export function Providers({ children }: ProviderProps) {
-	const [leftIsOpen, setLeftIsOpen] = useState(false);
-	const [rightIsOpen, setRightIsOpen] = useState(false);
+	const [menuSidebarIsOpen, setMenuSidebarIsOpen] = useState(false);
+	const [filterSidebarIsOpen, setFilterSidebarIsOpen] = useState(false);
 
-	const closeAllSidebar = () => {
-		leftIsOpen && setLeftIsOpen(false);
-		rightIsOpen && setRightIsOpen(false);
+	const closeAllSidebars = () => {
+		menuSidebarIsOpen && setMenuSidebarIsOpen(false);
+		filterSidebarIsOpen && setFilterSidebarIsOpen(false);
 	};
 
-	const onSetLeftIsOpen = (isOpen: boolean) => {
+	const onSetMenuSidebarIsOpen = (isOpen: boolean) => {
 		if (isOpen) {
-			closeAllSidebar();
+			closeAllSidebars();
 		}
-		setLeftIsOpen(isOpen);
+		setMenuSidebarIsOpen(isOpen);
 	};
 
-	const onSetRightIsOpen = (isOpen: boolean) => {
+	const onSetFilterSidebarIsOpen = (isOpen: boolean) => {
 		if (isOpen) {
-			closeAllSidebar();
+			closeAllSidebars();
 		}
-		setRightIsOpen(isOpen);
+		setFilterSidebarIsOpen(isOpen);
 	};
 
 	return (
 		<SideBarContext.Provider
 			value={{
-				leftIsOpen,
-				setLeftIsOpen: onSetLeftIsOpen,
-				rightIsOpen,
-				setRightIsOpen: onSetRightIsOpen,
-				closeOpenSidebars: closeAllSidebar,
+				menuSidebarIsOpen,
+				setMenuSidebarIsOpen: onSetMenuSidebarIsOpen,
+				filterSidebarIsOpen,
+				setFilterSidebarIsOpen: onSetFilterSidebarIsOpen,
+				closeSidebars: closeAllSidebars,
 			}}
 		>
 			{children}

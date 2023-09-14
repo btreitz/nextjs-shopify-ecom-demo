@@ -9,10 +9,10 @@ type FilterSidebarProps = {
 };
 
 export default function FilterSidebar({ header }: FilterSidebarProps) {
-	const { rightIsOpen } = useContext(SideBarContext);
+	const { filterSidebarIsOpen } = useContext(SideBarContext);
 
 	return (
-		<Sidebar header={header} isOpen={rightIsOpen} orientation="left">
+		<Sidebar header={header} isOpen={filterSidebarIsOpen} orientation="left">
 			<div className=" flex flex-col">TEST</div>
 		</Sidebar>
 	);
