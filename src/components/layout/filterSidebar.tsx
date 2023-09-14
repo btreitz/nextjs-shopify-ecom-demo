@@ -5,6 +5,7 @@ import { SideBarContext } from './contexts';
 import Sidebar from '../sidebar';
 import Sort from '../filters/sort';
 import ProductType from '../filters/productType';
+import Prize from '../filters/prize';
 
 type FilterSidebarProps = {
 	header: RefObject<HTMLElement>;
@@ -20,6 +21,8 @@ export default function FilterSidebar({ header }: FilterSidebarProps) {
 					<Sort />
 					<div className=" h-[1px] w-full bg-gray-200"></div>
 					<ProductType />
+					<div className=" h-[1px] w-full bg-gray-200"></div>
+					<Prize />
 				</div>
 
 				<div className=" border-t-[1px] border-black flex flex-row p-2 gap-2 text-sm">

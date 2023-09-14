@@ -26,6 +26,7 @@
 		"graphql": "^16.6.0",
 		"next": "13.4.4",
 		"postcss": "8.4.23",
+		"rc-slider": "^10.2.1",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
 		"swiper": "^9.4.1",
