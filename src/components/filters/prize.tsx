@@ -35,9 +35,9 @@ export default function Prize({}: PrizeProps) {
 	useEffect(() => {
 		const newRange = getInitialRange();
 		if (newRange) setRange(newRange);
-	}, [getInitialRange, searchParams]);
+	}, [getInitialRange]);
 
-	const updateQueryParams = (newRange: [number, number]) => {
+	const getUpdateQueryParams = (newRange: [number, number]) => {
 		const newSearchParams = new URLSearchParams(Array.from(searchParams.entries()));
 
 		if (newRange[0] === MIN_PRIZE) {
@@ -52,17 +52,22 @@ export default function Prize({}: PrizeProps) {
 			newSearchParams.set(paramNames[1], newRange[1].toString());
 		}
 
-		const url = `${pathname}?${newSearchParams.toString()}`;
-		router.push(url);
+		return `${pathname}?${newSearchParams.toString()}`;
 	};
 
 	const handleOnChange = (newRange: [number, number]) => {
 		setRange(newRange);
-		// if the value does not change within 500ms, then update the url
 		if (timeout) clearTimeout(timeout);
 		timeout = setTimeout(() => {
-			updateQueryParams(newRange);
+			timeout = null;
+			router.prefetch(getUpdateQueryParams(newRange));
 		}, 500);
+	};
+
+	const handleOnAfterChange = (newRange: [number, number]) => {
+		// if the value does not change within 500ms, then update the url
+		const url = getUpdateQueryParams(newRange);
+		router.push(url);
 	};
 
 	return (
@@ -73,6 +78,7 @@ export default function Prize({}: PrizeProps) {
 					range={true}
 					value={range}
 					onChange={(newValue) => handleOnChange(newValue as [number, number])}
+					onAfterChange={(newVal) => handleOnAfterChange(newVal as [number, number])}
 					pushable={true}
 					min={MIN_PRIZE}
 					max={MAX_PRIZE}
