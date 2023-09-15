@@ -1,24 +1,67 @@
 import 'rc-slider/assets/index.css';
 
 import Slider from 'rc-slider';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { SUPPORTED_PRODUCT_QUERY_PARAMS } from '@/lib/gql/utils/queryParams';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 const MIN_PRIZE = 0;
 const MAX_PRIZE = 5000;
 let timeout: NodeJS.Timeout | null = null;
+const paramNames: [keyof typeof SUPPORTED_PRODUCT_QUERY_PARAMS, keyof typeof SUPPORTED_PRODUCT_QUERY_PARAMS] = [
+	'priceMin',
+	'priceMax',
+];
 
 type PrizeProps = {};
 
 export default function Prize({}: PrizeProps) {
-	const [value, setValue] = useState<[number, number]>([MIN_PRIZE, MAX_PRIZE]);
+	const router = useRouter();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
 
-	const handleOnChange = (value: [number, number]) => {
-		setValue(value);
+	const getInitialRange: () => [number, number] = useCallback(() => {
+		const paramValues = paramNames.map((paramName) => searchParams.get(paramName)) as [string | null, string | null];
+		const [min, max] = paramValues.map((value) => (value && !isNaN(Number(value)) ? +value : null)) as [
+			number | null,
+			number | null,
+		];
 
+		return [min ? Math.max(MIN_PRIZE, min) : MIN_PRIZE, max ? Math.min(MAX_PRIZE, max) : MAX_PRIZE];
+	}, [searchParams]);
+
+	const [range, setRange] = useState<[number, number]>(getInitialRange());
+
+	useEffect(() => {
+		const newRange = getInitialRange();
+		if (newRange) setRange(newRange);
+	}, [getInitialRange, searchParams]);
+
+	const updateQueryParams = (newRange: [number, number]) => {
+		const newSearchParams = new URLSearchParams(Array.from(searchParams.entries()));
+
+		if (newRange[0] === MIN_PRIZE) {
+			newSearchParams.delete(paramNames[0]);
+		} else {
+			newSearchParams.set(paramNames[0], newRange[0].toString());
+		}
+
+		if (newRange[1] === MAX_PRIZE) {
+			newSearchParams.delete(paramNames[1]);
+		} else {
+			newSearchParams.set(paramNames[1], newRange[1].toString());
+		}
+
+		const url = `${pathname}?${newSearchParams.toString()}`;
+		router.push(url);
+	};
+
+	const handleOnChange = (newRange: [number, number]) => {
+		setRange(newRange);
 		// if the value does not change within 500ms, then update the url
 		if (timeout) clearTimeout(timeout);
 		timeout = setTimeout(() => {
-			console.log('update url');
+			updateQueryParams(newRange);
 		}, 500);
 	};
 
@@ -28,7 +71,7 @@ export default function Prize({}: PrizeProps) {
 			<div className=" pb-2">
 				<Slider
 					range={true}
-					value={value}
+					value={range}
 					onChange={(newValue) => handleOnChange(newValue as [number, number])}
 					pushable={true}
 					min={MIN_PRIZE}
@@ -48,8 +91,8 @@ export default function Prize({}: PrizeProps) {
 				/>
 			</div>
 			<div className=" w-full flex flex-row justify-between text-sm">
-				<div>{value[0].toFixed(2)} €</div>
-				<div>{value[1].toFixed(2)} €</div>
+				<div>{range[0].toFixed(2)} €</div>
+				<div>{range[1].toFixed(2)} €</div>
 			</div>
 		</div>
 	);

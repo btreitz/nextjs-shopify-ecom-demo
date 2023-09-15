@@ -6,6 +6,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { SUPPORTED_PRODUCT_QUERY_PARAMS } from '@/lib/gql/utils/queryParams';
 import { productTypes } from '../layout/collections';
 
+const paramName: keyof typeof SUPPORTED_PRODUCT_QUERY_PARAMS = 'category';
+
 type ProductTypeVariant = keyof typeof productTypes;
 
 type ProductTypeProps = {};
@@ -16,7 +18,6 @@ export default function ProductType({}: ProductTypeProps) {
 	const searchParams = useSearchParams();
 
 	const getInitialSelection: () => ProductTypeVariant[] = useCallback(() => {
-		const paramName: keyof typeof SUPPORTED_PRODUCT_QUERY_PARAMS = 'category';
 		const paramValue = searchParams.getAll(paramName).flatMap((value) => value.split(','));
 		// filter out invalid values
 		const validValues = paramValue.filter((value) => Object.keys(productTypes).includes(value)) as ProductTypeVariant[];
@@ -32,6 +33,7 @@ export default function ProductType({}: ProductTypeProps) {
 	}, [getInitialSelection, searchParams]);
 
 	const isSelected = (key: string) => selected.includes(key as ProductTypeVariant);
+
 	const onSelect = (key: string) => {
 		let newSelection: ProductTypeVariant[] = [];
 		if (isSelected(key)) {
@@ -44,10 +46,8 @@ export default function ProductType({}: ProductTypeProps) {
 	};
 
 	const updateQueryParams = (newSelection: ProductTypeVariant[]) => {
-		const paramName: keyof typeof SUPPORTED_PRODUCT_QUERY_PARAMS = 'category';
-
 		const newSearchParams = new URLSearchParams(Array.from(searchParams.entries()));
-		if (newSelection.length === 0) {
+		if (newSelection.length === 0 || newSelection.length === Object.keys(productTypes).length) {
 			newSearchParams.delete(paramName);
 		} else {
 			newSearchParams.set(paramName, newSelection.join(','));

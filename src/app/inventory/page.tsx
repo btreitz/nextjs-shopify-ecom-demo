@@ -53,9 +53,11 @@ export default async function Page({ searchParams }: Props) {
 	const resultCount = products.length;
 	return (
 		<>
-			<div className=" flex flex-col px-4">
+			<div className=" w-full flex flex-col px-4">
 				<div className=" flex justify-end text-sm pt-1 pb-4 items-center">
-					<div className=" opacity-60 hover:opacity-100">{resultCount} Results</div>
+					<div className=" opacity-60 hover:opacity-100">
+						{resultCount} {resultCount !== 1 ? 'Results' : 'Result'}
+					</div>
 				</div>
 				<div className=" h-[1px] w-full bg-gray-200 mb-4" />
 				<div className=" flex flex-row flex-wrap gap-4">
