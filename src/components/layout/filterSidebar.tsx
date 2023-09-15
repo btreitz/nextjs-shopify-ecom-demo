@@ -30,15 +30,15 @@ export default function FilterSidebar({ header }: FilterSidebarProps) {
 					<Collection />
 				</div>
 
-				<div className=" border-t-[1px] border-black flex flex-row p-2 gap-2 text-sm">
+				<div className=" absolute bottom-0 w-full border-t-[1px] border-gray-200 flex flex-row p-4 gap-2 bg-light bg-opacity-95">
 					<div
-						className=" flex-1 text-center border-[1px] border-black rounded py-2"
+						className=" w-1/4 text-center border-[1px] border-gray-400 rounded py-2"
 						onClick={() => router.push('/inventory')}
 					>
 						Reset
 					</div>
 					<div
-						className=" flex-1 text-center border-[1px] border-primary rounded py-2 bg-primary text-white"
+						className=" w-3/4 text-center border-[1px] border-primary rounded py-2 bg-primary text-white"
 						onClick={() => setFilterSidebarIsOpen(false)}
 					>
 						Apply
