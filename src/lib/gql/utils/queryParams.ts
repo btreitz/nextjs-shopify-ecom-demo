@@ -5,6 +5,10 @@ export const SUPPORTED_PRODUCT_QUERY_PARAMS = {
 	priceMax: 'variants.price:<=',
 } as const;
 
+export const SUPPORTED_PRODUCT_SORT_PARAMS = {
+	sort: 'sortKey',
+} as const;
+
 export function combineOR(paramName: string, values: string[]) {
 	return values.map((value) => `(${paramName}${value.trim()})`).join(' OR ');
 }

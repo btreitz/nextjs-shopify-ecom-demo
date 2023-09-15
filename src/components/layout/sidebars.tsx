@@ -1,10 +1,9 @@
-'use-client';
+'use client';
 
-import { RefObject, useContext, useEffect } from 'react';
+import { RefObject } from 'react';
 import FilterSidebar from './filterSidebar';
 import MenuSidebar from './menuSidebar';
 import SidebarBackground from './sidebarBackground';
-import { SideBarContext } from './contexts';
 
 type SidebarsProps = {
 	header: RefObject<HTMLElement>;

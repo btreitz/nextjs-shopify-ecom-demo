@@ -5,9 +5,11 @@ import Image from 'next/image';
 import { BASE_METADATA, METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import { getClient } from '@/lib/gql/ApolloClient';
 import { productsQuery } from '@/lib/gql/operations/inventory';
-import { GetProductsQuery, GetProductsQueryVariables } from '@/lib/gql/__generated__/graphql';
+import { GetProductsQuery, GetProductsQueryVariables, ProductSortKeys } from '@/lib/gql/__generated__/graphql';
 import { SUPPORTED_PRODUCT_QUERY_PARAMS, combineOR } from '@/lib/gql/utils/queryParams';
 import { encodeShopifyProductId } from '@/lib/utils';
+import { SortVariant } from '@/components/filters/sort';
+import { sortVariants, sortParam } from '@/lib/clientExports';
 
 import InventoryFilter from '@/components/inventoryFilter';
 
@@ -110,6 +112,12 @@ function generateProductQueryParam(params: [string, string][]) {
 	);
 }
 
+function getSortKeyFromSearchParams(params: [string, string][]): { key: ProductSortKeys; reverse: boolean } {
+	const sortKeyParam = params.find(([key]) => key === sortParam);
+	const sortVariant = sortKeyParam && sortKeyParam[1] in sortVariants ? (sortKeyParam[1] as SortVariant) : 'dateDesc';
+	return { key: sortVariants[sortVariant].key, reverse: sortVariants[sortVariant].reverse };
+}
+
 function createProductFromQueryResponse(product: GetProductsQuery['products']['edges'][0]): InventoryProduct {
 	const { collections, id, title, productType, images, priceRange } = product.node;
 	const encodedId = encodeShopifyProductId(id);
@@ -139,10 +147,11 @@ function createProductFromQueryResponse(product: GetProductsQuery['products']['e
  */
 async function queryProductsByParams(params: [string, string][]): Promise<InventoryProduct[]> {
 	const productQuery = generateProductQueryParam(params);
+	const productSortKey = getSortKeyFromSearchParams(params);
 
 	const { data } = await getClient().query<GetProductsQuery, GetProductsQueryVariables>({
 		query: productsQuery,
-		variables: { maxProducts: 100, productQuery },
+		variables: { maxProducts: 100, productQuery, sortKey: productSortKey.key, reverse: productSortKey.reverse },
 	});
 
 	return data.products.edges.map(createProductFromQueryResponse);
