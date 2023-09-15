@@ -72,7 +72,7 @@ export default function Prize({}: PrizeProps) {
 
 	return (
 		<div>
-			<div className=" text-md pb-4 pt-0">Prize</div>
+			<div className=" text-lg pb-4 pt-0">Price</div>
 			<div className=" pb-2">
 				<Slider
 					range={true}

@@ -8,7 +8,7 @@ type BaseFilterProps = {
 export default function BaseFilter({ title, items, isSelected, onSelect }: BaseFilterProps) {
 	return (
 		<div>
-			<div className=" text-md pb-4 pt-0">{title}</div>
+			<div className=" text-lg pb-4 pt-0">{title}</div>
 			<ul className=" grid grid-cols-2 auto-rows-fr gap-2 list-none">
 				{Object.entries(items).map(([key, value]) => (
 					<li

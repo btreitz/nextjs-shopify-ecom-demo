@@ -14,13 +14,12 @@ type FilterSidebarProps = {
 };
 
 export default function FilterSidebar({ header }: FilterSidebarProps) {
-	const { filterSidebarIsOpen, setFilterSidebarIsOpen } = useContext(SideBarContext);
-	const router = useRouter();
+	const { filterSidebarIsOpen } = useContext(SideBarContext);
 
 	return (
 		<Sidebar className={` bg-backgroundSecondary`} header={header} isOpen={filterSidebarIsOpen} orientation="left">
 			<div className=" h-full w-full flex flex-col">
-				<div className=" flex-1 flex flex-col px-8 pb-8 overflow-y-scroll gap-4 pt-4">
+				<div className=" flex-1 flex flex-col px-8 pb-24 overflow-y-scroll gap-4 pt-4">
 					<Sort />
 					<div className=" h-[1px] min-h-[1px] w-full bg-gray-200"></div>
 					<ProductType />
@@ -28,21 +27,6 @@ export default function FilterSidebar({ header }: FilterSidebarProps) {
 					<Prize />
 					<div className=" h-[1px] min-h-[1px] w-full bg-gray-200"></div>
 					<Collection />
-				</div>
-
-				<div className=" sticky bottom-0 w-full border-t-[1px] border-gray-200 flex flex-row p-4 gap-2 bg-light bg-opacity-95">
-					<div
-						className=" w-1/4 text-center border-[1px] border-gray-400 rounded py-2"
-						onClick={() => router.push('/inventory')}
-					>
-						Reset
-					</div>
-					<div
-						className=" w-3/4 text-center border-[1px] border-primary rounded py-2 bg-primary text-white"
-						onClick={() => setFilterSidebarIsOpen(false)}
-					>
-						Apply
-					</div>
 				</div>
 			</div>
 		</Sidebar>
