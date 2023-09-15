@@ -30,7 +30,7 @@ export default function FilterSidebar({ header }: FilterSidebarProps) {
 					<Collection />
 				</div>
 
-				<div className=" absolute bottom-0 w-full border-t-[1px] border-gray-200 flex flex-row p-4 gap-2 bg-light bg-opacity-95">
+				<div className=" sticky bottom-0 w-full border-t-[1px] border-gray-200 flex flex-row p-4 gap-2 bg-light bg-opacity-95">
 					<div
 						className=" w-1/4 text-center border-[1px] border-gray-400 rounded py-2"
 						onClick={() => router.push('/inventory')}
