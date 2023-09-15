@@ -1,67 +1,83 @@
-type Collection = {
-	category: string;
-	query: string;
+export const collections = {
+	'skogstjern-mobelsett': 'Skogstjern Mobelsett',
+	'havsglede-enhet': 'Havsglede Enhet',
+	'sommardrom-kombinasjon': 'Sommardrom Kombinasjon',
+	'vinterlyst-stue': 'Vinterlyst Stue',
+	'solnedgang-salong': 'Solnedgang Salong',
+	'snofall-sovesal': 'Snofall Sovesal',
+	'nattlys-ensemble': 'Nattlys Ensemble',
+	'ljungskog-sovesett': 'Ljungskog Sovesett',
+	'fjellvind-hygge': 'Fjellvind Hygge',
+} as const;
+
+export const productTypes = {
+	chairs: 'Chairs',
+	lamps: 'Lamps',
+	tables: 'Tables',
+} as const;
+
+type MenuProductType = {
+	category: (typeof productTypes)[keyof typeof productTypes];
+	query: keyof typeof productTypes;
 	children?: {
-		label: string;
-		query: string;
+		label: (typeof collections)[keyof typeof collections];
+		query: keyof typeof collections;
 	}[];
 };
 
-const collections: Collection[] = [
+export const menu: MenuProductType[] = [
 	{
-		category: 'Chairs',
+		category: productTypes.chairs,
 		query: 'chairs',
 		children: [
 			{
-				label: 'Skogstjern Mobelsett',
+				label: collections['skogstjern-mobelsett'],
 				query: 'skogstjern-mobelsett',
 			},
 			{
-				label: 'Havsglede Enhet',
+				label: collections['havsglede-enhet'],
 				query: 'havsglede-enhet',
 			},
 			{
-				label: 'Sommardrom Kombinasjon',
+				label: collections['sommardrom-kombinasjon'],
 				query: 'sommardrom-kombinasjon',
 			},
 		],
 	},
 	{
-		category: 'Lamps',
+		category: productTypes.lamps,
 		query: 'lamps',
 		children: [
 			{
-				label: 'Vinterlyst Stue',
+				label: collections['vinterlyst-stue'],
 				query: 'vinterlyst-stue',
 			},
 			{
-				label: 'Solnedgang Salong',
+				label: collections['solnedgang-salong'],
 				query: 'solnedgang-salong',
 			},
 			{
-				label: 'Snofall Sovesal',
+				label: collections['snofall-sovesal'],
 				query: 'snofall-sovesal',
 			},
 		],
 	},
 	{
-		category: 'Tables',
+		category: productTypes.tables,
 		query: 'tables',
 		children: [
 			{
-				label: 'Nattlys Ensemble',
+				label: collections['nattlys-ensemble'],
 				query: 'nattlys-ensemble',
 			},
 			{
-				label: 'Ljungskog Sovesett',
+				label: collections['ljungskog-sovesett'],
 				query: 'ljungskog-sovesett',
 			},
 			{
-				label: 'Fjellvind Hygge',
+				label: collections['fjellvind-hygge'],
 				query: 'fjellvind-hygge',
 			},
 		],
 	},
 ];
-
-export default collections;

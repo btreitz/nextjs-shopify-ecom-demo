@@ -1,50 +1,50 @@
 'use-client';
 
 import { useCallback, useEffect, useState } from 'react';
-import BaseFilter from './base';
+import { collections } from '../layout/collections';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { SUPPORTED_PRODUCT_QUERY_PARAMS } from '@/lib/gql/utils/queryParams';
-import { productTypes } from '../layout/collections';
+import BaseFilter from './base';
 
-type ProductTypeVariant = keyof typeof productTypes;
+type CollectionVariant = keyof typeof collections;
 
-type ProductTypeProps = {};
+type CollectionProps = {};
 
-export default function ProductType({}: ProductTypeProps) {
+export default function Collection({}: CollectionProps) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 
-	const getInitialSelection: () => ProductTypeVariant[] = useCallback(() => {
-		const paramName: keyof typeof SUPPORTED_PRODUCT_QUERY_PARAMS = 'category';
+	const getInitialSelection: () => CollectionVariant[] = useCallback(() => {
+		const paramName: keyof typeof SUPPORTED_PRODUCT_QUERY_PARAMS = 'collection';
 		const paramValue = searchParams.getAll(paramName).flatMap((value) => value.split(','));
 		// filter out invalid values
-		const validValues = paramValue.filter((value) => Object.keys(productTypes).includes(value)) as ProductTypeVariant[];
+		const validValues = paramValue.filter((value) => Object.keys(collections).includes(value)) as CollectionVariant[];
 
-		return validValues.length >= 1 ? validValues : (Object.keys(productTypes) as ProductTypeVariant[]);
+		return validValues.length >= 1 ? validValues : (Object.keys(collections) as CollectionVariant[]);
 	}, [searchParams]);
 
-	const [selected, setSelected] = useState<ProductTypeVariant[]>(getInitialSelection());
+	const [selected, setSelected] = useState<CollectionVariant[]>(getInitialSelection());
 
 	useEffect(() => {
 		const newSelection = getInitialSelection();
 		if (newSelection) setSelected(newSelection);
 	}, [getInitialSelection, searchParams]);
 
-	const isSelected = (key: string) => selected.includes(key as ProductTypeVariant);
+	const isSelected = (key: string) => selected.includes(key as CollectionVariant);
 	const onSelect = (key: string) => {
-		let newSelection: ProductTypeVariant[] = [];
+		let newSelection: CollectionVariant[] = [];
 		if (isSelected(key)) {
 			newSelection = selected.filter((item) => item !== key);
 		} else {
-			newSelection = [...selected, key as ProductTypeVariant];
+			newSelection = [...selected, key as CollectionVariant];
 		}
 		setSelected(newSelection);
 		updateQueryParams(newSelection);
 	};
 
-	const updateQueryParams = (newSelection: ProductTypeVariant[]) => {
-		const paramName: keyof typeof SUPPORTED_PRODUCT_QUERY_PARAMS = 'category';
+	const updateQueryParams = (newSelection: CollectionVariant[]) => {
+		const paramName: keyof typeof SUPPORTED_PRODUCT_QUERY_PARAMS = 'collection';
 
 		const newSearchParams = new URLSearchParams(Array.from(searchParams.entries()));
 		if (newSelection.length === 0) {
@@ -57,5 +57,5 @@ export default function ProductType({}: ProductTypeProps) {
 		router.push(url);
 	};
 
-	return <BaseFilter title="Product Types" items={productTypes} isSelected={isSelected} onSelect={onSelect} />;
+	return <BaseFilter title="Collections" items={collections} isSelected={isSelected} onSelect={onSelect} />;
 }

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { RefObject, useContext } from 'react';
 
-import collections from './collections';
+import { menu } from './collections';
 import { SideBarContext } from './contexts';
 import Sidebar from '../sidebar';
 
@@ -31,18 +31,18 @@ export default function MenuSidebar({ header }: MenuSidebarProps) {
 						<span className=" text-xl">All Collections</span>
 					</Link>
 				</div>
-				{collections.map((collection, index) => (
+				{menu.map((collectionType, index) => (
 					<div key={index} className=" flex flex-col">
 						<Link
-							href={{ pathname: '/inventory', query: { category: collection.query } }}
+							href={{ pathname: '/inventory', query: { category: collectionType.query } }}
 							className=" hoverable mt-4 mb-3"
 							onClick={() => setMenuSidebarIsOpen(false)}
 						>
-							<span className=" text-xl">{collection.category}</span>
+							<span className=" text-xl">{collectionType.category}</span>
 						</Link>
-						{collection.children && (
+						{collectionType.children && (
 							<div className=" flex flex-col pl-3">
-								{collection.children.map((item, index) => (
+								{collectionType.children.map((item, index) => (
 									<Link
 										href={{ pathname: '/inventory', query: { collection: item.query } }}
 										key={index}
