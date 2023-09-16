@@ -1,7 +1,8 @@
 'use client';
 
-import { SideBarContext } from '@/components/layout/contexts';
 import { useState } from 'react';
+import { SideBarContext } from '@/components/layout/contexts';
+import { CookiesProvider } from 'react-cookie';
 
 type ProviderProps = {
 	children: React.ReactNode;
@@ -31,16 +32,18 @@ export function Providers({ children }: ProviderProps) {
 	};
 
 	return (
-		<SideBarContext.Provider
-			value={{
-				menuSidebarIsOpen,
-				setMenuSidebarIsOpen: onSetMenuSidebarIsOpen,
-				filterSidebarIsOpen,
-				setFilterSidebarIsOpen: onSetFilterSidebarIsOpen,
-				closeSidebars: closeAllSidebars,
-			}}
-		>
-			{children}
-		</SideBarContext.Provider>
+		<CookiesProvider>
+			<SideBarContext.Provider
+				value={{
+					menuSidebarIsOpen,
+					setMenuSidebarIsOpen: onSetMenuSidebarIsOpen,
+					filterSidebarIsOpen,
+					setFilterSidebarIsOpen: onSetFilterSidebarIsOpen,
+					closeSidebars: closeAllSidebars,
+				}}
+			>
+				{children}
+			</SideBarContext.Provider>
+		</CookiesProvider>
 	);
 }

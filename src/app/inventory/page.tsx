@@ -12,6 +12,7 @@ import { SortVariant } from '@/components/filters/sort';
 import { sortVariants, sortParam } from '@/lib/clientExports';
 
 import InventoryFilter from '@/components/inventoryFilter';
+import Favorize from '@/components/favorize';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,
@@ -66,13 +67,16 @@ export default async function Page({ searchParams }: Props) {
 					{products.map((product, index) => (
 						<Link href={`/product/${product.id}`} key={index}>
 							<div className=" w-full flex flex-col">
-								<Image
-									alt="product image"
-									src={product.images[0].src}
-									className=" object-contain h-full"
-									width={product.images[0].dimensions?.width || 768}
-									height={product.images[0].dimensions?.height || 1024}
-								/>
+								<div className=" w-full h-full relative">
+									<Image
+										alt="product image"
+										src={product.images[0].src}
+										className=" object-contain h-full"
+										width={product.images[0].dimensions?.width || 768}
+										height={product.images[0].dimensions?.height || 1024}
+									/>
+									<Favorize id={product.id} />
+								</div>
 								<div className=" flex flex-col text-sm py-2 leading-6">
 									<span className=" text-base">{product.title}</span>
 									<div className=" text-sm opacity-60">

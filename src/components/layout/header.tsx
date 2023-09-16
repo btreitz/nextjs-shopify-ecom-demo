@@ -8,6 +8,7 @@ import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import BurgerButton from './burgerButton';
 import Sidebars from './sidebars';
+import Heart from '../icons/Heart';
 
 export const animLimit = 50; // scroll limit in pixels
 
@@ -34,8 +35,11 @@ export default function Header({}: HeaderProps) {
 						<BurgerButton />
 					</div>
 					<HeaderLogo />
-					<div className=" flex justify-end gap-5">
-						<Link href="#" className=" hoverable">
+					<div className=" flex justify-end items-center gap-5">
+						<Link href="/favorites" className=" hoverable">
+							<Heart />
+						</Link>
+						<Link href="/cart" className=" hoverable">
 							<IconCart />
 						</Link>
 						<button className=" hoverable">
