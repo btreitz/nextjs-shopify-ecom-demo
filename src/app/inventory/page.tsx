@@ -75,7 +75,7 @@ export default async function Page({ searchParams }: Props) {
 										width={product.images[0].dimensions?.width || 768}
 										height={product.images[0].dimensions?.height || 1024}
 									/>
-									<Favorize id={product.id} />
+									<Favorize id={product.id} className=" absolute top-3 right-3" />
 								</div>
 								<div className=" flex flex-col text-sm py-2 leading-6">
 									<span className=" text-base">{product.title}</span>

@@ -9,15 +9,15 @@ import { COOKIE_SEPARATOR, FAVORITES_COOKIE, FAVORITES_COOKIE_OPTIONS } from './
 
 type FavorizeProps = {
 	id: string;
+	heartHeight?: number;
+	className?: string;
 };
 
-export default function Favorize({ id }: FavorizeProps) {
+export default function Favorize({ id, heartHeight = 26, className }: FavorizeProps) {
 	const [cookies, setCookie] = useCookies([FAVORITES_COOKIE]);
 	const idIsInCookie: boolean = useMemo(() => {
 		return cookies.fav ? (cookies.fav as string).split(COOKIE_SEPARATOR).includes(id) : false;
 	}, [cookies.fav, id]);
-
-	// console.log('isIdInCookie: ', id + ': ' + idIsInCookie);
 
 	const toogleFavorize = (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
@@ -45,10 +45,10 @@ export default function Favorize({ id }: FavorizeProps) {
 		<motion.button
 			whileHover={{ scale: 1.1 }}
 			whileTap={{ scale: 0.8 }}
-			className=" absolute top-3 right-3 hoverable"
+			className={`${className} hoverable`}
 			onClick={toogleFavorize}
 		>
-			<Heart key={id} fill={idIsInCookie ? '#126160' : 'transparent'} height={26} />
+			<Heart key={id} fill={idIsInCookie ? '#126160' : 'transparent'} height={heartHeight} />
 		</motion.button>
 	);
 }
