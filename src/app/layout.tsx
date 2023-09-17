@@ -14,14 +14,14 @@ export const metadata: Metadata = BASE_METADATA;
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
-			<Providers>
-				<body className={`${raleway.className} bg-background text-foreground`}>
+			<body className={`${raleway.className} bg-background text-foreground`}>
+				<Providers>
 					<Header />
 					<main className="flex min-h-screen flex-col items-center">{children}</main>
 					<Footer />
 					<Analytics />
-				</body>
-			</Providers>
+				</Providers>
+			</body>
 		</html>
 	);
 }
