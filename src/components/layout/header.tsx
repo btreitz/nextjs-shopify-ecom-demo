@@ -37,7 +37,7 @@ export default function Header({}: HeaderProps) {
 					<HeaderLogo />
 					<div className=" flex justify-end items-center gap-5">
 						<Link href="/favorites" className=" hoverable">
-							<Heart />
+							<Heart className=" fill-transparent" />
 						</Link>
 						<Link href="/cart" className=" hoverable">
 							<IconCart />

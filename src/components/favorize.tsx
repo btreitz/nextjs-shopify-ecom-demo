@@ -13,10 +13,9 @@ type FavorizeProps = {
 
 export default function Favorize({ id }: FavorizeProps) {
 	const [cookies, setCookie] = useCookies([FAVORITES_COOKIE]);
-	const idIsInCookie: boolean = useMemo(
-		() => cookies.fav && (cookies.fav as string).split(COOKIE_SEPARATOR).includes(id),
-		[cookies.fav, id],
-	);
+	const idIsInCookie: boolean = useMemo(() => {
+		return cookies.fav ? (cookies.fav as string).split(COOKIE_SEPARATOR).includes(id) : false;
+	}, [cookies.fav, id]);
 
 	// console.log('isIdInCookie: ', id + ': ' + idIsInCookie);
 
@@ -43,8 +42,13 @@ export default function Favorize({ id }: FavorizeProps) {
 	}
 
 	return (
-		<motion.button whileTap={{ scale: 0.8 }} className=" absolute top-3 right-3 hoverable" onClick={toogleFavorize}>
-			<Heart className={` ${idIsInCookie ? 'fill-black' : 'fill-transparent'}`} />
+		<motion.button
+			whileHover={{ scale: 1.1 }}
+			whileTap={{ scale: 0.8 }}
+			className=" absolute top-3 right-3 hoverable"
+			onClick={toogleFavorize}
+		>
+			<Heart key={id} fill={idIsInCookie ? '#126160' : 'transparent'} height={26} />
 		</motion.button>
 	);
 }
