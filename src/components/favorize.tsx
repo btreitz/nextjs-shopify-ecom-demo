@@ -8,16 +8,16 @@ import Heart from './icons/Heart';
 import { COOKIE_SEPARATOR, FAVORITES_COOKIE, FAVORITES_COOKIE_OPTIONS } from './cookies';
 
 type FavorizeProps = {
-	id: string;
+	encodedId: string;
 	heartHeight?: number;
 	className?: string;
 };
 
-export default function Favorize({ id, heartHeight = 26, className }: FavorizeProps) {
+export default function Favorize({ encodedId, heartHeight = 26, className }: FavorizeProps) {
 	const [cookies, setCookie] = useCookies([FAVORITES_COOKIE]);
 	const idIsInCookie: boolean = useMemo(() => {
-		return cookies.fav ? (cookies.fav as string).split(COOKIE_SEPARATOR).includes(id) : false;
-	}, [cookies.fav, id]);
+		return cookies.fav ? (cookies.fav as string).split(COOKIE_SEPARATOR).includes(encodedId) : false;
+	}, [cookies.fav, encodedId]);
 
 	const toogleFavorize = (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
@@ -27,14 +27,14 @@ export default function Favorize({ id, heartHeight = 26, className }: FavorizePr
 	function addItemToCookie() {
 		setCookie(
 			FAVORITES_COOKIE,
-			cookies.fav ? `${cookies.fav}${COOKIE_SEPARATOR}${id}` : `${COOKIE_SEPARATOR}${id}`,
+			cookies.fav ? `${cookies.fav}${COOKIE_SEPARATOR}${encodedId}` : `${COOKIE_SEPARATOR}${encodedId}`,
 			FAVORITES_COOKIE_OPTIONS,
 		);
 	}
 
 	function removeItemFromCookie() {
 		const ids = (cookies.fav as string).split(COOKIE_SEPARATOR);
-		const index = ids.indexOf(id);
+		const index = ids.indexOf(encodedId);
 		if (index > -1) {
 			ids.splice(index, 1);
 		}
@@ -48,7 +48,7 @@ export default function Favorize({ id, heartHeight = 26, className }: FavorizePr
 			className={`${className} hoverable`}
 			onClick={toogleFavorize}
 		>
-			<Heart key={id} fill={idIsInCookie ? '#126160' : 'transparent'} height={heartHeight} />
+			<Heart key={encodedId} fill={idIsInCookie ? '#126160' : 'transparent'} height={heartHeight} />
 		</motion.button>
 	);
 }

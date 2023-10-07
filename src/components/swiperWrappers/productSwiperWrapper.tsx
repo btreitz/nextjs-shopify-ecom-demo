@@ -13,6 +13,7 @@ import { useRef, useState } from 'react';
 import DialogModal from '../dialogModal';
 import ExitIcon from '../icons/Exit';
 import Favorize from '../favorize';
+import { encodeShopifyProductId } from '@/lib/utils';
 
 type ProductSwiperWrapperProps = {
 	children: React.ReactNode[];
@@ -24,6 +25,7 @@ type ProductSwiperWrapperProps = {
 export default function ProductSwiperWrapper({ children, productTitle, productId, props }: ProductSwiperWrapperProps) {
 	const [openDialog, setOpenDialog] = useState(false);
 	const swiperRef = useRef<SwiperRef>(null);
+	const encodedId = encodeShopifyProductId(productId);
 	return (
 		<>
 			<Swiper
@@ -45,7 +47,7 @@ export default function ProductSwiperWrapper({ children, productTitle, productId
 						</div>
 					</SwiperSlide>
 				))}
-				<Favorize id={productId} heartHeight={28} className=" absolute top-3 left-3 z-10" />
+				<Favorize encodedId={encodedId} heartHeight={28} className=" absolute top-3 left-3 z-10" />
 				<div
 					className=" absolute top-3 right-3 z-10 opacity-60 hover:opacity-100 hover:cursor-pointer"
 					onClick={() => setOpenDialog(true)}
@@ -59,7 +61,7 @@ export default function ProductSwiperWrapper({ children, productTitle, productId
 				props={{ className: ' w-full h-full bg-background' }}
 			>
 				<div className=" w-full h-full flex flex-col ">
-					<div className=" sticky top-0 flex justify-between h-16 items-center border-b border-gray-200 px-5 bg-light z-10">
+					<div className=" sticky top-0 flex justify-between h-16 items-center border-b border-gray-200 pl-5 pr-1 bg-light z-10">
 						<div>{productTitle}</div>
 						<button onClick={() => setOpenDialog(false)}>
 							<ExitIcon />
