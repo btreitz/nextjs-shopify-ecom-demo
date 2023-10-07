@@ -56,16 +56,16 @@ export default async function Page({ searchParams }: Props) {
 	const resultCount = products.length;
 	return (
 		<>
-			<div className=" w-full max-w-[1680px] flex flex-col px-4">
+			<div className=" w-full max-w-[1680px] flex flex-col px-4 pb-16 lg:pb-40">
 				<div className=" flex justify-end text-sm pt-1 pb-4 items-center">
 					<div className=" opacity-60 hover:opacity-100">
 						{resultCount} {resultCount !== 1 ? 'Results' : 'Result'}
 					</div>
 				</div>
 				<div className=" h-[1px] w-full bg-gray-200 mb-4" />
-				<div className=" flex flex-row flex-wrap gap-4">
+				<div className=" grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
 					{products.map((product, index) => (
-						<div key={index} className=" w-full sm:basis-[calc(50%-0.5rem)]">
+						<div key={index} className=" w-full">
 							<Link href={`/product/${product.id}`}>
 								<div className=" w-full sm:basis-1/2 flex flex-col">
 									<div className=" w-full h-full relative">
