@@ -1,6 +1,4 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
-import Image from 'next/image';
 
 import { BASE_METADATA, METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import { getClient } from '@/lib/gql/ApolloClient';
@@ -12,7 +10,7 @@ import { SortVariant } from '@/components/filters/sort';
 import { sortVariants, sortParam } from '@/lib/clientExports';
 
 import InventoryFilter from '@/components/inventoryFilter';
-import Favorize from '@/components/favorize';
+import ProductImage from '@/components/productImage';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,
@@ -30,7 +28,15 @@ type Props = {
 	searchParams: Record<string, string>;
 };
 
-type InventoryProduct = {
+export type ImageDetails = {
+	src: string;
+	dimensions: {
+		width?: number | null;
+		height?: number | null;
+	};
+};
+
+export type InventoryProduct = {
 	id: string;
 	title: string;
 	productType: string;
@@ -38,13 +44,7 @@ type InventoryProduct = {
 		id: string;
 		title: string;
 	}[];
-	images: {
-		src: string;
-		dimensions: {
-			width?: number | null;
-			height?: number | null;
-		};
-	}[];
+	images: ImageDetails[];
 	price: {
 		amount: string;
 		currencyCode: string;
@@ -65,29 +65,7 @@ export default async function Page({ searchParams }: Props) {
 				<div className=" h-[1px] w-full bg-gray-200 mb-4" />
 				<div className=" grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
 					{products.map((product, index) => (
-						<div key={index} className=" w-full">
-							<Link href={`/product/${product.id}`}>
-								<div className=" w-full sm:basis-1/2 flex flex-col">
-									<div className=" w-full h-full relative">
-										<Image
-											alt="product image"
-											src={product.images[0].src}
-											className=" object-contain h-full"
-											width={product.images[0].dimensions?.width || 768}
-											height={product.images[0].dimensions?.height || 1024}
-										/>
-										<Favorize encodedId={product.id} className=" absolute top-3 right-3" />
-									</div>
-									<div className=" flex flex-col text-sm py-2 leading-6">
-										<span className=" text-base">{product.title}</span>
-										<div className=" text-sm opacity-60">
-											<span>{product.price.amount}</span>{' '}
-											<span>{product.price.currencyCode === 'EUR' ? '€' : product.price.currencyCode}</span>
-										</div>
-									</div>
-								</div>
-							</Link>
-						</div>
+						<ProductImage key={index} product={product} />
 					))}
 				</div>
 			</div>

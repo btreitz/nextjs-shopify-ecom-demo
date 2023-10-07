@@ -1,13 +1,13 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { Variants, motion } from 'framer-motion';
 
 import FilterIcon from '@/components/icons/Filter';
 import { useContext } from 'react';
 import { SideBarContext } from './layout/contexts';
 import { useRouter } from 'next/navigation';
 
-const filterFooterVariants = {
+const filterFooterVariants: Variants = {
 	hidden: { y: '100%' },
 	visible: { y: 0, zIndex: 50 },
 };
@@ -24,7 +24,7 @@ export default function InventoryFilter({}: InventoryFilterProps) {
 				initial={{ y: '7rem' }}
 				animate={{ y: 0 }}
 				transition={{ ease: 'easeOut', duration: 0.2 }}
-				className=" fixed bottom-4 z-10 text-white my-12 flex flex-row justify-center items-center gap-2 bg-primary rounded px-5 py-2"
+				className=" fixed bottom-4 z-10 text-white my-12 flex flex-row justify-center items-center gap-2 bg-primary rounded px-5 py-2 hover:cursor-pointer"
 				onClick={() => setFilterSidebarIsOpen(!filterSidebarIsOpen)}
 			>
 				Filter <FilterIcon className=" h-5 w-6 fill-white" />
