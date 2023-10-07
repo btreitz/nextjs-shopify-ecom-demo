@@ -29,7 +29,7 @@ export default function Home() {
 					height={896}
 				/>
 			</section>
-			<section className=" w-full max-w-screen-2xl text-center pb-12 px-6 sm:px-12">
+			<section className=" w-full max-w-[1680px] text-center pb-12 px-6 sm:px-12">
 				<div>
 					<h1>we offer ...</h1>
 					<div className=" flex flex-row justify-center flex-wrap gap-6">
@@ -39,11 +39,11 @@ export default function Home() {
 					</div>
 				</div>
 			</section>
-			<section className="w-full max-w-screen-2xl px-4 py-2">
+			<section className="w-full max-w-[1680px] px-4 py-2">
 				{/* @ts-expect-error Server Component */}
 				<CollectionCard backgroundColor={'#D3E1C2'} />
 			</section>
-			<section className="w-full max-w-screen-2xl px-4 pt-2 pb-12">
+			<section className="w-full max-w-[1680px] px-4 pt-2 pb-12">
 				{/* @ts-expect-error Server Component */}
 				<CollectionCard backgroundColor={'#E1D0C2'} rtl={true} newestFirst={false} />
 			</section>

@@ -56,7 +56,7 @@ export default async function Page({ searchParams }: Props) {
 	const resultCount = products.length;
 	return (
 		<>
-			<div className=" w-full flex flex-col px-4">
+			<div className=" w-full max-w-[1680px] flex flex-col px-4">
 				<div className=" flex justify-end text-sm pt-1 pb-4 items-center">
 					<div className=" opacity-60 hover:opacity-100">
 						{resultCount} {resultCount !== 1 ? 'Results' : 'Result'}
@@ -65,27 +65,29 @@ export default async function Page({ searchParams }: Props) {
 				<div className=" h-[1px] w-full bg-gray-200 mb-4" />
 				<div className=" flex flex-row flex-wrap gap-4">
 					{products.map((product, index) => (
-						<Link href={`/product/${product.id}`} key={index}>
-							<div className=" w-full flex flex-col">
-								<div className=" w-full h-full relative">
-									<Image
-										alt="product image"
-										src={product.images[0].src}
-										className=" object-contain h-full"
-										width={product.images[0].dimensions?.width || 768}
-										height={product.images[0].dimensions?.height || 1024}
-									/>
-									<Favorize encodedId={product.id} className=" absolute top-3 right-3" />
-								</div>
-								<div className=" flex flex-col text-sm py-2 leading-6">
-									<span className=" text-base">{product.title}</span>
-									<div className=" text-sm opacity-60">
-										<span>{product.price.amount}</span>{' '}
-										<span>{product.price.currencyCode === 'EUR' ? '€' : product.price.currencyCode}</span>
+						<div key={index} className=" w-full sm:basis-[calc(50%-0.5rem)]">
+							<Link href={`/product/${product.id}`}>
+								<div className=" w-full sm:basis-1/2 flex flex-col">
+									<div className=" w-full h-full relative">
+										<Image
+											alt="product image"
+											src={product.images[0].src}
+											className=" object-contain h-full"
+											width={product.images[0].dimensions?.width || 768}
+											height={product.images[0].dimensions?.height || 1024}
+										/>
+										<Favorize encodedId={product.id} className=" absolute top-3 right-3" />
+									</div>
+									<div className=" flex flex-col text-sm py-2 leading-6">
+										<span className=" text-base">{product.title}</span>
+										<div className=" text-sm opacity-60">
+											<span>{product.price.amount}</span>{' '}
+											<span>{product.price.currencyCode === 'EUR' ? '€' : product.price.currencyCode}</span>
+										</div>
 									</div>
 								</div>
-							</div>
-						</Link>
+							</Link>
+						</div>
 					))}
 				</div>
 			</div>
