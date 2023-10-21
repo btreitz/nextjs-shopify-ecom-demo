@@ -1,13 +1,16 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 
 import { BASE_METADATA, METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import { getClient } from '@/lib/gql/ApolloClient';
 import { productsQuery } from '@/lib/gql/operations/inventory';
-import { GetProductsQuery, GetProductsQueryVariables } from '@/lib/gql/__generated__/graphql';
+import { GetProductsQuery, GetProductsQueryVariables, ProductSortKeys } from '@/lib/gql/__generated__/graphql';
 import { SUPPORTED_PRODUCT_QUERY_PARAMS, combineOR } from '@/lib/gql/utils/queryParams';
-import Image from 'next/image';
 import { encodeShopifyProductId } from '@/lib/utils';
+import { SortVariant } from '@/components/filters/sort';
+import { sortVariants, sortParam } from '@/lib/clientExports';
+
+import InventoryFilter from '@/components/inventoryFilter';
+import ProductImage from '@/components/productImage';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,
@@ -25,7 +28,15 @@ type Props = {
 	searchParams: Record<string, string>;
 };
 
-type InventoryProduct = {
+export type ImageDetails = {
+	src: string;
+	dimensions: {
+		width?: number | null;
+		height?: number | null;
+	};
+};
+
+export type InventoryProduct = {
 	id: string;
 	title: string;
 	productType: string;
@@ -33,13 +44,7 @@ type InventoryProduct = {
 		id: string;
 		title: string;
 	}[];
-	images: {
-		src: string;
-		dimensions: {
-			width?: number | null;
-			height?: number | null;
-		};
-	}[];
+	images: ImageDetails[];
 	price: {
 		amount: string;
 		currencyCode: string;
@@ -48,22 +53,23 @@ type InventoryProduct = {
 
 export default async function Page({ searchParams }: Props) {
 	const products: InventoryProduct[] = await queryProductsByParams(Object.entries(searchParams));
+	const resultCount = products.length;
 	return (
 		<>
-			<div className=" flex flex-row gap-5 flex-wrap">
-				{products.map((product, index) => (
-					<Link href={`/product/${product.id}`} key={index}>
-						<div className=" border border-transparent rounded p-4 w-60 h-80 flex flex-col justify-between text-sm hover:border-slate-300">
-							<Image alt="product image" src={product.images[0].src} width={200} height={200} />
-							<div className=" flex flex-col">
-								<span>{product.title}</span>
-								<span>{product.productType}</span>
-								<span>Collections: {product.collections.map((collection) => collection.title).join(', ')}</span>
-							</div>
-						</div>
-					</Link>
-				))}
+			<div className=" w-full max-w-[1680px] flex flex-col px-4 pb-16 lg:pb-40">
+				<div className=" flex justify-end text-sm pt-1 pb-4 items-center">
+					<div className=" opacity-60 hover:opacity-100">
+						{resultCount} {resultCount !== 1 ? 'Results' : 'Result'}
+					</div>
+				</div>
+				<div className=" h-[1px] w-full bg-gray-200 mb-4" />
+				<div className=" grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+					{products.map((product, index) => (
+						<ProductImage key={index} product={product} />
+					))}
+				</div>
 			</div>
+			<InventoryFilter />
 		</>
 	);
 }
@@ -88,6 +94,12 @@ function generateProductQueryParam(params: [string, string][]) {
 			.map((query) => `(${query})`)
 			.join(' AND ')
 	);
+}
+
+function getSortKeyFromSearchParams(params: [string, string][]): { key: ProductSortKeys; reverse: boolean } {
+	const sortKeyParam = params.find(([key]) => key === sortParam);
+	const sortVariant = sortKeyParam && sortKeyParam[1] in sortVariants ? (sortKeyParam[1] as SortVariant) : 'dateDesc';
+	return { key: sortVariants[sortVariant].key, reverse: sortVariants[sortVariant].reverse };
 }
 
 function createProductFromQueryResponse(product: GetProductsQuery['products']['edges'][0]): InventoryProduct {
@@ -119,10 +131,11 @@ function createProductFromQueryResponse(product: GetProductsQuery['products']['e
  */
 async function queryProductsByParams(params: [string, string][]): Promise<InventoryProduct[]> {
 	const productQuery = generateProductQueryParam(params);
+	const productSortKey = getSortKeyFromSearchParams(params);
 
 	const { data } = await getClient().query<GetProductsQuery, GetProductsQueryVariables>({
 		query: productsQuery,
-		variables: { maxProducts: 100, productQuery },
+		variables: { maxProducts: 100, productQuery, sortKey: productSortKey.key, reverse: productSortKey.reverse },
 	});
 
 	return data.products.edges.map(createProductFromQueryResponse);

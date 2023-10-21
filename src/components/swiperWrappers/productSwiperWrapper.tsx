@@ -11,17 +11,21 @@ import { Swiper, SwiperProps, SwiperRef, SwiperSlide } from 'swiper/react';
 import ZoomIcon from '../icons/Zoom';
 import { useRef, useState } from 'react';
 import DialogModal from '../dialogModal';
-import BurgerButton from '../layout/burgerButton';
+import ExitIcon from '../icons/Exit';
+import Favorize from '../favorize';
+import { encodeShopifyProductId } from '@/lib/utils';
 
 type ProductSwiperWrapperProps = {
 	children: React.ReactNode[];
 	productTitle: string;
+	productId: string;
 	props?: SwiperProps;
 };
 
-export default function ProductSwiperWrapper({ children, productTitle, props }: ProductSwiperWrapperProps) {
+export default function ProductSwiperWrapper({ children, productTitle, productId, props }: ProductSwiperWrapperProps) {
 	const [openDialog, setOpenDialog] = useState(false);
 	const swiperRef = useRef<SwiperRef>(null);
+	const encodedId = encodeShopifyProductId(productId);
 	return (
 		<>
 			<Swiper
@@ -43,6 +47,7 @@ export default function ProductSwiperWrapper({ children, productTitle, props }: 
 						</div>
 					</SwiperSlide>
 				))}
+				<Favorize encodedId={encodedId} heartHeight={28} className=" absolute top-3 left-3 z-10" />
 				<div
 					className=" absolute top-3 right-3 z-10 opacity-60 hover:opacity-100 hover:cursor-pointer"
 					onClick={() => setOpenDialog(true)}
@@ -53,12 +58,14 @@ export default function ProductSwiperWrapper({ children, productTitle, props }: 
 			<DialogModal
 				openModal={openDialog}
 				closeModal={() => setOpenDialog(false)}
-				props={{ className: ' w-screen h-screen bg-background' }}
+				props={{ className: ' w-full h-full bg-background' }}
 			>
 				<div className=" w-full h-full flex flex-col ">
-					<div className=" sticky top-0 flex justify-between h-16 items-center border-b border-gray-200 px-8 bg-light z-10">
+					<div className=" sticky top-0 flex justify-between h-16 items-center border-b border-gray-200 pl-5 pr-1 bg-light z-10">
 						<div>{productTitle}</div>
-						<BurgerButton isOpen={openDialog} setIsOpen={setOpenDialog} />
+						<button onClick={() => setOpenDialog(false)}>
+							<ExitIcon />
+						</button>
 					</div>
 					<div className=" flex justify-center max-h-[calc(100%-4rem)]">
 						<Swiper
