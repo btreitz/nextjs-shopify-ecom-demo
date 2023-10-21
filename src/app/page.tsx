@@ -24,7 +24,7 @@ export default function Home() {
 				<Image
 					src="/images/banner/banner-hero.png"
 					alt="banner home"
-					className=" w-full min-h-[calc(100vh-5rem)] object-cover z-10"
+					className=" w-full min-h-[calc(100dvh-5rem)] object-cover z-10"
 					width={1344}
 					height={896}
 				/>

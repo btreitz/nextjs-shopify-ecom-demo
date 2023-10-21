@@ -14,7 +14,7 @@ export default function SidebarBackground({ header }: SidebarBackgroundProps) {
 	return (
 		<div
 			className={` absolute z-40 w-full bg-black/60 cursor-pointer ${isOpen === false && 'hidden'} left-0`}
-			style={{ height: `calc(100vh - ${headerHeight}px)`, top: `${headerHeight}px` }}
+			style={{ height: `calc(100dvh - ${headerHeight}px)`, top: `${headerHeight}px` }}
 		/>
 	);
 }

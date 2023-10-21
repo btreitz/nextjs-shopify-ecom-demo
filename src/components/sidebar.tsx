@@ -49,7 +49,7 @@ export default function Sidebar({ children, header, isOpen, orientation, classNa
 			} ${
 				isOpen === false ? (orientation === 'left' ? 'transform -translate-x-full' : 'transform translate-x-full') : ''
 			}`}
-			style={{ height: `calc(100vh - ${headerHeight}px)`, top: `${headerHeight}px` }}
+			style={{ height: `calc(100dvh - ${headerHeight}px)`, top: `${headerHeight}px` }}
 			onClick={(e) => e.stopPropagation()}
 		>
 			{children}
