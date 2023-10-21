@@ -20,15 +20,15 @@ export default function InventoryFilter({}: InventoryFilterProps) {
 
 	return (
 		<>
-			<motion.div
+			<motion.button
 				initial={{ y: '7rem' }}
 				animate={{ y: 0 }}
 				transition={{ ease: 'easeOut', duration: 0.2 }}
-				className=" fixed bottom-4 z-10 text-white my-12 flex flex-row justify-center items-center gap-2 bg-primary rounded px-5 py-2 hover:cursor-pointer"
+				className=" fixed bottom-4 z-10 text-white my-12 flex flex-row justify-center items-center gap-2 bg-primary rounded px-5 py-2 hover:cursor-pointer transition ease-in-out hover:bg-primaryActive"
 				onClick={() => setFilterSidebarIsOpen(!filterSidebarIsOpen)}
 			>
 				Filter <FilterIcon className=" h-5 w-6 fill-white" />
-			</motion.div>
+			</motion.button>
 			<motion.div
 				initial={'hidden'}
 				animate={filterSidebarIsOpen ? 'visible' : 'hidden'}
@@ -36,18 +36,18 @@ export default function InventoryFilter({}: InventoryFilterProps) {
 				variants={filterFooterVariants}
 				className=" fixed bottom-0 w-96 max-w-full xs:w-full left-0 border-t-[1px] border-gray-200 flex flex-row p-4 gap-2 bg-light bg-opacity-95"
 			>
-				<div
-					className=" w-1/4 text-center border-[1px] border-gray-400 rounded py-2"
+				<button
+					className=" w-1/4 text-center border-[1px] border-gray-400 rounded py-2 transition ease-in-out hover:bg-gray-100"
 					onClick={() => router.push('/inventory')}
 				>
 					Reset
-				</div>
-				<div
-					className=" w-3/4 text-center border-[1px] border-primary rounded py-2 bg-primary text-white"
+				</button>
+				<button
+					className=" w-3/4 text-center border-[1px] border-primary rounded py-2 bg-primary text-white transition ease-in-out hover:bg-primaryActive"
 					onClick={() => setFilterSidebarIsOpen(false)}
 				>
 					Apply
-				</div>
+				</button>
 			</motion.div>
 		</>
 	);

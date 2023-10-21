@@ -16,7 +16,7 @@ export default function BaseFilter({ title, items, isSelected, onSelect }: BaseF
 						style={{ boxShadow: isSelected(key) ? 'inset 0 0 0 1px #000' : '' }}
 						className={` ${
 							isSelected(key) ? 'border-black' : 'border-gray-400'
-						} text-sm rounded border-[1px] px-4 py-2 flex items-center`}
+						} text-sm rounded border-[1px] px-4 py-2 flex items-center transition ease-in-out hover:bg-gray-100 hover:cursor-pointer`}
 						onClick={() => onSelect(key)}
 					>
 						{value}
