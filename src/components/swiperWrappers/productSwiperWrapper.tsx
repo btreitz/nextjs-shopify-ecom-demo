@@ -41,7 +41,7 @@ export default function ProductSwiperWrapper({ children, productTitle, productId
 			>
 				{children.map((child, index) => (
 					<SwiperSlide key={index}>
-						<div key={index} className=" w-full">
+						<div key={index} className=" w-full aspect-[1/1.2]">
 							{child}
 							<div className=" h-8 w-full" />
 						</div>

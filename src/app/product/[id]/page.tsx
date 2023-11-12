@@ -79,15 +79,15 @@ export default async function Page({ params }: Props) {
 								key={index}
 								src={image.src}
 								alt={product.title}
-								className=" object-contain ml-auto mr-auto h-full"
+								className=" object-cover ml-auto mr-auto h-full"
 								width={image.dimensions?.width || 768}
 								height={image.dimensions?.height || 1024}
 							/>
 						))}
 					</ProductSwiperWrapper>
 				</div>
-				<div className="md:w-2/5 flex flex-col">
-					<div className=" p-4 w-full md:p-8 md:bg-light">
+				<div className="md:w-2/5 flex flex-col pb-8">
+					<div className=" p-4 w-full md:p-8 md:bg-light sticky top-20">
 						<div className=" hidden md:block">
 							<h1 className=" text-3xl font-light py-2">{product.title}</h1>
 							<div className=" py-4">
@@ -136,7 +136,7 @@ export default async function Page({ params }: Props) {
 							<RecomendationSwiperWrapper>
 								{recommendedFromCollection.map((product, index) => (
 									<Link href={`/product/${product.id}`} key={index} className=" h-full">
-										<div className=" w-full rounded-lg overflow-hidden aspect-square">
+										<div className=" w-full rounded-lg overflow-hidden aspect-square flex items-end">
 											<Image
 												src={product.images.src}
 												alt={product.title}
@@ -161,7 +161,7 @@ export default async function Page({ params }: Props) {
 							<RecomendationSwiperWrapper>
 								{recommendedFromProductType.map((product, index) => (
 									<Link href={`/product/${product.id}`} key={index} className=" h-full">
-										<div className=" w-full rounded-lg overflow-hidden aspect-square">
+										<div className=" w-full rounded-lg overflow-hidden aspect-square flex items-end">
 											<Image
 												src={product.images.src}
 												alt={product.title}
