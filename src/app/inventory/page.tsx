@@ -21,8 +21,7 @@ export const metadata: Metadata = {
 	},
 };
 
-// Disable caching for this page in production -> always fetch data from Shopify
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // revalidate the data at most every hour
 
 type Props = {
 	searchParams: Record<string, string>;

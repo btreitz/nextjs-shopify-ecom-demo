@@ -21,6 +21,8 @@ import RecomendationSwiperWrapper from '@/components/swiperWrappers/recommendati
 import Link from 'next/link';
 import ScalableImage from '@/components/scalableImage';
 
+export const revalidate = 3600; // revalidate the data at most every hour
+
 type Props = {
 	params: { id: string };
 };
