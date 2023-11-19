@@ -6,7 +6,7 @@ import 'swiper/css/scrollbar';
 import 'swiper/css/a11y';
 
 import { useEffect, useRef, useState } from 'react';
-import { Scrollbar, A11y, Mousewheel } from 'swiper';
+import { Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperProps, SwiperSlide } from 'swiper/react';
 
 type CollectionSwiperWrapperProps = {
@@ -26,9 +26,8 @@ export default function CollectionSwiperWrapper({ children, props }: CollectionS
 	return (
 		<div ref={swiperContainerRef} className=" relative">
 			<Swiper
-				modules={[Scrollbar, A11y, Mousewheel]}
+				modules={[Scrollbar, A11y]}
 				scrollbar
-				mousewheel
 				slidesPerView={swiperContainerWidth && swiperContainerWidth > 600 ? 3 : 2}
 				loop={true}
 				spaceBetween={15}

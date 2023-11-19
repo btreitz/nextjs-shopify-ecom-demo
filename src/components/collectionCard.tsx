@@ -37,7 +37,7 @@ export default async function CollectionCard({
 						{collectionProducts.products.map((product) => (
 							<Link href={`/product/${product.id}`} key={product.id} className=" h-full">
 								<div className="h-full flex flex-col items-center justify-center">
-									<div className=" w-full rounded-lg overflow-hidden aspect-square">
+									<div className=" w-full rounded-lg overflow-hidden aspect-square flex items-end">
 										<Image
 											src={product.images[0].src}
 											alt={product.title}
