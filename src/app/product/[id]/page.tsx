@@ -21,7 +21,8 @@ import RecomendationSwiperWrapper from '@/components/swiperWrappers/recommendati
 import Link from 'next/link';
 import ScalableImage from '@/components/scalableImage';
 
-export const revalidate = 3600; // revalidate the data at most every hour
+// Disable caching for this page to ensure up-to-date prd
+export const dynamic = 'force-dynamic';
 
 type Props = {
 	params: { id: string };

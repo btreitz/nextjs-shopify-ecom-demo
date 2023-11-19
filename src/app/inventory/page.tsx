@@ -21,7 +21,8 @@ export const metadata: Metadata = {
 	},
 };
 
-export const revalidate = 3600; // revalidate the data at most every hour
+// Disable caching for this page to ensure up-to-date prd
+export const dynamic = 'force-dynamic';
 
 type Props = {
 	searchParams: Record<string, string>;
