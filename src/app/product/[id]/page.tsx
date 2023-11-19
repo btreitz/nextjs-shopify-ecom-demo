@@ -19,6 +19,7 @@ import ProductDecscription from '@/components/productDescription';
 import ArrowDoubleSided from '@/components/icons/ArrowDoubledSided';
 import RecomendationSwiperWrapper from '@/components/swiperWrappers/recommendationSwiperWrapper';
 import Link from 'next/link';
+import ScalableImage from '@/components/scalableImage';
 
 type Props = {
 	params: { id: string };
@@ -79,7 +80,7 @@ export default async function Page({ params }: Props) {
 								key={index}
 								src={image.src}
 								alt={product.title}
-								className=" object-cover ml-auto mr-auto h-full"
+								className=" object-cover ml-auto mr-auto h-full w-full"
 								width={image.dimensions?.width || 768}
 								height={image.dimensions?.height || 1024}
 							/>
@@ -137,7 +138,7 @@ export default async function Page({ params }: Props) {
 								{recommendedFromCollection.map((product, index) => (
 									<Link href={`/product/${product.id}`} key={index} className=" h-full">
 										<div className=" w-full rounded-lg overflow-hidden aspect-square flex items-end">
-											<Image
+											<ScalableImage
 												src={product.images.src}
 												alt={product.title}
 												className=" object-contain"
@@ -162,7 +163,7 @@ export default async function Page({ params }: Props) {
 								{recommendedFromProductType.map((product, index) => (
 									<Link href={`/product/${product.id}`} key={index} className=" h-full">
 										<div className=" w-full rounded-lg overflow-hidden aspect-square flex items-end">
-											<Image
+											<ScalableImage
 												src={product.images.src}
 												alt={product.title}
 												className=" object-contain"
