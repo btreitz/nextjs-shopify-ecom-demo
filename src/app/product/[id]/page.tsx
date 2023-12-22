@@ -83,7 +83,7 @@ export default async function Page({ params }: Props) {
 								key={index}
 								src={image.src}
 								alt={product.title}
-								className=" object-cover ml-auto mr-auto h-full w-full"
+								className=" object-cover ml-auto mr-auto w-full"
 								width={image.dimensions?.width || 768}
 								height={image.dimensions?.height || 1024}
 							/>
