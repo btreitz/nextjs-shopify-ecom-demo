@@ -41,7 +41,7 @@ export default function ProductSwiperWrapper({ children, productTitle, productId
 			>
 				{children.map((child, index) => (
 					<SwiperSlide key={index}>
-						<div key={index} className=" w-full aspect-[1/1.2]">
+						<div key={index} className=" w-full aspect-[1/1.2] [&>img]:h-full">
 							{child}
 							<div className=" h-8 w-full" />
 						</div>
@@ -80,8 +80,8 @@ export default function ProductSwiperWrapper({ children, productTitle, productId
 							}}
 						>
 							{children.map((child, index) => (
-								<SwiperSlide key={index}>
-									<div className=" h-full">{child}</div>
+								<SwiperSlide key={index} className=" overflow-y-auto">
+									<div className=" [&>img]:h-auto">{child}</div>
 								</SwiperSlide>
 							))}
 						</Swiper>
