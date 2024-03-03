@@ -142,6 +142,7 @@ export default async function Page({ params }: Props) {
 									<Link href={`/product/${product.id}`} key={index} className=" h-full">
 										<div className=" w-full rounded-lg overflow-hidden aspect-square flex items-end">
 											<ScalableImage
+												animationTriggers={{ hover: true }}
 												src={product.images.src}
 												alt={product.title}
 												className=" object-contain"
@@ -167,6 +168,7 @@ export default async function Page({ params }: Props) {
 									<Link href={`/product/${product.id}`} key={index} className=" h-full">
 										<div className=" w-full rounded-lg overflow-hidden aspect-square flex items-end">
 											<ScalableImage
+												animationTriggers={{ hover: true }}
 												src={product.images.src}
 												alt={product.title}
 												className=" object-contain"
