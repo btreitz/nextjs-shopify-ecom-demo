@@ -13,7 +13,7 @@ import {
 import { productOfSameTypeQuery, productQuery, productsInCollectionQuery } from '@/lib/gql/operations/product';
 import { METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import Image from 'next/image';
-import { ProductType, decodeToShopifyProductId, encodeShopifyProductId, getProductDimensions } from '@/lib/utils';
+import { ProductType, decodeToShopifyProductId, encodeShopifyProductId, getProductDimensions } from '@/utils';
 import ProductSwiperWrapper from '@/components/swiperWrappers/productSwiperWrapper';
 import ProductDecscription from '@/components/productDescription';
 import ArrowDoubleSided from '@/components/icons/ArrowDoubledSided';

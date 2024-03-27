@@ -5,7 +5,7 @@ import { getClient } from '@/lib/gql/ApolloClient';
 import { productsQuery } from '@/lib/gql/operations/inventory';
 import { GetProductsQuery, GetProductsQueryVariables, ProductSortKeys } from '@/lib/gql/__generated__/graphql';
 import { SUPPORTED_PRODUCT_QUERY_PARAMS, combineOR } from '@/lib/gql/utils/queryParams';
-import { encodeShopifyProductId } from '@/lib/utils';
+import { encodeShopifyProductId } from '@/utils';
 import { SortVariant } from '@/components/filters/sort';
 import { sortVariants, sortParam } from '@/lib/clientExports';
 
