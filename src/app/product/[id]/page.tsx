@@ -20,6 +20,7 @@ import ArrowDoubleSided from '@/components/icons/ArrowDoubledSided';
 import RecomendationSwiperWrapper from '@/components/swiperWrappers/recommendationSwiperWrapper';
 import Link from 'next/link';
 import ScalableImage from '@/components/scalableImage';
+import AddToCart from '@/components/addToCart';
 
 // Disable caching for this page to ensure up-to-date prd
 export const dynamic = 'force-dynamic';
@@ -117,9 +118,10 @@ export default async function Page({ params }: Props) {
 							</div>
 						</div>
 						<div className=" hidden md:block pt-8">
-							<div className=" rounded-lg w-full bg-primary text-center p-3 text-white hover:opacity-80 hover:cursor-pointer transition-opacity duration-150">
-								Add to Cart
-							</div>
+							<AddToCart
+								encodedId={encodeShopifyProductId(product.id)}
+								className=" rounded-lg w-full bg-primary text-center p-3 text-white hover:opacity-80 hover:cursor-pointer transition-opacity duration-150"
+							/>
 						</div>
 					</div>
 				</div>

@@ -1,7 +1,7 @@
 import { LocalStorageContext } from '@/components/layout/contexts';
 import { useContext, useMemo } from 'react';
 
-export const STORED_ELEMENTS = ['ecom-favs'] as const;
+export const STORED_ELEMENTS = ['ecom-favs', 'ecom-cart'] as const;
 
 type LocalStorageProps = {
 	key: (typeof STORED_ELEMENTS)[number];

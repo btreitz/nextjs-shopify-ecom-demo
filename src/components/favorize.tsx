@@ -25,7 +25,6 @@ export default function Favorize({ encodedId, heartHeight = 26, className }: Fav
 	};
 
 	function addItemToLocalStorage() {
-		console.log('Encoded ID: ', encodedId);
 		setKeyValue(data ? [...data, encodedId] : [encodedId]);
 	}
 
