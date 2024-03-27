@@ -1,6 +1,6 @@
 'use client';
 
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LocalStorageContext } from '@/components/layout/contexts';
 import { STORED_ELEMENTS } from '../hooks/useLocalStorage';
 
@@ -12,10 +12,12 @@ export function LocalStorageProvider({ children }: LocalStorageProviderProps) {
 	const [elements, setElements] = useState<Map<(typeof STORED_ELEMENTS)[number], unknown>>(() => {
 		// get all key value paris with the key of STORED_ELEMENTS and set elements
 		const initialElements = new Map<(typeof STORED_ELEMENTS)[number], unknown>();
-		for (const key of STORED_ELEMENTS) {
-			const value = localStorage.getItem(key);
-			if (value) {
-				initialElements.set(key, JSON.parse(value));
+		if (typeof window !== 'undefined') {
+			for (const key of STORED_ELEMENTS) {
+				const value = window.localStorage.getItem(key);
+				if (value) {
+					initialElements.set(key, JSON.parse(value));
+				}
 			}
 		}
 		return initialElements;
@@ -25,7 +27,7 @@ export function LocalStorageProvider({ children }: LocalStorageProviderProps) {
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
 			elements.forEach((value, key) => {
-				localStorage.setItem(key, JSON.stringify(value));
+				window.localStorage.setItem(key, JSON.stringify(value));
 			});
 		}
 	}, [elements]);
