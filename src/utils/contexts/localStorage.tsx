@@ -9,8 +9,20 @@ type LocalStorageProviderProps = {
 };
 
 export function LocalStorageProvider({ children }: LocalStorageProviderProps) {
-	const [elements, setElements] = useState<Map<(typeof STORED_ELEMENTS)[number], unknown>>(() => {
-		// get all key value paris with the key of STORED_ELEMENTS and set elements
+	const [elements, setElements] = useState<Map<(typeof STORED_ELEMENTS)[number], unknown>>(
+		getInitialElementsfromLocalStorage(),
+	);
+
+	// listen to changes of "elements" and update localStorage
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			elements.forEach((value, key) => {
+				window.localStorage.setItem(key, JSON.stringify(value));
+			});
+		}
+	}, [elements]);
+
+	function getInitialElementsfromLocalStorage() {
 		const initialElements = new Map<(typeof STORED_ELEMENTS)[number], unknown>();
 		if (typeof window !== 'undefined') {
 			for (const key of STORED_ELEMENTS) {
@@ -21,16 +33,7 @@ export function LocalStorageProvider({ children }: LocalStorageProviderProps) {
 			}
 		}
 		return initialElements;
-	});
-
-	// listen to changes of "elements" and update localStorage
-	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			elements.forEach((value, key) => {
-				window.localStorage.setItem(key, JSON.stringify(value));
-			});
-		}
-	}, [elements]);
+	}
 
 	function getValueByKey<T>(key: (typeof STORED_ELEMENTS)[number]): T | null {
 		if (elements.has(key)) {
