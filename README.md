@@ -1,30 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ecom-Demo: A Next.js E-commerce Application
+
+This project is a modern e-commerce application built using [Next.js](https://nextjs.org/) App Router. The application is designed to interact with Shopify via the Shopify Storefront API, but utilizes Shopify solely as Content Management System (CMS) in a headless matter.
+
+For communication with the Shopify Storefront API, the application uses GraphQL with codegen to generate types from the queries and mutations. The application also uses Apollo Client for data fetching, state management, and caching.
 
 ## Getting Started
 
-First, run the development server:
+Pre-requisites:
+| Tool | Version |
+| --- | --- |
+| Node.js | 20.x |
+| pnpm | 8.x |
 
-```bash
+To get started with development, you'll need to install the project dependencies. This project uses `pnpm` as its package manager. If you don't have it installed, you can install it globally with `npm install -g pnpm`. Then, you can install the project dependencies with:
+
+```sh
+pnpm install
+```
+
+You can then start the development server with:
+
+```sh
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+The application is currently hosted on [Vercel](https://vercel.com/). A deployment is triggered automatically when changes are pushed any branch.
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project is open source and available under the [MIT License](https://opensource.org/licenses/MIT).
