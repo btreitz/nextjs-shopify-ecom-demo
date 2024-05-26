@@ -68,7 +68,7 @@ export default async function Page({ searchParams }: Props) {
 
 /**
  * Generates a query parameter string for product search based on the provided parameters.
- * Only takes in consideretion the supported query parameters.
+ * Only takes in consideration the supported query parameters.
  * @param params - An array of key-value pairs representing query parameters.
  * @returns The generated query parameter string.
  */
