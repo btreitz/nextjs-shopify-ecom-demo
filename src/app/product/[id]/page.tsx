@@ -196,7 +196,10 @@ export default async function Page({ params }: Props) {
 					</div>
 				</div>
 				<div className=" w-full">
-					<div className=" rounded-lg w-full bg-primary text-center p-3 text-white">Add to Cart</div>
+					<AddToCart
+						encodedId={encodeShopifyProductId(product.id)}
+						className=" rounded-lg w-full bg-primary text-center p-3 text-white hover:cursor-pointer"
+					/>
 				</div>
 			</div>
 		</div>
