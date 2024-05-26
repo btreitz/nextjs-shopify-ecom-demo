@@ -3,8 +3,6 @@
 import Image, { ImageProps } from 'next/image';
 import { motion, Variants } from 'framer-motion';
 
-type ScalableImageProps = ImageProps;
-
 const ZoomVariants: Variants = {
 	default: {
 		scale: 1,
@@ -16,9 +14,21 @@ const ZoomVariants: Variants = {
 	},
 };
 
+type ScalableImageProps = ImageProps & {
+	animationTriggers: {
+		mount?: boolean;
+		hover?: boolean;
+	};
+};
+
 export default function ScalableImage(props: ScalableImageProps) {
 	return (
-		<motion.div variants={ZoomVariants} initial="default" whileHover="zoomed">
+		<motion.div
+			variants={ZoomVariants}
+			initial="default"
+			whileHover={props.animationTriggers.hover ? 'zoomed' : ''}
+			animate={props.animationTriggers.mount ? 'zoomed' : ''}
+		>
 			<Image {...props} alt={props.alt || 'Image'} />
 		</motion.div>
 	);

@@ -5,12 +5,13 @@ import { getClient } from '@/lib/gql/ApolloClient';
 import { productsQuery } from '@/lib/gql/operations/inventory';
 import { GetProductsQuery, GetProductsQueryVariables, ProductSortKeys } from '@/lib/gql/__generated__/graphql';
 import { SUPPORTED_PRODUCT_QUERY_PARAMS, combineOR } from '@/lib/gql/utils/queryParams';
-import { encodeShopifyProductId } from '@/lib/utils';
+import { encodeShopifyProductId } from '@/utils';
 import { SortVariant } from '@/components/filters/sort';
 import { sortVariants, sortParam } from '@/lib/clientExports';
 
 import InventoryFilter from '@/components/inventoryFilter';
-import ProductImage from '@/components/productImage';
+import ProductGrid from '@/components/productGrid';
+import GridHeader from '@/components/gridHeader';
 
 export const metadata: Metadata = {
 	...BASE_METADATA,
@@ -53,21 +54,12 @@ export type InventoryProduct = {
 
 export default async function Page({ searchParams }: Props) {
 	const products: InventoryProduct[] = await queryProductsByParams(Object.entries(searchParams));
-	const resultCount = products.length;
 	return (
 		<>
 			<div className=" w-full max-w-[1680px] flex flex-col px-4 pb-16 lg:pb-40">
-				<div className=" flex justify-end text-sm pt-1 pb-4 items-center">
-					<div className=" opacity-60 hover:opacity-100">
-						{resultCount} {resultCount !== 1 ? 'Results' : 'Result'}
-					</div>
-				</div>
+				<GridHeader text={`${products.length} Result(s)`} />
 				<div className=" h-[1px] w-full bg-gray-200 mb-4" />
-				<div className=" grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-					{products.map((product, index) => (
-						<ProductImage key={index} product={product} />
-					))}
-				</div>
+				<ProductGrid products={products} />
 			</div>
 			<InventoryFilter />
 		</>
@@ -76,7 +68,7 @@ export default async function Page({ searchParams }: Props) {
 
 /**
  * Generates a query parameter string for product search based on the provided parameters.
- * Only takes in consideretion the supported query parameters.
+ * Only takes in consideration the supported query parameters.
  * @param params - An array of key-value pairs representing query parameters.
  * @returns The generated query parameter string.
  */

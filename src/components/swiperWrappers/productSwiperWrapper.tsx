@@ -13,7 +13,7 @@ import { useRef, useState } from 'react';
 import DialogModal from '../dialogModal';
 import ExitIcon from '../icons/Exit';
 import Favorize from '../favorize';
-import { encodeShopifyProductId } from '@/lib/utils';
+import { encodeShopifyProductId } from '@/utils';
 
 type ProductSwiperWrapperProps = {
 	children: React.ReactNode[];

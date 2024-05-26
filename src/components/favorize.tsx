@@ -1,11 +1,10 @@
 'use client';
 
 import { MouseEvent, useMemo } from 'react';
-import { useCookies } from 'react-cookie';
 import { motion } from 'framer-motion';
 
 import Heart from './icons/Heart';
-import { COOKIE_SEPARATOR, FAVORITES_COOKIE, FAVORITES_COOKIE_OPTIONS } from './cookies';
+import useLocalStorage from '@/utils/hooks/useLocalStorage';
 
 type FavorizeProps = {
 	encodedId: string;
@@ -14,31 +13,24 @@ type FavorizeProps = {
 };
 
 export default function Favorize({ encodedId, heartHeight = 26, className }: FavorizeProps) {
-	const [cookies, setCookie] = useCookies([FAVORITES_COOKIE]);
-	const idIsInCookie: boolean = useMemo(() => {
-		return cookies.fav ? (cookies.fav as string).split(COOKIE_SEPARATOR).includes(encodedId) : false;
-	}, [cookies.fav, encodedId]);
+	const { data, setKeyValue } = useLocalStorage<string[]>({ key: 'ecom-favs' });
+
+	const isFavourized = useMemo(() => {
+		return data ? data.includes(encodedId) : false;
+	}, [data, encodedId]);
 
 	const toogleFavorize = (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
-		idIsInCookie ? removeItemFromCookie() : addItemToCookie();
+		isFavourized ? removeItemFromLocalStorage() : addItemToLocalStorage();
 	};
 
-	function addItemToCookie() {
-		setCookie(
-			FAVORITES_COOKIE,
-			cookies.fav ? `${cookies.fav}${COOKIE_SEPARATOR}${encodedId}` : `${COOKIE_SEPARATOR}${encodedId}`,
-			FAVORITES_COOKIE_OPTIONS,
-		);
+	function addItemToLocalStorage() {
+		setKeyValue(data ? [...data, encodedId] : [encodedId]);
 	}
 
-	function removeItemFromCookie() {
-		const ids = (cookies.fav as string).split(COOKIE_SEPARATOR);
-		const index = ids.indexOf(encodedId);
-		if (index > -1) {
-			ids.splice(index, 1);
-		}
-		setCookie(FAVORITES_COOKIE, ids.join(COOKIE_SEPARATOR), FAVORITES_COOKIE_OPTIONS);
+	function removeItemFromLocalStorage() {
+		const ids = data ? data.filter((id) => id !== encodedId) : [];
+		setKeyValue(ids);
 	}
 
 	return (
@@ -48,7 +40,7 @@ export default function Favorize({ encodedId, heartHeight = 26, className }: Fav
 			className={`${className} hoverable`}
 			onClick={toogleFavorize}
 		>
-			<Heart key={encodedId} fill={idIsInCookie ? '#126160' : 'transparent'} height={heartHeight} />
+			<Heart key={encodedId} fill={isFavourized ? '#126160' : 'transparent'} height={heartHeight} />
 		</motion.button>
 	);
 }

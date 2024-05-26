@@ -4,7 +4,7 @@ import { collectionProductsQuery } from '@/lib/gql/operations/home';
 import SwiperWrapper from './swiperWrappers/collectionSwiperWrapper';
 import Image from 'next/image';
 import Link from 'next/link';
-import { cleanQueryParam, encodeShopifyProductId } from '@/lib/utils';
+import { cleanQueryParam, encodeShopifyProductId } from '@/utils';
 
 type CollectionCardProps = {
 	backgroundColor: string;

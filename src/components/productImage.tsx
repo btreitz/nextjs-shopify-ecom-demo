@@ -14,6 +14,7 @@ export default function ProductImage({ product }: ProductImageProps) {
 				<div className=" w-full sm:basis-1/2 flex flex-col">
 					<div className=" w-full h-full relative overflow-hidden">
 						<ScalableImage
+							animationTriggers={{ hover: true }}
 							alt={'Product Image'}
 							src={product.images[0].src}
 							className=" object-contain h-full"
