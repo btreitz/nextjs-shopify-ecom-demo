@@ -5,6 +5,11 @@ import { motion } from 'framer-motion';
 
 import useLocalStorage from '@/utils/hooks/useLocalStorage';
 
+export type CartLocalStorage = {
+	id: string;
+	amount: number;
+}[];
+
 type AddToCartProps = {
 	encodedId: string;
 	heartHeight?: number;
@@ -12,11 +17,11 @@ type AddToCartProps = {
 };
 
 export default function AddToCart({ encodedId, className }: AddToCartProps) {
-	const { data, setKeyValue } = useLocalStorage<string[]>({ key: 'ecom-cart' });
+	const { data: items, setKeyValue } = useLocalStorage<CartLocalStorage>({ key: 'ecom-cart' });
 
 	const isInCart = useMemo(() => {
-		return data ? data.includes(encodedId) : false;
-	}, [data, encodedId]);
+		return items ? items.some(({ id }) => id === encodedId) : false;
+	}, [items, encodedId]);
 
 	const toogleCart = (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
@@ -24,11 +29,11 @@ export default function AddToCart({ encodedId, className }: AddToCartProps) {
 	};
 
 	function addItemToLocalStorage() {
-		setKeyValue(data ? [...data, encodedId] : [encodedId]);
+		setKeyValue(items ? [...items, { id: encodedId, amount: 1 }] : [{ id: encodedId, amount: 1 }]);
 	}
 
 	function removeItemFromLocalStorage() {
-		const ids = data ? data.filter((id) => id !== encodedId) : [];
+		const ids = items ? items.filter(({ id }) => id !== encodedId) : [];
 		setKeyValue(ids);
 	}
 

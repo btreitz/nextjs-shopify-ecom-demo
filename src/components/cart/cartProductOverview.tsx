@@ -2,18 +2,19 @@
 
 import useLocalStorage from '@/utils/hooks/useLocalStorage';
 import CartProduct from './cartProduct';
+import { CartLocalStorage } from '../addToCart';
 
 type CartProductListProps = {};
 
 export default function CartProductList({}: CartProductListProps) {
-	const { data: encodedProductIds } = useLocalStorage<string[]>({ key: 'ecom-cart' });
+	const { data: items } = useLocalStorage<CartLocalStorage>({ key: 'ecom-cart' });
 	return (
 		<div>
-			{encodedProductIds &&
-				encodedProductIds.map((id) => {
+			{items &&
+				items.map(({ id, amount }) => {
 					return (
 						<div key={id}>
-							<CartProduct title="Test Title" price={1000} />
+							<CartProduct encodedId={id} amount={amount} title="Test Title" price={1000} />
 							<div className=" h-[1px] w-full bg-gray-200 my-4" />
 						</div>
 					);

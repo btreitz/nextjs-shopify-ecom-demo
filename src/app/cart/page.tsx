@@ -4,6 +4,8 @@ import CheckoutButton from '@/components/cart/checkoutButton';
 type Props = {};
 
 export default function Page({}: Props) {
+	const SHIPPING_COST = 50;
+
 	return (
 		<div className=" w-full max-w-[1680px] md:px-12">
 			<div className=" md:flex md:gap-12">
@@ -22,7 +24,7 @@ export default function Page({}: Props) {
 								<div className=" h-[1px] w-full bg-gray-200 my-4" />
 								<div className=" flex justify-between">
 									<div>Shipping</div>
-									<div>50 €</div>
+									<div>{SHIPPING_COST} €</div>
 								</div>
 								<div className=" h-[1px] w-full bg-gray-200 my-4" />
 								<div className=" flex justify-between">
