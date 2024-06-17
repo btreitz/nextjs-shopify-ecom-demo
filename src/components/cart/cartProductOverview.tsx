@@ -1,24 +1,20 @@
-'use client';
-
-import useLocalStorage from '@/utils/hooks/useLocalStorage';
+import { InventoryProduct } from '@/app/inventory/page';
 import CartProduct from './cartProduct';
-import { CartLocalStorage } from '../addToCart';
 
-type CartProductListProps = {};
+type CartProductOverviewProps = {
+	products: InventoryProduct[];
+};
 
-export default function CartProductList({}: CartProductListProps) {
-	const { data: items } = useLocalStorage<CartLocalStorage>({ key: 'ecom-cart' });
+export default function CartProductOverview({ products }: CartProductOverviewProps) {
 	return (
 		<div>
-			{items &&
-				items.map(({ id, amount }) => {
-					return (
-						<div key={id}>
-							<CartProduct encodedId={id} amount={amount} title="Test Title" price={1000} />
-							<div className=" h-[1px] w-full bg-gray-200 my-4" />
-						</div>
-					);
-				})}
+			{products &&
+				products.map(({ id, price, title, images }) => (
+					<div key={id}>
+						<CartProduct encodedId={id} title={title} price={+price.amount} images={images} />
+						<div className=" h-[1px] w-full bg-gray-200 my-4" />
+					</div>
+				))}
 		</div>
 	);
 }
