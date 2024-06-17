@@ -1,5 +1,6 @@
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import { Metadata } from 'next';
 
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					<main className="flex min-h-screen flex-col items-center">{children}</main>
 					<Footer />
 					<Analytics />
+					<SpeedInsights />
 				</Providers>
 			</body>
 		</html>

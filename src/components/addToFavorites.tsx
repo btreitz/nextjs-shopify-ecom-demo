@@ -6,14 +6,16 @@ import { motion } from 'framer-motion';
 import Heart from './icons/Heart';
 import useLocalStorage from '@/utils/hooks/useLocalStorage';
 
-type FavorizeProps = {
+export type FavoritesLocalStorage = string[];
+
+type AddToFavoritesProps = {
 	encodedId: string;
 	heartHeight?: number;
 	className?: string;
 };
 
-export default function Favorize({ encodedId, heartHeight = 26, className }: FavorizeProps) {
-	const { data, setKeyValue } = useLocalStorage<string[]>({ key: 'ecom-favs' });
+export default function AddToFavorites({ encodedId, heartHeight = 26, className }: AddToFavoritesProps) {
+	const { data, setKeyValue } = useLocalStorage<FavoritesLocalStorage>({ key: 'ecom-favs' });
 
 	const isFavourized = useMemo(() => {
 		return data ? data.includes(encodedId) : false;

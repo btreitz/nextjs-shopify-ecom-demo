@@ -1,7 +1,7 @@
 import { InventoryProduct } from '@/app/inventory/page';
 import Link from 'next/link';
 import ScalableImage from './scalableImage';
-import Favorize from './favorize';
+import AddToFavorites from './addToFavorites';
 
 type ProductImageProps = {
 	product: InventoryProduct;
@@ -21,7 +21,7 @@ export default function ProductImage({ product }: ProductImageProps) {
 							width={product.images[0].dimensions?.width || 768}
 							height={product.images[0].dimensions?.height || 1024}
 						/>
-						<Favorize encodedId={product.id} className=" absolute top-3 right-3" />
+						<AddToFavorites encodedId={product.id} className=" absolute top-3 right-3" />
 					</div>
 					<div className=" flex flex-col text-sm py-2 leading-6">
 						<span className=" text-base">{product.title}</span>

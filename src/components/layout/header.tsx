@@ -1,15 +1,14 @@
 'use client';
 
-import Link from 'next/link';
-import IconCart from '@/components/icons/Cart';
-import IconAccount from '@/components/icons/Account';
 import HeaderLogo from './headerLogo';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import BurgerButton from './burgerButton';
 import Sidebars from './sidebars';
-import FavoritesNavigation from '../favoritesNavigation';
-import CartNavigation from '../cartNavigation';
+import dynamic from 'next/dynamic';
+
+const CartNavigation = dynamic(() => import('../cartNavigation'), { ssr: false });
+const FavoritesNavigation = dynamic(() => import('../favoritesNavigation'), { ssr: false });
 
 export const animLimit = 50; // scroll limit in pixels
 
@@ -39,9 +38,6 @@ export default function Header({}: HeaderProps) {
 					<div className=" flex justify-end items-center gap-5">
 						<FavoritesNavigation />
 						<CartNavigation />
-						<button className=" hoverable">
-							<IconAccount />
-						</button>
 					</div>
 				</nav>
 				<Sidebars header={headerRef} />

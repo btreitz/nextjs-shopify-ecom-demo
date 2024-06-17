@@ -10,7 +10,7 @@ Pre-requisites:
 | Tool | Version |
 | --- | --- |
 | Node.js | 20.x |
-| pnpm | 8.x |
+| pnpm | 9.x |
 
 To get started with development, you'll need to install the project dependencies. This project uses `pnpm` as its package manager. If you don't have it installed, you can install it globally with `npm install -g pnpm`. Then, you can install the project dependencies with:
 

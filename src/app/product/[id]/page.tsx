@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
+import Link from 'next/link';
 
 import { getClient } from '@/lib/gql/ApolloClient';
 import {
@@ -12,13 +14,11 @@ import {
 } from '@/lib/gql/__generated__/graphql';
 import { productOfSameTypeQuery, productQuery, productsInCollectionQuery } from '@/lib/gql/operations/product';
 import { METADATA_TITLE_BASE } from '@/lib/shared-metadata';
-import Image from 'next/image';
 import { ProductType, decodeToShopifyProductId, encodeShopifyProductId, getProductDimensions } from '@/utils';
 import ProductSwiperWrapper from '@/components/swiperWrappers/productSwiperWrapper';
 import ProductDecscription from '@/components/productDescription';
 import ArrowDoubleSided from '@/components/icons/ArrowDoubledSided';
 import RecomendationSwiperWrapper from '@/components/swiperWrappers/recommendationSwiperWrapper';
-import Link from 'next/link';
 import ScalableImage from '@/components/scalableImage';
 import AddToCart from '@/components/addToCart';
 
@@ -196,7 +196,10 @@ export default async function Page({ params }: Props) {
 					</div>
 				</div>
 				<div className=" w-full">
-					<div className=" rounded-lg w-full bg-primary text-center p-3 text-white">Add to Cart</div>
+					<AddToCart
+						encodedId={encodeShopifyProductId(product.id)}
+						className=" rounded-lg w-full bg-primary text-center p-3 text-white hover:cursor-pointer"
+					/>
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,6 @@
 import FavoritesGrid from '@/components/favoritesGrid';
 import GridHeader from '@/components/gridHeader';
-import RedirectToFavorites from '@/components/redirectToFavorites';
+import RedirectToFavorites from '@/components/redirects/redirectToFavorites';
 import { BASE_METADATA, METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import { Metadata } from 'next';
 
@@ -33,14 +33,13 @@ export default function Page({ searchParams }: Props) {
 	};
 
 	return (
-		<>
-			<RedirectToFavorites currentIds={encodedProductIds} />
+		<RedirectToFavorites currentIds={encodedProductIds}>
 			<div className=" w-full max-w-[1680px] flex flex-col px-4 pb-16 lg:pb-40">
 				<GridHeader text={headerText()} />
 				<div className=" h-[1px] w-full bg-gray-200 mb-4" />
 				{/* @ts-expect-error Server Component */}
 				{encodedProductIds && <FavoritesGrid encodedProductIds={encodedProductIds} />}
 			</div>
-		</>
+		</RedirectToFavorites>
 	);
 }

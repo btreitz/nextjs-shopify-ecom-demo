@@ -1,9 +1,22 @@
-type Props = {};
+import Cart from '@/components/cart/cart';
+import CartProductOverview from '@/components/cart/cartProductOverview';
+import OrderSummary from '@/components/cart/orderSummary';
+import OrderSummaryMobile from '@/components/cart/orderSummaryMobile';
+import RedirectToCartProducts from '@/components/redirects/redirectToCartProducts';
 
-export default function Page({}: Props) {
+type Props = {
+	searchParams: {
+		ids?: string[] | string;
+	};
+};
+
+export default function Page({ searchParams }: Props) {
+	const { ids: encodedProductIds } = searchParams;
+
 	return (
-		<div>
-			<h1>Cart</h1>
-		</div>
+		<RedirectToCartProducts currentIds={encodedProductIds}>
+			{/* @ts-expect-error Server Component */}
+			<Cart encodedProductIds={encodedProductIds || []} />
+		</RedirectToCartProducts>
 	);
 }
