@@ -8,7 +8,7 @@ type CartProps = {
 	encodedProductIds: string[] | string;
 };
 
-export default async function Cart({ encodedProductIds }: CartProps) {
+async function Cart({ encodedProductIds }: CartProps) {
 	const products: InventoryProduct[] = await queryProductsByIds(
 		Array.isArray(encodedProductIds) ? encodedProductIds : [encodedProductIds],
 	);
@@ -26,3 +26,5 @@ export default async function Cart({ encodedProductIds }: CartProps) {
 		</div>
 	);
 }
+
+export default Cart as unknown as React.FC<CartProps>;
