@@ -12,7 +12,6 @@ export default function Page({ searchParams }: Props) {
 
 	return (
 		<RedirectToCartProducts currentIds={encodedProductIds}>
-			{/* @ts-expect-error Server Component */}
 			<Cart encodedProductIds={encodedProductIds || []} />
 		</RedirectToCartProducts>
 	);

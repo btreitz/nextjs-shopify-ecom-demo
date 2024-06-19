@@ -37,7 +37,6 @@ export default function Page({ searchParams }: Props) {
 			<div className=" w-full max-w-[1680px] flex flex-col px-4 pb-16 lg:pb-40">
 				<GridHeader text={headerText()} />
 				<div className=" h-[1px] w-full bg-gray-200 mb-4" />
-				{/* @ts-expect-error Server Component */}
 				{encodedProductIds && <FavoritesGrid encodedProductIds={encodedProductIds} />}
 			</div>
 		</RedirectToFavorites>

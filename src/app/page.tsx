@@ -40,11 +40,9 @@ export default function Home() {
 				</div>
 			</section>
 			<section className="w-full max-w-[1680px] px-4 py-2">
-				{/* @ts-expect-error Server Component */}
 				<CollectionCard backgroundColor={'#D3E1C2'} />
 			</section>
 			<section className="w-full max-w-[1680px] px-4 pt-2 pb-12">
-				{/* @ts-expect-error Server Component */}
 				<CollectionCard backgroundColor={'#E1D0C2'} rtl={true} newestFirst={false} />
 			</section>
 		</div>

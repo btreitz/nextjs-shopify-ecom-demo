@@ -12,11 +12,7 @@ type CollectionCardProps = {
 	newestFirst?: boolean;
 };
 
-export default async function CollectionCard({
-	backgroundColor,
-	rtl = false,
-	newestFirst = true,
-}: CollectionCardProps) {
+async function CollectionCard({ backgroundColor, rtl = false, newestFirst = true }: CollectionCardProps) {
 	const collectionProducts: CollectionWithProducts = await queryCollectionWithProducts(newestFirst);
 	return (
 		<div
@@ -110,3 +106,5 @@ async function queryCollectionWithProducts(newestFirst: boolean) {
 
 	return extractFirstCollection(data);
 }
+
+export default CollectionCard as unknown as React.FC<CollectionCardProps>;
