@@ -22,9 +22,6 @@ import RecomendationSwiperWrapper from '@/components/swiperWrappers/recommendati
 import ScalableImage from '@/components/scalableImage';
 import AddToCart from '@/components/addToCart';
 
-// Disable caching for this page to ensure up-to-date prd
-export const dynamic = 'force-dynamic';
-
 type Props = {
 	params: { id: string };
 };
