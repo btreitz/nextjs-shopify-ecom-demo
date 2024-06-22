@@ -47,10 +47,16 @@ const DIMENSION_RANGES: {
 	},
 };
 
+export type ProductDimensions = {
+	width: number;
+	height: number;
+	depth: number;
+};
+
 /**
  * Return random dimensions for a product type
  */
-export function getProductDimensions(productType: ProductType) {
+export function getProductDimensions(productType: ProductType): ProductDimensions {
 	const width =
 		Math.floor(Math.random() * (DIMENSION_RANGES[productType].width[1] - DIMENSION_RANGES[productType].width[0] + 1)) +
 		DIMENSION_RANGES[productType].width[0];
