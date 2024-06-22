@@ -22,9 +22,6 @@ export const metadata: Metadata = {
 	},
 };
 
-// Disable caching for this page to ensure up-to-date prd
-export const dynamic = 'force-dynamic';
-
 type Props = {
 	searchParams: Record<string, string>;
 };

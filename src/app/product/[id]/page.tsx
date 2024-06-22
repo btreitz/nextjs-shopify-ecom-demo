@@ -1,7 +1,5 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
-import Link from 'next/link';
 
 import { getClient } from '@/lib/gql/ApolloClient';
 import {
@@ -15,21 +13,17 @@ import {
 import { productOfSameTypeQuery, productQuery, productsInCollectionQuery } from '@/lib/gql/operations/product';
 import { METADATA_TITLE_BASE } from '@/lib/shared-metadata';
 import { ProductType, decodeToShopifyProductId, encodeShopifyProductId, getProductDimensions } from '@/utils';
-import ProductSwiperWrapper from '@/components/swiperWrappers/productSwiperWrapper';
-import ProductDecscription from '@/components/productDescription';
-import ArrowDoubleSided from '@/components/icons/ArrowDoubledSided';
-import RecomendationSwiperWrapper from '@/components/swiperWrappers/recommendationSwiperWrapper';
-import ScalableImage from '@/components/scalableImage';
-import AddToCart from '@/components/addToCart';
-
-// Disable caching for this page to ensure up-to-date prd
-export const dynamic = 'force-dynamic';
+import ProductPageImage from '@/components/product/productPageImage';
+import ProductDetails from '@/components/product/productDetails';
+import ProductCollection from '@/components/product/productCollection';
+import ProductRecommendations from '@/components/product/productRecommendations';
+import ProductOverview from '@/components/product/productOverview';
 
 type Props = {
 	params: { id: string };
 };
 
-type Product = {
+export type Product = {
 	id: string;
 	title: string;
 	productType: ProductType;
@@ -49,7 +43,7 @@ type Product = {
 	};
 };
 
-type RecommendedProduct = {
+export type RecommendedProduct = {
 	id: string;
 	title: string;
 	images: {
@@ -78,130 +72,22 @@ export default async function Page({ params }: Props) {
 		<div className=" w-full max-w-[1680px] md:px-12">
 			<div className=" md:flex md:gap-12">
 				<div className=" w-full relative md:w-3/5">
-					<ProductSwiperWrapper props={{ className: ' w-full' }} productTitle={product.title} productId={product.id}>
-						{product.images.map((image, index) => (
-							<Image
-								key={index}
-								src={image.src}
-								alt={product.title}
-								className=" object-cover ml-auto mr-auto w-full"
-								width={image.dimensions?.width || 768}
-								height={image.dimensions?.height || 1024}
-							/>
-						))}
-					</ProductSwiperWrapper>
+					<ProductPageImage product={product} />
 				</div>
 				<div className="md:w-2/5 flex flex-col pb-8">
-					<div className=" p-4 w-full md:p-8 md:bg-light sticky top-20">
-						<div className=" hidden md:block">
-							<h1 className=" text-3xl font-light py-2">{product.title}</h1>
-							<div className=" py-4">
-								<span>{product.price.amount}</span>{' '}
-								<span>{product.price.currencyCode === 'EUR' ? '€' : product.price.currencyCode}</span>
-							</div>
-						</div>
-						<div className=" text-sm leading-6">
-							<ProductDecscription description={product.description} />
-							<div className=" h-[1px] w-full bg-gray-200 my-4" />
-							<div>
-								<ul>
-									<li className=" flex flex-row items-center w-20 justify-between">
-										<ArrowDoubleSided /> <span>{productDimensions.width}cm</span>
-									</li>
-									<li className=" flex flex-row items-center w-20 justify-between">
-										<ArrowDoubleSided className=" rotate-90" /> <span>{productDimensions.height}cm</span>
-									</li>
-									<li className=" flex flex-row items-center w-20 justify-between">
-										<ArrowDoubleSided className=" -rotate-45" /> <span>{productDimensions.depth}cm</span>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<div className=" hidden md:block pt-8">
-							<AddToCart
-								encodedId={encodeShopifyProductId(product.id)}
-								className=" rounded-lg w-full bg-primary text-center p-3 text-white hover:opacity-80 hover:cursor-pointer transition-opacity duration-150"
-							/>
-						</div>
-					</div>
+					<ProductDetails product={product} productDimensions={productDimensions} />
 				</div>
 			</div>
 			{/* About the collection */}
 			<div className=" px-4 pb-6 md:px-0">
 				<div className=" h-[1px] w-full bg-gray-200 mb-4 md:opacity-0" />
-				<div className=" pb-4 md:pt-4">
-					<div>
-						<h2 className=" py-2 mb-3 md:text-2xl">
-							Collection <span className=" font-medium">{product.collections[0].title}</span>
-						</h2>
-						<p className=" text-sm">{product.collections[0].description}</p>
-					</div>
-					{/* Recommend products from the same collection */}
-					{recommendedFromCollection.length > 0 && (
-						<div className=" mt-5">
-							<RecomendationSwiperWrapper>
-								{recommendedFromCollection.map((product, index) => (
-									<Link href={`/product/${product.id}`} key={index} className=" h-full">
-										<div className=" w-full rounded-lg overflow-hidden aspect-square flex items-end">
-											<ScalableImage
-												animationTriggers={{ hover: true }}
-												src={product.images.src}
-												alt={product.title}
-												className=" object-contain"
-												width={product.images.dimensions.width || 768}
-												height={product.images.dimensions.height || 1024}
-											/>
-										</div>
-										<div className=" w-full pt-3 mb-6 pl-1">{product.title}</div>
-									</Link>
-								))}
-							</RecomendationSwiperWrapper>
-						</div>
-					)}
-				</div>
+				<ProductCollection product={product} recommendedFromCollection={recommendedFromCollection} />
 				{/* Recomment products from the same product type */}
 				{recommendedFromProductType.length > 0 && (
-					<div className=" pb-8">
-						<div className=" h-[1px] w-full bg-gray-200 my-4 md:opacity-0" />
-						<div>
-							<h2 className=" py-2 mb-4 md:text-2xl">You may also like</h2>
-							<RecomendationSwiperWrapper>
-								{recommendedFromProductType.map((product, index) => (
-									<Link href={`/product/${product.id}`} key={index} className=" h-full">
-										<div className=" w-full rounded-lg overflow-hidden aspect-square flex items-end">
-											<ScalableImage
-												animationTriggers={{ hover: true }}
-												src={product.images.src}
-												alt={product.title}
-												className=" object-contain"
-												width={product.images.dimensions.width || 768}
-												height={product.images.dimensions.height || 1024}
-											/>
-										</div>
-										<div className=" w-full pt-3 mb-6 pl-1">{product.title}</div>
-									</Link>
-								))}
-							</RecomendationSwiperWrapper>
-						</div>
-					</div>
+					<ProductRecommendations recommendedFromProductType={recommendedFromProductType} />
 				)}
 			</div>
-
-			<div className=" md:hidden fixed bottom-0 w-full flex flex-col bg-light bg-opacity-95 text-primary p-4 z-20 border-t">
-				<div className=" flex flex-row justify-between pb-4 px-1 items-center">
-					<div className=" text-lg">{product.title}</div>
-					<div className=" text-sm">
-						<span>{product.price.amount}</span>{' '}
-						<span>{product.price.currencyCode === 'EUR' ? '€' : product.price.currencyCode}</span>
-					</div>
-				</div>
-				<div className=" w-full">
-					<AddToCart
-						encodedId={encodeShopifyProductId(product.id)}
-						className=" rounded-lg w-full bg-primary text-center p-3 text-white hover:cursor-pointer"
-					/>
-				</div>
-			</div>
+			<ProductOverview product={product} />
 		</div>
 	);
 }
